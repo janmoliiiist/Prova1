@@ -6,728 +6,12 @@
   <title>Jan Molist · Webs que ningú oblida</title>
   <meta name="description" content="Disseny i desenvolupament web a mesura per a empreses. Webs ràpides, memorables i pensades per convertir.">
   <meta name="theme-color" content="#0a0a0b">
-
+ 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
-  <style>
-/* ==========================================================
-   VARIABLES
-   Per canviar el color principal, modifica --hue (0-360).
-   ========================================================== */
-:root {
-  --hue: 75;
-  --accent: hsl(var(--hue) 100% 60%);
-  --accent-soft: hsl(var(--hue) 100% 60% / .14);
-
-  --bg: #0a0a0b;
-  --fg: #f2f0ea;
-  --muted: #8b8b93;
-  --line: rgba(255, 255, 255, .1);
-
-  --ease: cubic-bezier(.2, .8, .2, 1);
-  --pad: clamp(1.25rem, 5vw, 5rem);
-  --serif: 'Instrument Serif', Georgia, serif;
-  --sans: 'Space Grotesk', system-ui, -apple-system, sans-serif;
-}
-
-/* ==========================================================
-   BASE
-   ========================================================== */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-
-body {
-  background: var(--bg);
-  color: var(--fg);
-  font-family: var(--sans);
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-}
-body.loading { overflow: hidden; }
-
-a { color: inherit; text-decoration: none; }
-button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
-ul, ol { list-style: none; }
-
-em {
-  font-family: var(--serif);
-  font-style: italic;
-  font-weight: 400;
-  color: var(--accent);
-}
-::selection { background: var(--accent); color: #000; }
-
-.section {
-  position: relative;
-  z-index: 1;
-  padding: clamp(5rem, 12vw, 11rem) var(--pad);
-}
-.eyebrow {
-  font-size: .85rem;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 2rem;
-}
-.h2 {
-  font-size: clamp(2.4rem, 7vw, 6.5rem);
-  line-height: .95;
-  letter-spacing: -.04em;
-  font-weight: 700;
-}
-
-/* Revelat en fer scroll */
-.reveal {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 1s var(--ease), transform 1s var(--ease);
-  transition-delay: var(--d, 0s);
-}
-.reveal.in { opacity: 1; transform: none; }
-
-/* ==========================================================
-   PANTALLA DE CÀRREGA
-   ========================================================== */
-.loader {
-  position: fixed;
-  inset: 0;
-  z-index: 10000;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: var(--pad);
-  background: var(--accent);
-  color: #000;
-  transition: transform 1s var(--ease) .1s, visibility 0s 1.3s;
-}
-.ready .loader { transform: translateY(-100%); visibility: hidden; }
-
-.loader-inner {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  flex: 1;
-}
-.loader-name {
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: clamp(1.5rem, 4vw, 3rem);
-}
-.loader-num {
-  font-size: clamp(6rem, 24vw, 20rem);
-  font-weight: 700;
-  letter-spacing: -.06em;
-  line-height: .8;
-  font-variant-numeric: tabular-nums;
-}
-.loader-bar { height: 4px; background: rgba(0, 0, 0, .15); margin-top: 1.5rem; }
-.loader-bar i { display: block; height: 100%; width: 0; background: #000; transition: width .1s linear; }
-
-/* Barra de progrés de scroll */
-.progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 9000; }
-.progress i {
-  display: block;
-  height: 100%;
-  background: var(--accent);
-  transform-origin: 0 50%;
-  transform: scaleX(0);
-}
-
-/* ==========================================================
-   CURSOR, LLUM I FONS
-   ========================================================== */
-.has-cursor, .has-cursor a, .has-cursor button { cursor: none; }
-
-.cursor, .cursor-label { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; opacity: 0; }
-
-.cursor {
-  width: 14px; height: 14px;
-  margin: -7px 0 0 -7px;
-  border-radius: 50%;
-  background: #fff;
-  mix-blend-mode: difference;
-  transition: width .35s var(--ease), height .35s var(--ease), margin .35s var(--ease), opacity .3s;
-}
-.cursor.on { opacity: 1; }
-.cursor.active { width: 64px; height: 64px; margin: -32px 0 0 -32px; }
-
-.cursor-label {
-  padding: .45rem .9rem;
-  border-radius: 99px;
-  background: var(--accent);
-  color: #000;
-  font-size: .75rem;
-  font-weight: 700;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  transition: opacity .25s;
-}
-.cursor-label.show { opacity: 1; }
-
-.glow {
-  position: fixed;
-  top: 0; left: 0;
-  width: 60vmax; height: 60vmax;
-  margin: -30vmax 0 0 -30vmax;
-  background: radial-gradient(circle, var(--accent-soft), transparent 60%);
-  pointer-events: none;
-  z-index: 0;
-  will-change: transform;
-}
-#bg {
-  position: fixed;
-  inset: 0;
-  width: 100%; height: 100%;
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* ==========================================================
-   NAVEGACIÓ
-   ========================================================== */
-.nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 900;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1.1rem var(--pad);
-  background: linear-gradient(to bottom, rgba(10, 10, 11, .75), transparent);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-}
-.logo { font-weight: 700; font-size: 1.3rem; letter-spacing: -.04em; display: inline-block; }
-.logo span { color: var(--accent); }
-
-.links { display: flex; gap: 2rem; font-size: .9rem; }
-.links a { position: relative; color: var(--muted); transition: color .3s; }
-.links a::after {
-  content: '';
-  position: absolute; left: 0; right: 0; bottom: -4px;
-  height: 1px; background: var(--accent);
-  transform: scaleX(0); transform-origin: left;
-  transition: transform .5s var(--ease);
-}
-.links a:hover { color: var(--fg); }
-.links a:hover::after { transform: scaleX(1); }
-
-.nav-right { display: flex; align-items: center; gap: 1.2rem; }
-
-.hues { display: flex; gap: .55rem; }
-.hues button {
-  width: 16px; height: 16px;
-  border-radius: 50%;
-  background: hsl(var(--h) 100% 60%);
-  outline: 2px solid transparent;
-  outline-offset: 3px;
-  transition: outline-color .3s, transform .3s var(--ease);
-}
-.hues button:hover { transform: scale(1.25); }
-.hues button.on { outline-color: var(--fg); }
-
-/* Botons */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: .6rem;
-  padding: 1rem 1.6rem;
-  border-radius: 99px;
-  border: 1px solid var(--accent);
-  background: var(--accent);
-  color: #000;
-  font-weight: 500;
-  font-size: .95rem;
-  transition: background .3s, color .3s, border-color .3s, transform .4s var(--ease);
-}
-.btn:hover { background: transparent; color: var(--accent); }
-.btn-ghost { background: transparent; color: var(--fg); border-color: var(--line); }
-.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
-.btn-sm { padding: .55rem 1.1rem; font-size: .85rem; }
-
-/* ==========================================================
-   HERO
-   ========================================================== */
-.hero {
-  position: relative;
-  z-index: 1;
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 8rem var(--pad) 3rem;
-}
-
-.hero-top, .hero-bottom {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 1s var(--ease) 1.3s, transform 1s var(--ease) 1.3s;
-}
-.ready .hero-top, .ready .hero-bottom { opacity: 1; transform: none; }
-
-.pill {
-  display: inline-flex;
-  align-items: center;
-  gap: .6rem;
-  padding: .5rem 1rem;
-  border: 1px solid var(--line);
-  border-radius: 99px;
-  font-size: .85rem;
-  color: var(--muted);
-  background: rgba(17, 17, 19, .6);
-}
-.dot {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 0 0 var(--accent);
-  animation: ping 2s infinite;
-}
-@keyframes ping {
-  70%  { box-shadow: 0 0 0 10px transparent; }
-  100% { box-shadow: 0 0 0 0 transparent; }
-}
-
-.hero-title {
-  font-size: clamp(3.4rem, 12.5vw, 11.5rem);
-  line-height: .9;
-  letter-spacing: -.045em;
-  font-weight: 700;
-  margin: 2rem 0 3rem;
-}
-.line { display: block; overflow: hidden; padding-bottom: .14em; margin-bottom: -.14em; }
-.line > span {
-  display: inline-block;
-  transform: translateY(115%);
-  transition: transform 1.2s var(--ease);
-}
-.ready .line > span { transform: none; }
-.line:nth-child(1) > span { transition-delay: .55s; }
-.line:nth-child(2) > span { transition-delay: .7s; }
-.line:nth-child(3) > span { transition-delay: .85s; }
-
-.hero-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 2rem;
-  flex-wrap: wrap;
-}
-.hero-lead { max-width: 34rem; color: var(--muted); font-size: clamp(1rem, 1.4vw, 1.2rem); }
-.hero-cta { display: flex; gap: .8rem; flex-wrap: wrap; }
-
-/* Xips flotants */
-.chip {
-  position: absolute;
-  padding: .6rem 1.1rem;
-  border: 1px solid var(--line);
-  border-radius: 99px;
-  background: rgba(17, 17, 19, .6);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  font-size: .85rem;
-  pointer-events: none;
-  translate: var(--px, 0) var(--py, 0);
-  animation: float 6s ease-in-out infinite;
-}
-.c1 { top: 24%; right: 22%; rotate: -6deg; }
-.c2 { top: 36%; right: 8%;  rotate: 5deg; animation-delay: -2s; color: var(--accent); }
-.c3 { top: 17%; right: 7%;  rotate: 8deg; animation-delay: -4s; }
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-14px); }
-}
-
-/* Segell giratori */
-.badge {
-  position: absolute;
-  right: calc(var(--pad) + 2vw);
-  bottom: 30%;
-  width: clamp(110px, 11vw, 160px);
-  animation: spin 20s linear infinite;
-}
-.badge text { font-size: 13.5px; font-weight: 500; fill: var(--fg); letter-spacing: .05em; }
-.badge circle { fill: var(--accent); }
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* ==========================================================
-   MARQUEE
-   ========================================================== */
-.marquee {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  overflow: hidden;
-  padding: 1.4rem 0;
-  border-block: 1px solid var(--line);
-  background: rgba(10, 10, 11, .6);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-}
-.marquee-group {
-  flex-shrink: 0;
-  min-width: 100%;
-  display: flex;
-  justify-content: space-around;
-  gap: 2rem;
-  font-size: clamp(1.5rem, 3.5vw, 3rem);
-  font-weight: 500;
-  letter-spacing: -.02em;
-  white-space: nowrap;
-  animation: marquee 30s linear infinite;
-}
-.marquee-group span:nth-child(even) { color: var(--accent); }
-.marquee-group .s { font-family: var(--serif); font-style: italic; font-weight: 400; }
-@keyframes marquee { to { transform: translateX(-100%); } }
-
-/* ==========================================================
-   SOBRE MI
-   ========================================================== */
-.about-text {
-  max-width: 22em;
-  font-size: clamp(1.8rem, 4.2vw, 4rem);
-  line-height: 1.15;
-  letter-spacing: -.03em;
-  font-weight: 500;
-}
-.about-text .w { opacity: .15; transition: opacity .5s; }
-.about-text .w.lit { opacity: 1; }
-
-.about-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 2rem;
-  margin-top: 5rem;
-  padding-top: 2rem;
-  border-top: 1px solid var(--line);
-}
-.about-grid h3 { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 1.8rem; color: var(--accent); margin-bottom: .8rem; }
-.about-grid li { color: var(--muted); padding: .35rem 0; }
-
-/* ==========================================================
-   PROJECTES (scroll horitzontal)
-   ========================================================== */
-.work { position: relative; z-index: 1; }
-
-.work-sticky {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 3rem;
-  overflow: hidden;
-}
-.work-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 2rem;
-  flex-wrap: wrap;
-  padding: 0 var(--pad);
-}
-.work-count { color: var(--muted); font-size: .9rem; }
-.work-count span { color: var(--accent); }
-
-.work-track {
-  display: flex;
-  gap: 4vw;
-  width: max-content;
-  padding: 0 var(--pad);
-  will-change: transform;
-}
-.project { flex: 0 0 clamp(300px, 40vw, 600px); align-self: flex-start; }
-
-.browser {
-  overflow: hidden;
-  border-radius: 14px;
-  border: 1px solid var(--line);
-  background: #16161a;
-  box-shadow: 0 30px 80px -20px rgba(0, 0, 0, .7);
-  transition: transform .7s var(--ease);
-}
-.project:hover .browser { transform: translateY(-10px) rotate(-.6deg); }
-
-.bar { display: flex; align-items: center; gap: 6px; padding: .7rem .9rem; background: #1c1c21; }
-.bar i { width: 9px; height: 9px; border-radius: 50%; background: #3a3a42; }
-.bar span {
-  flex: 1;
-  max-width: 60%;
-  margin-left: .8rem;
-  padding: .2rem .8rem;
-  border-radius: 99px;
-  background: #121215;
-  color: var(--muted);
-  font-size: .72rem;
-}
-
-.screen { position: relative; aspect-ratio: 16 / 10; overflow: hidden; }
-
-.meta { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin-top: 1.3rem; }
-.meta h3 { font-size: clamp(1.4rem, 2.4vw, 2.2rem); letter-spacing: -.03em; }
-.meta p { color: var(--muted); font-size: .85rem; text-align: right; }
-
-.work-progress { height: 2px; margin: 0 var(--pad); background: var(--line); }
-.work-progress i { display: block; height: 100%; background: var(--accent); transform-origin: 0 50%; transform: scaleX(0); }
-
-/* Maqueta 1 · Restaurant */
-.s1 {
-  display: grid;
-  place-items: center;
-  text-align: center;
-  background: radial-gradient(circle at 72% 28%, #ffb347 0, #e8590c 28%, #2a0e05 72%);
-}
-.s1-title {
-  display: block;
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: clamp(3rem, 8vw, 6.5rem);
-  line-height: 1;
-  color: #fff4e6;
-}
-.s1-sub { display: block; margin-top: .6rem; font-size: .75rem; letter-spacing: .3em; text-transform: uppercase; color: #ffd8a8; }
-.s1::after {
-  content: '';
-  position: absolute;
-  left: -8%; bottom: -22%;
-  width: 42%; aspect-ratio: 1;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, .35);
-  animation: pulse 4s ease-in-out infinite;
-}
-@keyframes pulse { 50% { transform: scale(1.18); opacity: .4; } }
-
-/* Maqueta 2 · Arquitectura */
-.s2 {
-  background-color: #e9e6df;
-  background-image:
-    linear-gradient(rgba(0,0,0,.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,0,0,.07) 1px, transparent 1px);
-  background-size: 12.5% 16.66%;
-}
-.s2-word {
-  position: absolute;
-  left: 6%; bottom: 5%;
-  font-size: clamp(3rem, 9vw, 7.5rem);
-  font-weight: 700;
-  letter-spacing: -.06em;
-  line-height: .8;
-  color: #111;
-}
-.s2-block {
-  position: absolute;
-  right: 10%; top: 12%;
-  width: 34%; height: 56%;
-  background: #111;
-  transition: transform .9s var(--ease);
-}
-.s2-block::after { content: ''; position: absolute; inset: 14%; border: 1px solid rgba(233, 230, 223, .35); }
-.s2-dot { position: absolute; right: 6%; bottom: 8%; width: 14%; aspect-ratio: 1; border-radius: 50%; background: #e63946; }
-.project:hover .s2-block { transform: translate(-16%, 8%); }
-
-/* Maqueta 3 · SaaS */
-.s3 { background: linear-gradient(160deg, #0f172a, #1e1b4b); }
-.s3-kpi { position: absolute; left: 8%; top: 10%; color: #fff; }
-.s3-kpi b { display: block; font-size: clamp(1.8rem, 5vw, 3.6rem); letter-spacing: -.04em; line-height: 1; }
-.s3-kpi small { color: #94a3b8; font-size: .75rem; }
-.s3-bars { position: absolute; left: 8%; right: 8%; bottom: 0; height: 58%; display: flex; align-items: flex-end; gap: 3%; }
-.s3-bars i {
-  flex: 1;
-  height: var(--h);
-  border-radius: 6px 6px 0 0;
-  background: linear-gradient(to top, #6366f1, #22d3ee);
-  transform-origin: bottom;
-  animation: grow 2.6s ease-in-out infinite alternate;
-  animation-delay: calc(var(--i) * .15s);
-}
-@keyframes grow { from { transform: scaleY(.5); } to { transform: scaleY(1); } }
-
-/* Maqueta 4 · Botiga */
-.s4 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4%; padding: 7%; background: #ffe8d6; }
-.s4 div { position: relative; overflow: hidden; border-radius: 18px; transition: transform .7s var(--ease); }
-.s4 div:nth-child(1) { background: #ff6b6b; }
-.s4 div:nth-child(2) { background: #4d96ff; transform: translateY(12%); }
-.s4 div:nth-child(3) { background: #ffd93d; }
-.s4 div::after { content: ''; position: absolute; left: 18%; right: 18%; bottom: 18%; aspect-ratio: 1; border-radius: 50%; background: rgba(255, 255, 255, .55); }
-.project:hover .s4 div:nth-child(odd)  { transform: translateY(-8%); }
-.project:hover .s4 div:nth-child(even) { transform: translateY(4%); }
-
-/* Targeta final */
-.project.cta .screen {
-  display: grid;
-  place-items: center;
-  padding: 2rem;
-  border: 1.5px dashed var(--line);
-  border-radius: 14px;
-  text-align: center;
-  font-size: clamp(2rem, 5vw, 4.5rem);
-  font-weight: 700;
-  letter-spacing: -.04em;
-  line-height: .95;
-  transition: border-color .3s, background .3s;
-}
-.project.cta:hover .screen { border-color: var(--accent); background: var(--accent-soft); }
-
-/* ==========================================================
-   SERVEIS
-   ========================================================== */
-.services-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.2rem;
-  margin-top: 4rem;
-}
-.card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 340px;
-  padding: 2rem;
-  overflow: hidden;
-  border: 1px solid var(--line);
-  border-radius: 22px;
-  background: rgba(17, 17, 19, .75);
-  transition: transform .3s var(--ease), border-color .3s;
-}
-.card::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: radial-gradient(400px circle at var(--mx, 50%) var(--my, 50%), var(--accent-soft), transparent 60%);
-  opacity: 0;
-  transition: opacity .4s;
-}
-.card:hover::before { opacity: 1; }
-.card:hover { border-color: hsl(var(--hue) 100% 60% / .5); }
-.card > * { position: relative; }
-.ico { font-family: var(--serif); font-style: italic; font-size: 2.6rem; color: var(--accent); }
-.card h3 { margin-bottom: .8rem; font-size: 1.7rem; line-height: 1.05; letter-spacing: -.03em; }
-.card p { color: var(--muted); font-size: .95rem; }
-
-/* ==========================================================
-   PROCÉS
-   ========================================================== */
-.steps { margin-top: 4rem; border-top: 1px solid var(--line); }
-.step {
-  position: relative;
-  display: grid;
-  grid-template-columns: 5rem 1fr 1.2fr;
-  gap: 2rem;
-  align-items: baseline;
-  padding: 2.2rem 0;
-  border-bottom: 1px solid var(--line);
-  transition: padding .5s var(--ease), opacity 1s var(--ease), transform 1s var(--ease);
-}
-.step::after {
-  content: '';
-  position: absolute; left: 0; bottom: -1px;
-  width: 100%; height: 1px;
-  background: var(--accent);
-  transform: scaleX(0); transform-origin: left;
-  transition: transform .7s var(--ease);
-}
-.step:hover { padding-left: 1.2rem; }
-.step:hover::after { transform: scaleX(1); }
-.step .n { font-family: var(--serif); font-style: italic; font-size: 1.6rem; color: var(--accent); }
-.step h3 { font-size: clamp(1.8rem, 4vw, 3.4rem); line-height: 1; letter-spacing: -.04em; }
-.step p { color: var(--muted); }
-
-/* ==========================================================
-   XIFRES
-   ========================================================== */
-.stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 2rem;
-  padding-block: clamp(3rem, 7vw, 6rem);
-}
-.stat { padding-left: 1.5rem; border-left: 1px solid var(--line); }
-.stat b { display: block; font-size: clamp(3rem, 8vw, 7rem); line-height: 1; letter-spacing: -.05em; font-weight: 700; }
-.stat span { color: var(--muted); font-size: .9rem; }
-
-/* ==========================================================
-   CONTACTE
-   ========================================================== */
-.contact { display: flex; flex-direction: column; align-items: center; text-align: center; }
-.contact-title {
-  margin-bottom: 3rem;
-  font-size: clamp(3rem, 10vw, 9.5rem);
-  line-height: .92;
-  letter-spacing: -.05em;
-  font-weight: 700;
-}
-.mail {
-  display: inline-block;
-  padding-bottom: .3rem;
-  border-bottom: 2px solid var(--accent);
-  font-size: clamp(1.2rem, 3.6vw, 3rem);
-  letter-spacing: -.03em;
-  transition: color .3s, transform .4s var(--ease), opacity 1s var(--ease);
-}
-.mail:hover { color: var(--accent); }
-.contact-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: .8rem; margin-top: 3rem; }
-
-/* ==========================================================
-   FOOTER
-   ========================================================== */
-.footer {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 1rem;
-  padding: 2rem var(--pad);
-  border-top: 1px solid var(--line);
-  color: var(--muted);
-  font-size: .85rem;
-}
-.footer a { display: inline-block; transition: color .3s, transform .4s var(--ease); }
-.footer a:hover { color: var(--accent); }
-
-/* ==========================================================
-   RESPONSIVE
-   ========================================================== */
-@media (max-width: 800px) {
-  .links { display: none; }
-  .hues { display: none; }
-  .chip, .badge { display: none; }
-  .hero-bottom { align-items: flex-start; }
-
-  /* En mòbil, els projectes es llisquen amb el dit */
-  .work-sticky { position: static; height: auto; overflow: visible; padding-bottom: 2rem; }
-  .work-track {
-    width: auto;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    padding-bottom: 1.5rem;
-    -webkit-overflow-scrolling: touch;
-  }
-  .project { flex: 0 0 82vw; scroll-snap-align: center; }
-  .work-progress { display: none; }
-
-  .step { grid-template-columns: 3rem 1fr; gap: 1rem; }
-  .step p { grid-column: 2; }
-  .meta { flex-direction: column; gap: .2rem; }
-  .meta p { text-align: left; }
-}
-
-/* Respecta qui prefereix menys moviment */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation: none !important;
-    transition-duration: .01ms !important;
-    transition-delay: 0s !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-  </style>
-
+  <link rel="stylesheet" href="style.css">
+ 
   <noscript>
     <style>
       .loader{display:none}
@@ -737,7 +21,7 @@ em {
     </style>
   </noscript>
 </head>
-
+ 
 <!--
   ============================================================
   COM PERSONALITZAR-HO
@@ -750,9 +34,9 @@ em {
   - Xifres i textos: tot és inventat, per provar.
   ============================================================
 -->
-
+ 
 <body class="loading">
-
+ 
   <!-- Pantalla de càrrega -->
   <div class="loader" aria-hidden="true">
     <div class="loader-inner">
@@ -761,25 +45,25 @@ em {
     </div>
     <div class="loader-bar"><i></i></div>
   </div>
-
+ 
   <!-- Elements de pantalla completa -->
   <div class="progress" aria-hidden="true"><i></i></div>
   <div class="cursor" aria-hidden="true"></div>
   <div class="cursor-label" aria-hidden="true"></div>
   <div class="glow" aria-hidden="true"></div>
   <canvas id="bg" aria-hidden="true"></canvas>
-
+ 
   <!-- Navegació -->
   <header class="nav">
     <a href="#inici" class="logo" data-magnetic>JM<span>.</span></a>
-
+ 
     <nav class="links" aria-label="Principal">
       <a href="#sobre">Sobre mi</a>
       <a href="#projectes">Projectes</a>
       <a href="#serveis">Serveis</a>
       <a href="#proces">Procés</a>
     </nav>
-
+ 
     <div class="nav-right">
       <div class="hues" role="group" aria-label="Canvia el color d'accent">
         <button style="--h:75" data-hue="75" aria-label="Llima"></button>
@@ -791,21 +75,21 @@ em {
       <a href="#contacte" class="btn btn-sm" data-magnetic>Parlem</a>
     </div>
   </header>
-
+ 
   <main>
-
+ 
     <!-- ===================== HERO ===================== -->
     <section class="hero" id="inici">
       <div class="hero-top">
         <span class="pill"><i class="dot"></i> Disponible per a nous projectes</span>
       </div>
-
+ 
       <h1 class="hero-title" aria-label="Creo webs que ningú oblida.">
         <span class="line"><span>Creo webs</span></span>
         <span class="line"><span>que <em>ningú</em></span></span>
         <span class="line"><span>oblida.</span></span>
       </h1>
-
+ 
       <div class="hero-bottom">
         <p class="hero-lead">
           Dissenyo i programo webs a mesura per a empreses que volen destacar.
@@ -816,12 +100,12 @@ em {
           <a class="btn btn-ghost" href="#contacte" data-magnetic>Explica'm el teu projecte</a>
         </div>
       </div>
-
+ 
       <!-- Xips flotants amb parallax -->
       <div class="chip c1" data-depth="40">HTML</div>
       <div class="chip c2" data-depth="-30">Rendiment 100</div>
       <div class="chip c3" data-depth="55">&lt;/CSS&gt;</div>
-
+ 
       <!-- Segell giratori -->
       <svg class="badge" viewBox="0 0 200 200" aria-hidden="true">
         <defs>
@@ -833,7 +117,7 @@ em {
         <circle cx="100" cy="100" r="7"/>
       </svg>
     </section>
-
+ 
     <!-- ===================== MARQUEE ===================== -->
     <div class="marquee" aria-hidden="true">
       <div class="marquee-group">
@@ -851,15 +135,15 @@ em {
         <span>SEO</span><span>✦</span>
       </div>
     </div>
-
+ 
     <!-- ===================== SOBRE MI ===================== -->
     <section class="section about" id="sobre">
       <p class="eyebrow reveal">( Sobre mi )</p>
-
+ 
       <p class="about-text" data-words>
         Sóc dissenyador i desenvolupador web. Agafo la idea d'un negoci i la converteixo en una experiència digital que es veu, es sent i es recorda. Cada web que faig és única, ràpida i pensada per vendre.
       </p>
-
+ 
       <div class="about-grid reveal">
         <div>
           <h3>Disseny</h3>
@@ -887,18 +171,18 @@ em {
         </div>
       </div>
     </section>
-
+ 
     <!-- ===================== PROJECTES (scroll horitzontal) ===================== -->
     <section class="work" id="projectes">
       <div class="work-sticky">
-
+ 
         <div class="work-head">
           <h2 class="h2">Projectes <em>seleccionats</em></h2>
           <p class="work-count">Fes scroll → <span>(Projectes de mostra)</span></p>
         </div>
-
+ 
         <div class="work-track">
-
+ 
           <!-- 1 · Restaurant -->
           <article class="project" data-cursor="Veure">
             <div class="browser">
@@ -912,7 +196,7 @@ em {
             </div>
             <div class="meta"><h3>Brasa</h3><p>Restaurant · Web i reserves · 2026</p></div>
           </article>
-
+ 
           <!-- 2 · Arquitectura -->
           <article class="project" data-cursor="Veure">
             <div class="browser">
@@ -925,7 +209,7 @@ em {
             </div>
             <div class="meta"><h3>Nord Arquitectura</h3><p>Estudi · Portafoli visual · 2026</p></div>
           </article>
-
+ 
           <!-- 3 · SaaS -->
           <article class="project" data-cursor="Veure">
             <div class="browser">
@@ -942,7 +226,7 @@ em {
             </div>
             <div class="meta"><h3>Pulse</h3><p>SaaS · Landing i dashboard · 2026</p></div>
           </article>
-
+ 
           <!-- 4 · Botiga -->
           <article class="project" data-cursor="Veure">
             <div class="browser">
@@ -953,24 +237,24 @@ em {
             </div>
             <div class="meta"><h3>Tallers</h3><p>Botiga en línia · E-commerce · 2026</p></div>
           </article>
-
+ 
           <!-- 5 · Crida a l'acció -->
           <a class="project cta" href="#contacte" data-cursor="Parlem">
             <div class="screen">El teu projecte <em>aquí</em> →</div>
             <div class="meta"><h3>El següent?</h3><p>Comencem quan vulguis</p></div>
           </a>
-
+ 
         </div>
-
+ 
         <div class="work-progress" aria-hidden="true"><i></i></div>
       </div>
     </section>
-
+ 
     <!-- ===================== SERVEIS ===================== -->
     <section class="section" id="serveis">
       <p class="eyebrow reveal">( Serveis )</p>
       <h2 class="h2 reveal">Tot el que <em>necessita</em><br>la teva presència online</h2>
-
+ 
       <div class="services-grid reveal">
         <article class="card" data-tilt>
           <span class="ico">01</span>
@@ -1002,12 +286,12 @@ em {
         </article>
       </div>
     </section>
-
+ 
     <!-- ===================== PROCÉS ===================== -->
     <section class="section" id="proces">
       <p class="eyebrow reveal">( Procés )</p>
       <h2 class="h2 reveal">Com <em>treballem</em></h2>
-
+ 
       <ol class="steps">
         <li class="step reveal">
           <span class="n">01</span>
@@ -1031,7 +315,7 @@ em {
         </li>
       </ol>
     </section>
-
+ 
     <!-- ===================== XIFRES (inventades) ===================== -->
     <section class="section stats">
       <div class="stat reveal"><b data-count="100">0</b><span>Puntuació de rendiment objectiu</span></div>
@@ -1039,349 +323,29 @@ em {
       <div class="stat reveal" style="--d:.2s"><b data-count="24" data-suffix="h">0</b><span>Temps de resposta</span></div>
       <div class="stat reveal" style="--d:.3s"><b data-count="100" data-suffix="%">0</b><span>Dedicació a cada projecte</span></div>
     </section>
-
+ 
     <!-- ===================== CONTACTE ===================== -->
     <section class="section contact" id="contacte">
       <p class="eyebrow reveal">( Contacte )</p>
       <h2 class="contact-title reveal">Fem alguna cosa <em>increïble</em>?</h2>
-
+ 
       <a class="mail reveal" href="mailto:hola@elteudomini.cat" data-magnetic>hola@elteudomini.cat</a>
-
+ 
       <div class="contact-actions reveal">
         <button class="btn" data-copy="hola@elteudomini.cat" data-magnetic>Copia el correu</button>
         <a class="btn btn-ghost" href="https://github.com/" target="_blank" rel="noopener" data-magnetic>GitHub ↗</a>
         <a class="btn btn-ghost" href="https://www.linkedin.com/" target="_blank" rel="noopener" data-magnetic>LinkedIn ↗</a>
       </div>
     </section>
-
+ 
   </main>
-
+ 
   <footer class="footer">
     <span>© <span id="year">2026</span> Jan Molist</span>
     <span>Fet a mà amb HTML, CSS i JS</span>
     <a href="#inici" data-magnetic>Tornar a dalt ↑</a>
   </footer>
-
-  <script>
-/* ==========================================================
-   PORTAFOLI · main.js
-   Tot en JavaScript pur, sense llibreries.
-   ========================================================== */
-(() => {
-  'use strict';
-
-  const $  = (s, c = document) => c.querySelector(s);
-  const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
-  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
-
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const fine   = matchMedia('(hover: hover) and (pointer: fine)').matches;
-  const root   = document.documentElement;
-  const mobile = () => innerWidth <= 800;
-
-  let hue = 75;
-
-  /* ---------- 1. COLOR D'ACCENT (es guarda al navegador) ---------- */
-  try { const saved = localStorage.getItem('hue'); if (saved) hue = +saved; } catch (e) {}
-
-  const setHue = (h) => {
-    hue = +h;
-    root.style.setProperty('--hue', hue);
-    $$('.hues button').forEach(b => b.classList.toggle('on', +b.dataset.hue === hue));
-    try { localStorage.setItem('hue', hue); } catch (e) {}
-  };
-  setHue(hue);
-  $$('.hues button').forEach(b => b.addEventListener('click', () => setHue(b.dataset.hue)));
-
-  /* ---------- 2. PANTALLA DE CÀRREGA ---------- */
-  const loaderNum = $('.loader-num');
-  const loaderBar = $('.loader-bar i');
-  const finishLoading = () => {
-    document.body.classList.remove('loading');
-    document.body.classList.add('ready');
-  };
-
-  if (reduce) {
-    finishLoading();
-  } else {
-    let count = 0;
-    const step = () => {
-      count = Math.min(100, count + 1 + Math.floor(Math.random() * 7));
-      loaderNum.textContent = count;
-      loaderBar.style.width = count + '%';
-      if (count < 100) setTimeout(step, 45);
-      else setTimeout(finishLoading, 350);
-    };
-    step();
-  }
-
-  /* ---------- 3. COMPTADORS ---------- */
-  const countUp = (el) => {
-    const end = +el.dataset.count;
-    const suffix = el.dataset.suffix || '';
-    if (reduce) { el.textContent = end + suffix; return; }
-    const dur = 1600, t0 = performance.now();
-    const f = (t) => {
-      const p = clamp((t - t0) / dur);
-      el.textContent = Math.round(end * (1 - Math.pow(1 - p, 4))) + suffix;
-      if (p < 1) requestAnimationFrame(f);
-    };
-    requestAnimationFrame(f);
-  };
-
-  /* ---------- 4. REVELATS I COMPTADORS AL FER SCROLL ---------- */
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-    });
-  }, { threshold: .15 });
-  $$('.reveal').forEach(el => io.observe(el));
-
-  const cio = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { cio.unobserve(e.target); countUp(e.target); }
-    });
-  }, { threshold: .6 });
-  $$('[data-count]').forEach(el => cio.observe(el));
-
-  /* ---------- 5. TEXT QUE S'ENCÉN PARAULA A PARAULA ---------- */
-  const aboutText = $('[data-words]');
-  const words = [];
-  if (aboutText) {
-    const list = aboutText.textContent.trim().split(/\s+/);
-    aboutText.textContent = '';
-    list.forEach((w) => {
-      const s = document.createElement('span');
-      s.className = 'w' + (reduce ? ' lit' : '');
-      s.textContent = w;
-      aboutText.appendChild(s);
-      aboutText.appendChild(document.createTextNode(' '));
-      words.push(s);
-    });
-  }
-  const updateWords = () => {
-    if (!words.length || reduce) return;
-    const r = aboutText.getBoundingClientRect();
-    const p = clamp((innerHeight * .8 - r.top) / (r.height + innerHeight * .2));
-    const n = Math.round(p * words.length);
-    words.forEach((w, i) => w.classList.toggle('lit', i < n));
-  };
-
-  /* ---------- 6. SCROLL: BARRA DE PROGRÉS + PROJECTES HORITZONTALS ---------- */
-  const prog  = $('.progress i');
-  const work  = $('.work');
-  const track = $('.work-track');
-  const wprog = $('.work-progress i');
-
-  const sizeWork = () => {
-    if (mobile()) { work.style.height = ''; track.style.transform = ''; return; }
-    const maxX = track.offsetWidth - innerWidth;
-    work.style.height = (maxX * 1.15 + innerHeight) + 'px';
-  };
-
-  const onScroll = () => {
-    const max = root.scrollHeight - innerHeight;
-    prog.style.transform = 'scaleX(' + (max > 0 ? scrollY / max : 0) + ')';
-
-    if (!mobile()) {
-      const r = work.getBoundingClientRect();
-      const total = work.offsetHeight - innerHeight;
-      const p = total > 0 ? clamp(-r.top / total) : 0;
-      const maxX = track.offsetWidth - innerWidth;
-      track.style.transform = 'translate3d(' + (-p * maxX) + 'px,0,0)';
-      wprog.style.transform = 'scaleX(' + p + ')';
-    }
-    updateWords();
-  };
-
-  /* ---------- 7. CURSOR PERSONALITZAT + LLUM ---------- */
-  const glow = $('.glow');
-  const cur  = $('.cursor');
-  const lab  = $('.cursor-label');
-  let mx = innerWidth / 2, my = innerHeight / 2;
-  let gx = mx, gy = my, cx = mx, cy = my;
-  let pointerSeen = false;
-
-  addEventListener('pointermove', (e) => {
-    mx = e.clientX; my = e.clientY;
-    if (!pointerSeen) { pointerSeen = true; cur.classList.add('on'); }
-  }, { passive: true });
-
-  if (fine) {
-    root.classList.add('has-cursor');
-    document.addEventListener('pointerover', (e) => {
-      const t = e.target.closest('a, button, [data-cursor]');
-      cur.classList.toggle('active', !!t);
-      const txt = t ? t.dataset.cursor : '';
-      lab.textContent = txt || '';
-      lab.classList.toggle('show', !!txt);
-    });
-  }
-
-  /* ---------- 8. FONS DE PARTÍCULES ---------- */
-  const cv  = $('#bg');
-  const ctx = cv.getContext('2d');
-  let W = 0, H = 0, pts = [];
-
-  const col = (a) => 'hsl(' + hue + ' 100% 60% / ' + a + ')';
-
-  const initBg = () => {
-    const dpr = Math.min(devicePixelRatio || 1, 2);
-    W = innerWidth; H = innerHeight;
-    cv.width = W * dpr; cv.height = H * dpr;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    const n = Math.min(100, Math.round((W * H) / 16000));
-    pts = Array.from({ length: n }, () => ({
-      x: Math.random() * W,
-      y: Math.random() * H,
-      vx: (Math.random() - .5) * .35,
-      vy: (Math.random() - .5) * .35,
-      r: Math.random() * 1.5 + .5
-    }));
-  };
-
-  const drawBg = () => {
-    ctx.clearRect(0, 0, W, H);
-    for (let i = 0; i < pts.length; i++) {
-      const p = pts[i];
-
-      if (!reduce) {
-        p.x += p.vx; p.y += p.vy;
-        if (p.x < 0 || p.x > W) p.vx *= -1;
-        if (p.y < 0 || p.y > H) p.vy *= -1;
-        if (pointerSeen) {
-          const dx = p.x - mx, dy = p.y - my, d = Math.hypot(dx, dy);
-          if (d > 0 && d < 140) {
-            p.x += (dx / d) * (140 - d) * .02;
-            p.y += (dy / d) * (140 - d) * .02;
-          }
-        }
-      }
-
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = col(.8);
-      ctx.fill();
-
-      for (let j = i + 1; j < pts.length; j++) {
-        const q = pts[j];
-        const d = Math.hypot(p.x - q.x, p.y - q.y);
-        if (d < 120) {
-          ctx.strokeStyle = col(((1 - d / 120) * .25).toFixed(3));
-          ctx.lineWidth = 1;
-          ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y); ctx.stroke();
-        }
-      }
-
-      if (pointerSeen) {
-        const dm = Math.hypot(p.x - mx, p.y - my);
-        if (dm < 180) {
-          ctx.strokeStyle = col(((1 - dm / 180) * .5).toFixed(3));
-          ctx.lineWidth = 1;
-          ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(mx, my); ctx.stroke();
-        }
-      }
-    }
-  };
-
-  /* ---------- 9. BUCLE PRINCIPAL ---------- */
-  const tick = () => {
-    gx += (mx - gx) * .06; gy += (my - gy) * .06;
-    glow.style.transform = 'translate(' + gx + 'px,' + gy + 'px)';
-
-    if (fine) {
-      cx += (mx - cx) * .2; cy += (my - cy) * .2;
-      cur.style.transform = 'translate(' + cx + 'px,' + cy + 'px)';
-      lab.style.transform = 'translate(' + (cx + 26) + 'px,' + (cy + 26) + 'px)';
-    }
-    drawBg();
-    requestAnimationFrame(tick);
-  };
-
-  /* ---------- 10. BOTONS MAGNÈTICS ---------- */
-  if (fine && !reduce) {
-    $$('[data-magnetic]').forEach((el) => {
-      el.addEventListener('pointermove', (e) => {
-        const r = el.getBoundingClientRect();
-        const x = e.clientX - (r.left + r.width / 2);
-        const y = e.clientY - (r.top + r.height / 2);
-        el.style.transform = 'translate(' + (x * .3) + 'px,' + (y * .4) + 'px)';
-      });
-      el.addEventListener('pointerleave', () => { el.style.transform = ''; });
-    });
-  }
-
-  /* ---------- 11. TARGETES 3D AMB LLUM ---------- */
-  $$('[data-tilt]').forEach((el) => {
-    el.addEventListener('pointermove', (e) => {
-      const r = el.getBoundingClientRect();
-      const px = (e.clientX - r.left) / r.width;
-      const py = (e.clientY - r.top) / r.height;
-      el.style.setProperty('--mx', (px * 100) + '%');
-      el.style.setProperty('--my', (py * 100) + '%');
-      if (fine && !reduce) {
-        el.style.transform = 'perspective(900px) rotateX(' + ((.5 - py) * 8) + 'deg) rotateY(' + ((px - .5) * 8) + 'deg)';
-      }
-    });
-    el.addEventListener('pointerleave', () => { el.style.transform = ''; });
-  });
-
-  /* ---------- 12. PARALLAX DELS XIPS DEL HERO ---------- */
-  const chips = $$('.chip');
-  if (!reduce && chips.length) {
-    addEventListener('pointermove', (e) => {
-      const nx = e.clientX / innerWidth - .5;
-      const ny = e.clientY / innerHeight - .5;
-      chips.forEach((c) => {
-        const d = +c.dataset.depth || 20;
-        c.style.setProperty('--px', (nx * d) + 'px');
-        c.style.setProperty('--py', (ny * d) + 'px');
-      });
-    }, { passive: true });
-  }
-
-  /* ---------- 13. COPIAR EL CORREU ---------- */
-  $$('[data-copy]').forEach((b) => {
-    b.addEventListener('click', async () => {
-      const old = b.textContent;
-      try {
-        await navigator.clipboard.writeText(b.dataset.copy);
-        b.textContent = 'Copiat! ✓';
-      } catch (e) {
-        b.textContent = b.dataset.copy;
-      }
-      setTimeout(() => { b.textContent = old; }, 2000);
-    });
-  });
-
-  /* ---------- 14. ANY AL FOOTER ---------- */
-  const year = $('#year');
-  if (year) year.textContent = new Date().getFullYear();
-
-  /* ---------- 15. ARRENCADA ---------- */
-  initBg();
-  sizeWork();
-  onScroll();
-
-  if (reduce) drawBg(); else requestAnimationFrame(tick);
-
-  addEventListener('scroll', onScroll, { passive: true });
-
-  let resizeTimer;
-  addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-      initBg(); sizeWork(); onScroll();
-      if (reduce) drawBg();
-    }, 120);
-  });
-
-  // Quan carreguen les tipografies, les mides canvien: recalculem
-  const refresh = () => { sizeWork(); onScroll(); };
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(refresh);
-  addEventListener('load', refresh);
-})();
-
-  </script>
+ 
+  <script src="script.js"></script>
 </body>
 </html>
