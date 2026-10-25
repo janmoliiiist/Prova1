@@ -1,30 +1,351 @@
-// 1. Seguiment del cursor amb llum dinàmica
-const cursorGlow = document.getElementById('cursorGlow');
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Àlex Ferrer · Webs que ningú oblida</title>
+  <meta name="description" content="Disseny i desenvolupament web a mesura per a empreses. Webs ràpides, memorables i pensades per convertir.">
+  <meta name="theme-color" content="#0a0a0b">
 
-window.addEventListener('mousemove', (e) => {
-  cursorGlow.style.left = `${e.clientX}px`;
-  cursorGlow.style.top = `${e.clientY}px`;
-});
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 
-// 2. Efecte 3D Tilt interactiu sobre les targetes
-const cards = document.querySelectorAll('.tilt-card');
+  <noscript>
+    <style>
+      .loader{display:none}
+      body.loading{overflow:auto}
+      .line>span{transform:none}
+      .reveal,.hero-top,.hero-bottom{opacity:1;transform:none}
+    </style>
+  </noscript>
+</head>
 
-cards.forEach((card) => {
-  card.addEventListener('mousemove', (e) => {
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+<!--
+  ============================================================
+  COM PERSONALITZAR-HO
+  - Nom: busca "Àlex Ferrer" i "ÀF" i canvia'ls pels teus.
+  - Correu: busca "hola@elteudomini.cat" i posa el teu.
+  - Enllaços: GitHub i LinkedIn, a la secció de contacte.
+  - Projectes: les 4 targetes són maquetes fetes només amb CSS.
+    Quan tinguis clients reals, substitueix el bloc <div class="screen ...">
+    per una <img src="imatges/el-teu-projecte.jpg" alt="..."> i ja està.
+  - Xifres i textos: tot és inventat, per provar.
+  ============================================================
+-->
 
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
+<body class="loading">
 
-    const rotateX = ((y - centerY) / centerY) * -12;
-    const rotateY = ((x - centerX) / centerX) * 12;
+  <!-- Pantalla de càrrega -->
+  <div class="loader" aria-hidden="true">
+    <div class="loader-inner">
+      <span class="loader-name">Àlex Ferrer</span>
+      <span class="loader-num">0</span>
+    </div>
+    <div class="loader-bar"><i></i></div>
+  </div>
 
-    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03, 1.03, 1.03)`;
-  });
+  <!-- Elements de pantalla completa -->
+  <div class="progress" aria-hidden="true"><i></i></div>
+  <div class="cursor" aria-hidden="true"></div>
+  <div class="cursor-label" aria-hidden="true"></div>
+  <div class="glow" aria-hidden="true"></div>
+  <canvas id="bg" aria-hidden="true"></canvas>
 
-  card.addEventListener('mouseleave', () => {
-    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
-  });
-});
+  <!-- Navegació -->
+  <header class="nav">
+    <a href="#inici" class="logo" data-magnetic>ÀF<span>.</span></a>
+
+    <nav class="links" aria-label="Principal">
+      <a href="#sobre">Sobre mi</a>
+      <a href="#projectes">Projectes</a>
+      <a href="#serveis">Serveis</a>
+      <a href="#proces">Procés</a>
+    </nav>
+
+    <div class="nav-right">
+      <div class="hues" role="group" aria-label="Canvia el color d'accent">
+        <button style="--h:75" data-hue="75" aria-label="Llima"></button>
+        <button style="--h:18" data-hue="18" aria-label="Taronja"></button>
+        <button style="--h:320" data-hue="320" aria-label="Rosa"></button>
+        <button style="--h:265" data-hue="265" aria-label="Violeta"></button>
+        <button style="--h:190" data-hue="190" aria-label="Cian"></button>
+      </div>
+      <a href="#contacte" class="btn btn-sm" data-magnetic>Parlem</a>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ===================== HERO ===================== -->
+    <section class="hero" id="inici">
+      <div class="hero-top">
+        <span class="pill"><i class="dot"></i> Disponible per a nous projectes</span>
+      </div>
+
+      <h1 class="hero-title" aria-label="Creo webs que ningú oblida.">
+        <span class="line"><span>Creo webs</span></span>
+        <span class="line"><span>que <em>ningú</em></span></span>
+        <span class="line"><span>oblida.</span></span>
+      </h1>
+
+      <div class="hero-bottom">
+        <p class="hero-lead">
+          Dissenyo i programo webs a mesura per a empreses que volen destacar.
+          Sense plantilles i sense excuses: idees atrevides que a més funcionen.
+        </p>
+        <div class="hero-cta">
+          <a class="btn" href="#projectes" data-magnetic>Veure projectes <span>↓</span></a>
+          <a class="btn btn-ghost" href="#contacte" data-magnetic>Explica'm el teu projecte</a>
+        </div>
+      </div>
+
+      <!-- Xips flotants amb parallax -->
+      <div class="chip c1" data-depth="40">HTML</div>
+      <div class="chip c2" data-depth="-30">Rendiment 100</div>
+      <div class="chip c3" data-depth="55">&lt;/CSS&gt;</div>
+
+      <!-- Segell giratori -->
+      <svg class="badge" viewBox="0 0 200 200" aria-hidden="true">
+        <defs>
+          <path id="circ" d="M100,100 m-80,0 a80,80 0 1,1 160,0 a80,80 0 1,1 -160,0"/>
+        </defs>
+        <text>
+          <textPath href="#circ" textLength="496" lengthAdjust="spacing">DISSENY ✦ CODI ✦ ANIMACIÓ ✦ ESTRATÈGIA ✦ </textPath>
+        </text>
+        <circle cx="100" cy="100" r="7"/>
+      </svg>
+    </section>
+
+    <!-- ===================== MARQUEE ===================== -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-group">
+        <span>Webs a mesura</span><span>✦</span>
+        <span class="s">Identitat digital</span><span>✦</span>
+        <span>Animacions</span><span>✦</span>
+        <span class="s">Rendiment</span><span>✦</span>
+        <span>SEO</span><span>✦</span>
+      </div>
+      <div class="marquee-group">
+        <span>Webs a mesura</span><span>✦</span>
+        <span class="s">Identitat digital</span><span>✦</span>
+        <span>Animacions</span><span>✦</span>
+        <span class="s">Rendiment</span><span>✦</span>
+        <span>SEO</span><span>✦</span>
+      </div>
+    </div>
+
+    <!-- ===================== SOBRE MI ===================== -->
+    <section class="section about" id="sobre">
+      <p class="eyebrow reveal">( Sobre mi )</p>
+
+      <p class="about-text" data-words>
+        Sóc dissenyador i desenvolupador web. Agafo la idea d'un negoci i la converteixo en una experiència digital que es veu, es sent i es recorda. Cada web que faig és única, ràpida i pensada per vendre.
+      </p>
+
+      <div class="about-grid reveal">
+        <div>
+          <h3>Disseny</h3>
+          <ul>
+            <li>Direcció d'art i identitat</li>
+            <li>UI / UX</li>
+            <li>Prototips interactius</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Desenvolupament</h3>
+          <ul>
+            <li>HTML, CSS i JavaScript</li>
+            <li>WordPress i Elementor</li>
+            <li>Next.js i Supabase</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Creixement</h3>
+          <ul>
+            <li>SEO tècnic</li>
+            <li>Velocitat de càrrega</li>
+            <li>Analítica i conversió</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== PROJECTES (scroll horitzontal) ===================== -->
+    <section class="work" id="projectes">
+      <div class="work-sticky">
+
+        <div class="work-head">
+          <h2 class="h2">Projectes <em>seleccionats</em></h2>
+          <p class="work-count">Fes scroll → <span>(Projectes de mostra)</span></p>
+        </div>
+
+        <div class="work-track">
+
+          <!-- 1 · Restaurant -->
+          <article class="project" data-cursor="Veure">
+            <div class="browser">
+              <div class="bar"><i></i><i></i><i></i><span>brasa.cat</span></div>
+              <div class="screen s1">
+                <div class="s1-in">
+                  <span class="s1-title">Brasa</span>
+                  <span class="s1-sub">Cuina a la llenya</span>
+                </div>
+              </div>
+            </div>
+            <div class="meta"><h3>Brasa</h3><p>Restaurant · Web i reserves · 2026</p></div>
+          </article>
+
+          <!-- 2 · Arquitectura -->
+          <article class="project" data-cursor="Veure">
+            <div class="browser">
+              <div class="bar"><i></i><i></i><i></i><span>nordarquitectura.com</span></div>
+              <div class="screen s2">
+                <span class="s2-word">NORD</span>
+                <div class="s2-block"></div>
+                <div class="s2-dot"></div>
+              </div>
+            </div>
+            <div class="meta"><h3>Nord Arquitectura</h3><p>Estudi · Portafoli visual · 2026</p></div>
+          </article>
+
+          <!-- 3 · SaaS -->
+          <article class="project" data-cursor="Veure">
+            <div class="browser">
+              <div class="bar"><i></i><i></i><i></i><span>pulse.app</span></div>
+              <div class="screen s3">
+                <div class="s3-kpi"><b>+248%</b><small>Visites aquest mes</small></div>
+                <div class="s3-bars">
+                  <i style="--h:35%;--i:0"></i><i style="--h:55%;--i:1"></i>
+                  <i style="--h:42%;--i:2"></i><i style="--h:70%;--i:3"></i>
+                  <i style="--h:58%;--i:4"></i><i style="--h:85%;--i:5"></i>
+                  <i style="--h:66%;--i:6"></i><i style="--h:100%;--i:7"></i>
+                </div>
+              </div>
+            </div>
+            <div class="meta"><h3>Pulse</h3><p>SaaS · Landing i dashboard · 2026</p></div>
+          </article>
+
+          <!-- 4 · Botiga -->
+          <article class="project" data-cursor="Veure">
+            <div class="browser">
+              <div class="bar"><i></i><i></i><i></i><span>tallers.shop</span></div>
+              <div class="screen s4">
+                <div></div><div></div><div></div>
+              </div>
+            </div>
+            <div class="meta"><h3>Tallers</h3><p>Botiga en línia · E-commerce · 2026</p></div>
+          </article>
+
+          <!-- 5 · Crida a l'acció -->
+          <a class="project cta" href="#contacte" data-cursor="Parlem">
+            <div class="screen">El teu projecte <em>aquí</em> →</div>
+            <div class="meta"><h3>El següent?</h3><p>Comencem quan vulguis</p></div>
+          </a>
+
+        </div>
+
+        <div class="work-progress" aria-hidden="true"><i></i></div>
+      </div>
+    </section>
+
+    <!-- ===================== SERVEIS ===================== -->
+    <section class="section" id="serveis">
+      <p class="eyebrow reveal">( Serveis )</p>
+      <h2 class="h2 reveal">Tot el que <em>necessita</em><br>la teva presència online</h2>
+
+      <div class="services-grid reveal">
+        <article class="card" data-tilt>
+          <span class="ico">01</span>
+          <div>
+            <h3>Disseny web a mesura</h3>
+            <p>Interfícies úniques que expliquen la teva marca i guien l'usuari fins a l'acció.</p>
+          </div>
+        </article>
+        <article class="card" data-tilt>
+          <span class="ico">02</span>
+          <div>
+            <h3>Desenvolupament</h3>
+            <p>Codi net, ràpid i fàcil de mantenir. Des d'una landing fins a una aplicació completa.</p>
+          </div>
+        </article>
+        <article class="card" data-tilt>
+          <span class="ico">03</span>
+          <div>
+            <h3>Animació i interacció</h3>
+            <p>Microinteraccions i transicions que fan que el teu web se senti viu i es recordi.</p>
+          </div>
+        </article>
+        <article class="card" data-tilt>
+          <span class="ico">04</span>
+          <div>
+            <h3>SEO i rendiment</h3>
+            <p>Que et trobin a Google i que la pàgina carregui en un instant, també al mòbil.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===================== PROCÉS ===================== -->
+    <section class="section" id="proces">
+      <p class="eyebrow reveal">( Procés )</p>
+      <h2 class="h2 reveal">Com <em>treballem</em></h2>
+
+      <ol class="steps">
+        <li class="step reveal">
+          <span class="n">01</span>
+          <h3>Descoberta</h3>
+          <p>Parlem del teu negoci, dels teus clients i dels teus objectius. Sense això, no hi ha bon disseny.</p>
+        </li>
+        <li class="step reveal">
+          <span class="n">02</span>
+          <h3>Disseny</h3>
+          <p>Proposta visual i prototip per veure i tocar el web abans de programar res.</p>
+        </li>
+        <li class="step reveal">
+          <span class="n">03</span>
+          <h3>Desenvolupament</h3>
+          <p>Ho construeixo amb cura: ràpid, adaptable a qualsevol pantalla i preparat per créixer.</p>
+        </li>
+        <li class="step reveal">
+          <span class="n">04</span>
+          <h3>Llançament</h3>
+          <p>Proves finals, posada en marxa i suport perquè tot funcioni des del primer dia.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ===================== XIFRES (inventades) ===================== -->
+    <section class="section stats">
+      <div class="stat reveal"><b data-count="100">0</b><span>Puntuació de rendiment objectiu</span></div>
+      <div class="stat reveal" style="--d:.1s"><b data-count="0">0</b><span>Plantilles reutilitzades</span></div>
+      <div class="stat reveal" style="--d:.2s"><b data-count="24" data-suffix="h">0</b><span>Temps de resposta</span></div>
+      <div class="stat reveal" style="--d:.3s"><b data-count="100" data-suffix="%">0</b><span>Dedicació a cada projecte</span></div>
+    </section>
+
+    <!-- ===================== CONTACTE ===================== -->
+    <section class="section contact" id="contacte">
+      <p class="eyebrow reveal">( Contacte )</p>
+      <h2 class="contact-title reveal">Fem alguna cosa <em>increïble</em>?</h2>
+
+      <a class="mail reveal" href="mailto:hola@elteudomini.cat" data-magnetic>hola@elteudomini.cat</a>
+
+      <div class="contact-actions reveal">
+        <button class="btn" data-copy="hola@elteudomini.cat" data-magnetic>Copia el correu</button>
+        <a class="btn btn-ghost" href="https://github.com/" target="_blank" rel="noopener" data-magnetic>GitHub ↗</a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/" target="_blank" rel="noopener" data-magnetic>LinkedIn ↗</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <span>© <span id="year">2026</span> Àlex Ferrer</span>
+    <span>Fet a mà amb HTML, CSS i JS</span>
+    <a href="#inici" data-magnetic>Tornar a dalt ↑</a>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
