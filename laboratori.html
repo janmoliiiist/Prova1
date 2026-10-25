@@ -10,20 +10,40 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- Mateix style.css que la home + el que és propi del laboratori -->
+  <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="lab.css">
-  <script>
-    /* Recupera el color d'accent triat (abans de pintar, perquè no parpellegi) */
-    try {
-      var h = localStorage.getItem('jm-hue');
-      if (h !== null) document.documentElement.style.setProperty('--hue', h);
-    } catch (e) {}
-  </script>
-</head>
-<body>
 
-  <!-- Navegació (mateixa estructura que la home) -->
-  <header class="lab-nav">
-    <a href="index.html#inici" class="logo">JM<span>.</span></a>
+  <noscript>
+    <style>
+      .loader{display:none}
+      body.loading{overflow:auto}
+      .reveal,.hero-top,.hero-bottom{opacity:1;transform:none}
+    </style>
+  </noscript>
+</head>
+
+<body class="loading">
+
+  <!-- Pantalla de càrrega (la gestiona script.js) -->
+  <div class="loader" aria-hidden="true">
+    <div class="loader-inner">
+      <span class="loader-name">Laboratori</span>
+      <span class="loader-num">0</span>
+    </div>
+    <div class="loader-bar"><i></i></div>
+  </div>
+
+  <!-- Elements de pantalla completa (iguals que a la home) -->
+  <div class="progress" aria-hidden="true"><i></i></div>
+  <div class="cursor" aria-hidden="true"></div>
+  <div class="cursor-label" aria-hidden="true"></div>
+  <div class="glow" aria-hidden="true"></div>
+  <canvas id="bg" aria-hidden="true"></canvas>
+
+  <!-- Navegació -->
+  <header class="nav">
+    <a href="index.html#inici" class="logo" data-magnetic>JM<span>.</span></a>
 
     <nav class="links" aria-label="Principal">
       <a href="index.html#sobre">Sobre mi</a>
@@ -41,20 +61,32 @@
         <button style="--h:265" data-hue="265" aria-label="Violeta"></button>
         <button style="--h:190" data-hue="190" aria-label="Cian"></button>
       </div>
-      <a href="index.html#contacte" class="btn btn-sm">Parlem</a>
+      <a href="index.html#contacte" class="btn btn-sm" data-magnetic>Parlem</a>
     </div>
   </header>
 
   <main>
-    <!-- HERO AMB SHADER -->
-    <section class="hero" id="inici">
+
+    <!-- ===================== HERO AMB SHADER ===================== -->
+    <section class="lab-hero" id="inici">
       <canvas id="fluid" aria-hidden="true"></canvas>
-      <div class="hero-in">
-        <p class="eyebrow">( Laboratori )</p>
-        <h1>On els experiments <em>es poden trencar</em>.</h1>
-        <p class="lead">Aquí provo coses que encara no han arribat a cap client: shaders, partícules, 3D amb CSS i interaccions. Mou el ratolí i fes clic per tocar el fons.</p>
-        <a class="btn" href="#particules">Entrar ↓</a>
+
+      <div class="hero-top">
+        <span class="pill"><i class="dot"></i> 9 experiments · en obres</span>
       </div>
+
+      <h1 class="hero-title">On els experiments <em>es poden trencar</em>.</h1>
+
+      <div class="hero-bottom">
+        <p class="hero-lead">
+          Aquí provo coses que encara no han arribat a cap client: shaders, partícules, 3D amb CSS i interaccions. Mou el ratolí i fes clic per tocar el fons.
+        </p>
+        <div class="hero-cta">
+          <a class="btn" href="#particules" data-magnetic>Entrar <span>↓</span></a>
+          <a class="btn btn-ghost" href="index.html#inici" data-magnetic>← La web</a>
+        </div>
+      </div>
+
       <ul class="lab-index" aria-label="Índex d'experiments">
         <li><a href="#particules">01 Partícules</a></li>
         <li><a href="#cub">02 Cub 3D</a></li>
@@ -68,24 +100,20 @@
       </ul>
     </section>
 
-    <!-- 01 PARTÍCULES -->
-    <section class="block" id="particules">
-      <header class="block-h">
-        <span class="num">01</span>
-        <h2>Text fet de <em>partícules</em></h2>
-        <p>Passa-hi el cursor per apartar-les. Fes clic per fer-les explotar.</p>
-      </header>
-      <canvas id="ptext" aria-label="Text JAN MOLIST fet de partícules"></canvas>
+    <!-- ===================== 01 PARTÍCULES ===================== -->
+    <section class="section lab-block" id="particules">
+      <p class="eyebrow reveal">( 01 · Partícules )</p>
+      <h2 class="h2 reveal">Text fet de <em>partícules</em></h2>
+      <p class="lab-note reveal">Passa-hi el cursor per apartar-les. Fes clic per fer-les explotar.</p>
+      <canvas id="ptext" class="stage" data-cursor="Clic" aria-label="Text JAN MOLIST fet de partícules"></canvas>
     </section>
 
-    <!-- 02 CUB -->
-    <section class="block" id="cub">
-      <header class="block-h">
-        <span class="num">02</span>
-        <h2>Cub 3D amb <em>inèrcia</em></h2>
-        <p>Arrossega'l i deixa'l anar: conserva la velocitat i torna a girar sol. La llum es recalcula a cada cara.</p>
-      </header>
-      <div class="cube-stage">
+    <!-- ===================== 02 CUB ===================== -->
+    <section class="section lab-block" id="cub">
+      <p class="eyebrow reveal">( 02 · Cub 3D )</p>
+      <h2 class="h2 reveal">Cub 3D amb <em>inèrcia</em></h2>
+      <p class="lab-note reveal">Arrossega'l i deixa'l anar: conserva la velocitat i torna a girar sol. La llum es recalcula a cada cara.</p>
+      <div class="cube-stage stage" data-cursor="Arrossega">
         <div class="cube">
           <div class="face f-front">HTML</div>
           <div class="face f-right">CSS</div>
@@ -97,7 +125,7 @@
       </div>
     </section>
 
-    <!-- 03 TÚNEL -->
+    <!-- ===================== 03 TÚNEL ===================== -->
     <section class="tunnel" id="tunel">
       <div class="tunnel-sticky">
         <div class="tunnel-scene">
@@ -109,20 +137,18 @@
           <div class="t-layer"><div><span>05</span><h3>Llançament</h3><p>I a començar el següent.</p></div></div>
         </div>
         <div class="tunnel-hud">
-          <span>03 · Túnel de profunditat · fes scroll</span>
+          <span>( 03 · Túnel de profunditat ) · fes scroll</span>
           <div class="tunnel-bar"><i></i></div>
         </div>
       </div>
     </section>
 
-    <!-- 04 ANELL -->
-    <section class="block" id="anell">
-      <header class="block-h">
-        <span class="num">04</span>
-        <h2>Galeria en <em>anell</em></h2>
-        <p>Arrossega, o usa els botons. Si hi poses el cursor al damunt, s'atura.</p>
-      </header>
-      <div class="ring-stage">
+    <!-- ===================== 04 ANELL ===================== -->
+    <section class="section lab-block" id="anell">
+      <p class="eyebrow reveal">( 04 · Anell )</p>
+      <h2 class="h2 reveal">Galeria en <em>anell</em></h2>
+      <p class="lab-note reveal">Arrossega, o usa els botons. Si hi poses el cursor al damunt, s'atura.</p>
+      <div class="ring-stage stage" data-cursor="Arrossega">
         <div class="ring">
           <article class="ring-card"><b>Brasa</b><span>Restaurant</span></article>
           <article class="ring-card"><b>Nord</b><span>Arquitectura</span></article>
@@ -134,18 +160,16 @@
         </div>
       </div>
       <div class="ring-ctl">
-        <button class="btn btn-ghost" data-ring="-1" aria-label="Anterior">←</button>
-        <button class="btn btn-ghost" data-ring="1" aria-label="Següent">→</button>
+        <button class="btn btn-ghost" data-ring="-1" data-magnetic aria-label="Anterior">←</button>
+        <button class="btn btn-ghost" data-ring="1" data-magnetic aria-label="Següent">→</button>
       </div>
     </section>
 
-    <!-- 05 TARGETES AMB LLUM -->
-    <section class="block" id="targetes">
-      <header class="block-h">
-        <span class="num">05</span>
-        <h2>Targetes amb <em>llum</em></h2>
-        <p>S'inclinen cap al cursor i la llum et segueix.</p>
-      </header>
+    <!-- ===================== 05 TARGETES AMB LLUM ===================== -->
+    <section class="section lab-block" id="targetes">
+      <p class="eyebrow reveal">( 05 · Llum )</p>
+      <h2 class="h2 reveal">Targetes amb <em>llum</em></h2>
+      <p class="lab-note reveal">S'inclinen cap al cursor i la llum et segueix.</p>
       <div class="depth-grid">
         <article class="depth-card"><h3>Disseny</h3><p>Identitat, UI i prototips interactius.</p></article>
         <article class="depth-card"><h3>Codi</h3><p>HTML, CSS i JavaScript sense dependències.</p></article>
@@ -153,43 +177,35 @@
       </div>
     </section>
 
-    <!-- 06 CONSTEL·LACIÓ -->
-    <section class="block" id="constellacio">
-      <header class="block-h">
-        <span class="num">06</span>
-        <h2>Constel·lació de <em>nodes</em></h2>
-        <p>Els punts s'uneixen quan són a prop. El cursor els atrau i un clic en crea de nous.</p>
-      </header>
-      <canvas id="net" aria-label="Xarxa de nodes interactiva"></canvas>
+    <!-- ===================== 06 CONSTEL·LACIÓ ===================== -->
+    <section class="section lab-block" id="constellacio">
+      <p class="eyebrow reveal">( 06 · Constel·lació )</p>
+      <h2 class="h2 reveal">Constel·lació de <em>nodes</em></h2>
+      <p class="lab-note reveal">Els punts s'uneixen quan són a prop. El cursor els atrau i un clic en crea de nous.</p>
+      <canvas id="net" class="stage" data-cursor="Clic" aria-label="Xarxa de nodes interactiva"></canvas>
     </section>
 
-    <!-- 07 BANDADA -->
-    <section class="block" id="bandada">
-      <header class="block-h">
-        <span class="num">07</span>
-        <h2>Una <em>bandada</em> que pensa</h2>
-        <p>Tres regles simples (separar-se, alinear-se, agrupar-se) i surt un comportament viu. Segueixen el cursor; si fas clic, fugen.</p>
-      </header>
-      <canvas id="flock" aria-label="Bandada de ocells simulada"></canvas>
+    <!-- ===================== 07 BANDADA ===================== -->
+    <section class="section lab-block" id="bandada">
+      <p class="eyebrow reveal">( 07 · Bandada )</p>
+      <h2 class="h2 reveal">Una <em>bandada</em> que pensa</h2>
+      <p class="lab-note reveal">Tres regles simples (separar-se, alinear-se, agrupar-se) i surt un comportament viu. Segueixen el cursor; si fas clic, fugen.</p>
+      <canvas id="flock" class="stage" data-cursor="Espanta" aria-label="Bandada d'ocells simulada"></canvas>
     </section>
 
-    <!-- 08 TIPOGRAFIA VIVA -->
-    <section class="block" id="tipografia">
-      <header class="block-h">
-        <span class="num">08</span>
-        <h2>Tipografia <em>viva</em></h2>
-        <p>Cada lletra mesura la distància al cursor i es mou, creix i s'il·lumina.</p>
-      </header>
+    <!-- ===================== 08 TIPOGRAFIA VIVA ===================== -->
+    <section class="section lab-block" id="tipografia">
+      <p class="eyebrow reveal">( 08 · Tipografia )</p>
+      <h2 class="h2 reveal">Tipografia <em>viva</em></h2>
+      <p class="lab-note reveal">Cada lletra mesura la distància al cursor i es mou, creix i s'il·lumina.</p>
       <p class="kinetic" data-text="Webs que ningú oblida"></p>
     </section>
 
-    <!-- 09 TEXT DESXIFRAT -->
-    <section class="block" id="desxifrat">
-      <header class="block-h">
-        <span class="num">09</span>
-        <h2>Text <em>desxifrat</em></h2>
-        <p>Es desxifra en entrar a pantalla. Passa-hi per sobre i ho torna a fer.</p>
-      </header>
+    <!-- ===================== 09 TEXT DESXIFRAT ===================== -->
+    <section class="section lab-block" id="desxifrat">
+      <p class="eyebrow reveal">( 09 · Desxifrat )</p>
+      <h2 class="h2 reveal">Text <em>desxifrat</em></h2>
+      <p class="lab-note reveal">Es desxifra en entrar a pantalla. Passa-hi per sobre i ho torna a fer.</p>
       <ul class="scr-list">
         <li><span data-scramble="Disseny a mesura"></span><small>01</small></li>
         <li><span data-scramble="Codi sense llibreries"></span><small>02</small></li>
@@ -198,39 +214,26 @@
       </ul>
     </section>
 
-    <!-- CONTACTE -->
-    <section class="block lab-cta">
-      <h2>T'ha agradat algun? <em>Ho posem al teu web.</em></h2>
-      <a class="btn" href="index.html#contacte">Parlem →</a>
+    <!-- ===================== CRIDA FINAL ===================== -->
+    <section class="section contact lab-cta">
+      <p class="eyebrow reveal">( Contacte )</p>
+      <h2 class="contact-title reveal">T'ha agradat algun? <em>Ho posem al teu web.</em></h2>
+      <div class="contact-actions reveal">
+        <a class="btn" href="index.html#contacte" data-magnetic>Parlem →</a>
+        <a class="btn btn-ghost" href="index.html#projectes" data-magnetic>Veure projectes</a>
+      </div>
     </section>
+
   </main>
 
-  <footer class="lab-foot">
+  <footer class="footer">
     <span>© <span id="year">2026</span> Jan Molist</span>
     <span>Fet a mà amb HTML, CSS i JS</span>
-    <a href="index.html#inici">← Tornar a la web</a>
+    <a href="index.html#inici" data-magnetic>← Tornar a la web</a>
   </footer>
 
-  <script>
-    (function () {
-      var root = document.documentElement;
-      var btns = document.querySelectorAll('.hues button');
-      function mark(h) {
-        btns.forEach(function (b) { b.classList.toggle('on', b.dataset.hue === String(h)); });
-      }
-      var cur = parseFloat(getComputedStyle(root).getPropertyValue('--hue')) || 75;
-      mark(cur);
-      btns.forEach(function (b) {
-        b.addEventListener('click', function () {
-          root.style.setProperty('--hue', b.dataset.hue);   // lab.js ho detecta sol
-          try { localStorage.setItem('jm-hue', b.dataset.hue); } catch (e) {}
-          mark(b.dataset.hue);
-        });
-      });
-      var y = document.getElementById('year');
-      if (y) y.textContent = new Date().getFullYear();
-    })();
-  </script>
+  <!-- Primer el script de la home (color, cursor, fons...), després el del laboratori -->
+  <script src="script.js"></script>
   <script src="lab.js"></script>
 </body>
 </html>
