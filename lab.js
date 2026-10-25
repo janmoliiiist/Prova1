@@ -1519,6 +1519,7 @@ void main(){
 
   /* ---------- ARRENCADA ---------- */
   const boot = () => {
+    console.info('lab.js v2 carregat · 21 experiments');
     [initShader, initParticles, initCube, initTunnel, initRing, initDepth, initNet, initFlock, initKinetic, initScramble,
      initWave, initTrail, initBlobs, initFlash, initVMarq, initBA, initQuote, initPerf, initColor, initForm, initTheme]
       .forEach((fn) => { try { fn(); } catch (e) { console.warn('Lab · ' + fn.name + ':', e); } });
