@@ -49,7 +49,7 @@
       <a href="#projectes">Projectes</a>
       <a href="#serveis">Serveis</a>
       <a href="#proces">Procés</a>
-      <a href="lab.html">Laboratori ↗</a>
+      <a href="#laboratori">Laboratori</a>
     </nav>
 
     <div class="nav-right">
@@ -68,6 +68,9 @@
 
     <!-- ===================== HERO ===================== -->
     <section class="hero" id="inici">
+      <!-- Shader WebGL interactiu de fons de lab.js -->
+      <canvas id="fluid" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:-1;"></canvas>
+
       <div class="hero-top">
         <span class="pill"><i class="dot"></i> Disponible per a nous projectes</span>
       </div>
@@ -304,6 +307,58 @@
       </ol>
     </section>
 
+    <!-- ===================== LABORATORI ===================== -->
+    <section class="section lab" id="laboratori">
+      <p class="eyebrow reveal">( Laboratori )</p>
+      <h2 class="h2 reveal">Experiments &amp; <em>WebGL</em></h2>
+
+      <!-- 2. Text de partícules -->
+      <div style="width:100%; height:220px; margin:2rem 0; position:relative;">
+        <canvas id="ptext" style="width:100%; height:100%; display:block;"></canvas>
+      </div>
+
+      <!-- 3. Cub 3D amb inèrcia -->
+      <div class="cube-stage" style="width:200px; height:200px; margin:3rem auto; perspective:800px; cursor:grab;">
+        <div class="cube" style="width:100%; height:100%; position:relative; transform-style:preserve-3d;">
+          <div class="face front" style="position:absolute; inset:0; border:1px solid var(--accent); background:rgba(255,255,255,0.05); transform:translateZ(100px);"></div>
+          <div class="face right" style="position:absolute; inset:0; border:1px solid var(--accent); background:rgba(255,255,255,0.05); transform:rotateY(90deg) translateZ(100px);"></div>
+          <div class="face back" style="position:absolute; inset:0; border:1px solid var(--accent); background:rgba(255,255,255,0.05); transform:rotateY(180deg) translateZ(100px);"></div>
+          <div class="face left" style="position:absolute; inset:0; border:1px solid var(--accent); background:rgba(255,255,255,0.05); transform:rotateY(-90deg) translateZ(100px);"></div>
+          <div class="face top" style="position:absolute; inset:0; border:1px solid var(--accent); background:rgba(255,255,255,0.05); transform:rotateX(90deg) translateZ(100px);"></div>
+          <div class="face bottom" style="position:absolute; inset:0; border:1px solid var(--accent); background:rgba(255,255,255,0.05); transform:rotateX(-90deg) translateZ(100px);"></div>
+        </div>
+      </div>
+
+      <!-- 4. Túnel de profunditat -->
+      <div class="tunnel" style="position:relative; height:150vh; margin:4rem 0;">
+        <div class="tunnel-bar" style="position:sticky; top:10px; width:100%; height:2px; background:rgba(255,255,255,0.1);"><i style="display:block; height:100%; background:var(--accent, #a3e635); transform-origin:left;"></i></div>
+        <div class="tunnel-scene" style="position:sticky; top:20vh; height:60vh; perspective:1000px; transform-style:preserve-3d; display:flex; align-items:center; justify-content:center;">
+          <div class="t-floor" style="position:absolute; inset:0; pointer-events:none;"></div>
+          <div class="t-layer" style="position:absolute; font-size:3rem; font-weight:700;">EXPLORA</div>
+          <div class="t-layer" style="position:absolute; font-size:3rem; font-weight:700;">DISSENY</div>
+          <div class="t-layer" style="position:absolute; font-size:3rem; font-weight:700;">FUTUR</div>
+        </div>
+      </div>
+
+      <!-- 5. Galeria en anell 3D -->
+      <div class="ring-stage" style="perspective:1000px; height:400px; position:relative; overflow:hidden; cursor:grab; margin:3rem 0;">
+        <div class="ring" style="width:100%; height:100%; position:absolute; transform-style:preserve-3d;">
+          <div class="ring-card" style="position:absolute; left:50%; top:50%; width:240px; height:300px; margin-left:-120px; margin-top:-150px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:1.5rem; backface-visibility:hidden;">WebGL 01</div>
+          <div class="ring-card" style="position:absolute; left:50%; top:50%; width:240px; height:300px; margin-left:-120px; margin-top:-150px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:1.5rem; backface-visibility:hidden;">Shaders 02</div>
+          <div class="ring-card" style="position:absolute; left:50%; top:50%; width:240px; height:300px; margin-left:-120px; margin-top:-150px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:1.5rem; backface-visibility:hidden;">3D Space 03</div>
+          <div class="ring-card" style="position:absolute; left:50%; top:50%; width:240px; height:300px; margin-left:-120px; margin-top:-150px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:1.5rem; backface-visibility:hidden;">Canvas 04</div>
+        </div>
+      </div>
+
+      <!-- 6. Targeta amb profunditat i llum -->
+      <div style="display:flex; justify-content:center; gap:2rem; flex-wrap:wrap; margin:3rem 0;">
+        <div class="depth-card card" style="width:320px; padding:2.5rem; border-radius:20px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.1); transform:perspective(800px) rotateX(calc(var(--rx, 0) * 1deg)) rotateY(calc(var(--ry, 0) * 1deg)); transition:transform 0.1s ease-out;">
+          <h3>Interacció Dinàmica</h3>
+          <p style="margin-top:0.8rem; color:#9ca3af;">Mou el cursor per sobre per calcular la llum i la inclinació en temps real.</p>
+        </div>
+      </div>
+    </section>
+
     <!-- ===================== XIFRES ===================== -->
     <section class="section stats">
       <div class="stat reveal"><b data-count="100">0</b><span>Puntuació de rendiment objectiu</span></div>
@@ -335,5 +390,6 @@
   </footer>
 
   <script src="script.js"></script>
+  <script src="lab.js"></script>
 </body>
 </html>
