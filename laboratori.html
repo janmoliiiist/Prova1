@@ -72,7 +72,7 @@
       <canvas id="fluid" aria-hidden="true"></canvas>
 
       <div class="hero-top">
-        <span class="pill"><i class="dot"></i> 9 experiments · en obres</span>
+        <span class="pill"><i class="dot"></i> 20 experiments · en obres</span>
       </div>
 
       <h1 class="hero-title">On els experiments <em>es poden trencar</em>.</h1>
@@ -97,6 +97,17 @@
         <li><a href="#bandada">07 Bandada</a></li>
         <li><a href="#tipografia">08 Tipografia</a></li>
         <li><a href="#desxifrat">09 Desxifrat</a></li>
+        <li><a href="#ones">10 Ones</a></li>
+        <li><a href="#rastre">11 Rastre</a></li>
+        <li><a href="#metabolles">12 Metabolles</a></li>
+        <li><a href="#llanterna">13 Llanterna</a></li>
+        <li><a href="#velocitat">14 Velocitat</a></li>
+        <li><a href="#abans">15 Abans/Després</a></li>
+        <li><a href="#pressupost">16 Pressupost</a></li>
+        <li><a href="#rendiment">17 Rendiment</a></li>
+        <li><a href="#color">18 Color</a></li>
+        <li><a href="#formulari">19 Formulari</a></li>
+        <li><a href="#mode">20 Mode</a></li>
       </ul>
     </section>
 
@@ -214,6 +225,267 @@
       </ul>
     </section>
 
+
+    <!-- ===================== 10 GRAELLA D'ONES ===================== -->
+    <section class="section lab-block" id="ones">
+      <p class="eyebrow reveal">( 10 · Ones )</p>
+      <h2 class="h2 reveal">Graella d'<em>ones</em></h2>
+      <p class="lab-note reveal">Mil punts que respiren. Passa-hi el cursor per empènyer-los i fes clic per llançar una ona.</p>
+      <canvas id="wave" class="stage" data-cursor="Clic" aria-label="Graella de punts amb ones"></canvas>
+    </section>
+
+    <!-- ===================== 11 RASTRE DE LLUM ===================== -->
+    <section class="section lab-block" id="rastre">
+      <p class="eyebrow reveal">( 11 · Rastre )</p>
+      <h2 class="h2 reveal">Rastre de <em>llum</em></h2>
+      <p class="lab-note reveal">Pinta amb el cursor. Si el deixes quiet, dibuixa sol. Un clic fa esclatar espurnes.</p>
+      <canvas id="trail" class="stage" data-cursor="Pinta" aria-label="Rastre de llum interactiu"></canvas>
+    </section>
+
+    <!-- ===================== 12 METABOLLES ===================== -->
+    <section class="section lab-block" id="metabolles">
+      <p class="eyebrow reveal">( 12 · Metabolles )</p>
+      <h2 class="h2 reveal">Metabolles <em>líquides</em></h2>
+      <p class="lab-note reveal">Un shader que fusiona formes com si fossin mercuri. El cursor és una més; mantén el clic per fer-la créixer.</p>
+      <canvas id="blobs" class="stage" data-cursor="Prem" aria-label="Metabolles líquides amb WebGL"></canvas>
+    </section>
+
+    <!-- ===================== 13 LLANTERNA ===================== -->
+    <section class="section lab-block" id="llanterna">
+      <p class="eyebrow reveal">( 13 · Llanterna )</p>
+      <h2 class="h2 reveal">Il·lumina el <em>que hi ha amagat</em></h2>
+      <p class="lab-note reveal">Una màscara que et segueix. Fes clic i mantén per eixamplar el focus.</p>
+      <div class="flash stage" data-cursor="Explora" role="img" aria-label="Text revelat amb una llanterna: Disseny, Codi, Animació">
+        <div class="flash-layer flash-dim" aria-hidden="true"><p>Disseny<br>Codi<br>Animació</p></div>
+        <div class="flash-layer flash-lit" aria-hidden="true"><p>Disseny<br>Codi<br>Animació</p></div>
+      </div>
+    </section>
+
+    <!-- ===================== 14 MARQUEE AMB SCROLL ===================== -->
+    <section class="vmarq" id="velocitat">
+      <div class="section lab-block vm-head">
+        <p class="eyebrow reveal">( 14 · Velocitat )</p>
+        <h2 class="h2 reveal">Text que <em>sent el scroll</em></h2>
+        <p class="lab-note reveal">Baixa i puja per la pàgina: la velocitat, el sentit i la inclinació depenen de com et mous.</p>
+      </div>
+      <div class="vm-row" data-text="Webs que ningú oblida"><div class="vm-track"></div></div>
+      <div class="vm-row alt" data-text="Disseny · Codi · Moviment"><div class="vm-track"></div></div>
+    </section>
+
+    <!-- ===================== DIVISOR: EINES ÚTILS ===================== -->
+    <div class="lab-divider reveal">
+      <small>( Part 2 )</small>
+      Eines útils <em>per a webs reals</em>
+    </div>
+
+    <!-- ===================== 15 ABANS / DESPRÉS ===================== -->
+    <section class="section lab-block" id="abans">
+      <p class="eyebrow reveal">( 15 · Abans / Després )</p>
+      <h2 class="h2 reveal">Un redisseny <em>en un cop d'ull</em></h2>
+      <p class="lab-note reveal">El comparador que més venen els portafolis. Arrossega la barra (o usa les fletxes del teclat) per veure el canvi.</p>
+      <div class="ba stage" data-cursor="Arrossega">
+        <div class="ba-before" aria-hidden="true">
+          <div class="bo-top">~*~ Fusteria Vila ~*~ Benvinguts!!!</div>
+          <div class="bo-marq">★ OFERTES!!! ★ Truqueu ara ★ Pressupostos SENSE compromís ★ Fem de tot ★</div>
+          <div class="bo-body">
+            <div class="bo-links"><span>Inici</span><span>Qui som</span><span>Productes</span><span>Fotos</span><span>Contacte</span></div>
+            <div class="bo-main">
+              <h4>La millor fusta de la comarca</h4>
+              <div class="bo-photo">[foto]</div>
+              <p>Som una empresa familiar des de 1987. Fem portes, finestres, armaris i tot el que vulgueu. Truqueu-nos al 93 000 00 00 i us atendrem.</p>
+            </div>
+          </div>
+          <div class="bo-count">Visites: 000482</div>
+        </div>
+        <div class="ba-after" aria-hidden="true">
+          <div class="ao-nav"><b>Vila<span>.</span></b><span>Projectes</span><span>Taller</span><span>Contacte</span><i>Demana pressupost</i></div>
+          <div class="ao-hero">
+            <h4>Fusta que <em>perdura</em>.</h4>
+            <p>Mobles i carpinteria a mesura, fets a mà al Berguedà des de 1987.</p>
+          </div>
+          <div class="ao-orb"></div>
+        </div>
+        <span class="ba-tag ba-tag-l">Abans</span>
+        <span class="ba-tag ba-tag-r">Després</span>
+        <button class="ba-handle" type="button" role="slider" aria-label="Comparador abans i després" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"><i></i></button>
+      </div>
+    </section>
+
+    <!-- ===================== 16 PRESSUPOSTADOR ===================== -->
+    <section class="section lab-block" id="pressupost">
+      <p class="eyebrow reveal">( 16 · Pressupost )</p>
+      <h2 class="h2 reveal">Calcula el teu <em>web</em></h2>
+      <p class="lab-note reveal">Un configurador que converteix visites en consultes: el client tria, veu el preu al moment i t'envia el resum. (Preus de mostra.)</p>
+      <div class="quote stage">
+        <div class="q-form">
+          <fieldset>
+            <legend>Tipus de web</legend>
+            <div class="q-opts">
+              <label class="q-opt"><input type="radio" name="q-type" value="landing"><span><b>Landing</b><small>1 pàgina que converteix</small></span></label>
+              <label class="q-opt"><input type="radio" name="q-type" value="corporate" checked><span><b>Corporativa</b><small>Web d'empresa completa</small></span></label>
+              <label class="q-opt"><input type="radio" name="q-type" value="shop"><span><b>Botiga</b><small>E-commerce amb pagaments</small></span></label>
+            </div>
+          </fieldset>
+          <div class="q-range">
+            <label for="q-pages"><span>Nombre de pàgines</span><output id="q-pages-o">5</output></label>
+            <input type="range" id="q-pages" min="1" max="20" value="5">
+          </div>
+          <fieldset>
+            <legend>Extres</legend>
+            <div class="q-opts">
+              <label class="q-opt"><input type="checkbox" name="q-extra" value="seo"><span><b>SEO tècnic</b><small>+400 €</small></span></label>
+              <label class="q-opt"><input type="checkbox" name="q-extra" value="anim"><span><b>Animacions</b><small>+500 €</small></span></label>
+              <label class="q-opt"><input type="checkbox" name="q-extra" value="i18n"><span><b>Multiidioma</b><small>+450 €</small></span></label>
+              <label class="q-opt"><input type="checkbox" name="q-extra" value="blog"><span><b>Blog i CMS</b><small>+600 €</small></span></label>
+              <label class="q-opt"><input type="checkbox" name="q-extra" value="stat"><span><b>Analítica</b><small>+250 €</small></span></label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Termini</legend>
+            <div class="q-opts">
+              <label class="q-opt"><input type="radio" name="q-pace" value="calm"><span><b>Sense pressa</b><small>−8%</small></span></label>
+              <label class="q-opt"><input type="radio" name="q-pace" value="normal" checked><span><b>Normal</b><small>Preu estàndard</small></span></label>
+              <label class="q-opt"><input type="radio" name="q-pace" value="rush"><span><b>Urgent</b><small>+25%</small></span></label>
+            </div>
+          </fieldset>
+        </div>
+        <aside class="q-out" aria-live="polite">
+          <p class="q-label">Estimació orientativa</p>
+          <p class="q-total"><span id="q-min">0</span>–<span id="q-max">0</span> <em>€</em></p>
+          <p class="q-weeks">Uns <b id="q-weeks">4</b> setmanes de feina</p>
+          <ul class="q-break"></ul>
+          <div class="q-btns">
+            <button class="btn" type="button" id="q-mail" data-magnetic>Demana pressupost →</button>
+            <button class="btn btn-ghost" type="button" id="q-copy" data-magnetic>Copia el resum</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ===================== 17 RENDIMENT EN DIRECTE ===================== -->
+    <section class="section lab-block" id="rendiment">
+      <p class="eyebrow reveal">( 17 · Rendiment )</p>
+      <h2 class="h2 reveal">El rendiment, <em>en directe</em></h2>
+      <p class="lab-note reveal">No és una captura ni una promesa: són les mesures reals d'aquesta pàgina al teu dispositiu, ara mateix.</p>
+      <div class="perf stage">
+        <div class="perf-fps">
+          <div><b id="pf-fps">--</b><span>FPS ara mateix</span></div>
+          <canvas id="fps-cv" aria-label="Gràfica de FPS"></canvas>
+        </div>
+        <ul class="perf-grid">
+          <li><b id="pf-load">…</b><span>Càrrega total</span></li>
+          <li><b id="pf-fcp">…</b><span>Primer contingut (FCP)</span></li>
+          <li><b id="pf-lcp">…</b><span>Contingut principal (LCP)</span></li>
+          <li><b id="pf-size">…</b><span>Pes dels meus fitxers</span></li>
+          <li><b id="pf-req">…</b><span>Peticions</span></li>
+          <li><b id="pf-dom">…</b><span>Elements al DOM</span></li>
+          <li><b id="pf-mem">…</b><span>Memòria de JavaScript</span></li>
+          <li><b id="pf-net">…</b><span>Tipus de connexió</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===================== 18 LABORATORI DE COLOR ===================== -->
+    <section class="section lab-block" id="color">
+      <p class="eyebrow reveal">( 18 · Color )</p>
+      <h2 class="h2 reveal">Laboratori de <em>color</em></h2>
+      <p class="lab-note reveal">Genera una paleta, comprova la llegibilitat (WCAG) i, si t'agrada, aplica el to a tota la web.</p>
+      <div class="clab stage">
+        <div class="cl-controls">
+          <label><span>To</span><output id="cl-h-o">75</output><input type="range" id="cl-h" min="0" max="360" value="75"></label>
+          <label><span>Saturació</span><output id="cl-s-o">100</output><input type="range" id="cl-s" min="20" max="100" value="100"></label>
+          <label><span>Lluminositat</span><output id="cl-l-o">60</output><input type="range" id="cl-l" min="25" max="80" value="60"></label>
+          <div class="cl-actions">
+            <button class="btn" type="button" id="cl-apply" data-magnetic>Aplica a la web</button>
+            <button class="btn btn-ghost" type="button" id="cl-css" data-magnetic>Copia el CSS</button>
+          </div>
+        </div>
+        <div class="cl-palette" id="cl-pal"></div>
+        <div class="cl-contrast">
+          <div class="cl-pair">
+            <label>Text <input type="color" id="cl-fg" value="#f2f0ea"></label>
+            <label>Fons <input type="color" id="cl-bg" value="#0a0a0b"></label>
+            <button class="btn btn-ghost btn-sm" type="button" id="cl-swap" aria-label="Intercanvia text i fons">⇄</button>
+          </div>
+          <div class="cl-preview" id="cl-prev"><span class="cl-big">Aa</span><span>Text d'exemple per comprovar si es llegeix bé.</span></div>
+          <div class="cl-ratio"><p><b id="cl-r">0</b><span>:1</span></p>
+            <ul class="cl-badges">
+              <li id="b-aa">AA · text</li>
+              <li id="b-aal">AA · text gran</li>
+              <li id="b-aaa">AAA · text</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 19 FORMULARI INTEL·LIGENT ===================== -->
+    <section class="section lab-block" id="formulari">
+      <p class="eyebrow reveal">( 19 · Formulari )</p>
+      <h2 class="h2 reveal">Un formulari <em>que s'agraeix</em></h2>
+      <p class="lab-note reveal">Etiquetes flotants, validació mentre escrius i missatges clars. És una demo: no s'envia res a cap servidor.</p>
+      <form class="sform stage" novalidate>
+        <div class="sf-body">
+          <div class="sf-field">
+            <input id="sf-name" name="name" data-rule="name" placeholder=" " autocomplete="name">
+            <label for="sf-name">El teu nom</label>
+            <small class="sf-err"></small>
+          </div>
+          <div class="sf-field">
+            <input id="sf-email" name="email" data-rule="email" type="email" placeholder=" " autocomplete="email">
+            <label for="sf-email">El teu correu</label>
+            <small class="sf-err"></small>
+          </div>
+          <div class="sf-field">
+            <select id="sf-type" name="type" data-rule="type">
+              <option value="" selected></option>
+              <option>Web nova</option>
+              <option>Redisseny</option>
+              <option>Botiga en línia</option>
+              <option>Altres</option>
+            </select>
+            <label for="sf-type">Tipus de projecte</label>
+            <small class="sf-err"></small>
+          </div>
+          <div class="sf-field">
+            <textarea id="sf-msg" name="msg" data-rule="msg" maxlength="400" placeholder=" "></textarea>
+            <label for="sf-msg">Explica'm el teu projecte</label>
+            <span class="sf-count" id="sf-count">0/400</span>
+            <small class="sf-err"></small>
+          </div>
+          <label class="sf-check"><input type="checkbox" id="sf-consent"><span>Accepto que em contacteu per respondre aquesta consulta.</span></label>
+          <small class="sf-check-err" hidden>Cal que ho acceptis per poder enviar-ho.</small>
+          <button class="btn sf-send" type="submit" data-magnetic>Envia'm-ho →</button>
+        </div>
+        <div class="sf-done" hidden>
+          <p class="sf-thanks">Gràcies<em>!</em></p>
+          <p class="lab-note">Això és una demo, així que no s'ha enviat res. A una web real, aquest missatge arribaria directament a la teva safata d'entrada.</p>
+          <div class="q-btns">
+            <button class="btn" type="button" id="sf-mail" data-magnetic>Obre'l al correu</button>
+            <button class="btn btn-ghost" type="button" id="sf-reset" data-magnetic>Torna-ho a provar</button>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <!-- ===================== 20 MODE CLAR / FOSC ===================== -->
+    <section class="section lab-block" id="mode">
+      <p class="eyebrow reveal">( 20 · Mode )</p>
+      <h2 class="h2 reveal">Mode clar i fosc, <em>amb estil</em></h2>
+      <p class="lab-note reveal">Prem el botó de la lluna: el canvi s'expandeix des d'on has fet clic.</p>
+      <div class="theme stage">
+        <div class="th-view" data-theme="dark">
+          <div class="th-nav"><b>Brasa<span>.</span></b><span>Carta</span><span>Reserves</span><button class="th-toggle" type="button" aria-label="Canvia de mode clar a fosc">☾</button></div>
+          <div class="th-hero">
+            <h3>Sopar a la <em>llenya</em></h3>
+            <p>Cuina de brases, producte de proximitat i una taula esperant-te aquesta nit.</p>
+            <span class="th-btn">Reserva taula</span>
+          </div>
+          <div class="th-cards"><div><b>Costelló</b><small>18 €</small></div><div><b>Carxofes</b><small>12 €</small></div><div><b>Crema</b><small>7 €</small></div></div>
+        </div>
+      </div>
+    </section>
+
     <!-- ===================== CRIDA FINAL ===================== -->
     <section class="section contact lab-cta">
       <p class="eyebrow reveal">( Contacte )</p>
@@ -235,5 +507,6 @@
   <!-- Primer el script de la home (color, cursor, fons...), després el del laboratori -->
   <script src="script.js"></script>
   <script src="lab.js"></script>
+  <script src="lab2.js"></script>
 </body>
 </html>
