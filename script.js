@@ -1,318 +1,351 @@
-/* ==========================================================
-   PORTAFOLI · main.js
-   Tot en JavaScript pur, sense llibreries.
-   ========================================================== */
-(() => {
-  'use strict';
-
-  const $  = (s, c = document) => c.querySelector(s);
-  const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
-  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
-
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const fine   = matchMedia('(hover: hover) and (pointer: fine)').matches;
-  const root   = document.documentElement;
-  const mobile = () => innerWidth <= 800;
-
-  let hue = 75;
-
-  /* ---------- 1. COLOR D'ACCENT (es guarda al navegador) ---------- */
-  try { const saved = localStorage.getItem('hue'); if (saved) hue = +saved; } catch (e) {}
-
-  const setHue = (h) => {
-    hue = +h;
-    root.style.setProperty('--hue', hue);
-    $$('.hues button').forEach(b => b.classList.toggle('on', +b.dataset.hue === hue));
-    try { localStorage.setItem('hue', hue); } catch (e) {}
-  };
-  setHue(hue);
-  $$('.hues button').forEach(b => b.addEventListener('click', () => setHue(b.dataset.hue)));
-
-  /* ---------- 2. PANTALLA DE CÀRREGA ---------- */
-  const loaderNum = $('.loader-num');
-  const loaderBar = $('.loader-bar i');
-  const finishLoading = () => {
-    document.body.classList.remove('loading');
-    document.body.classList.add('ready');
-  };
-
-  if (reduce) {
-    finishLoading();
-  } else {
-    let count = 0;
-    const step = () => {
-      count = Math.min(100, count + 1 + Math.floor(Math.random() * 7));
-      loaderNum.textContent = count;
-      loaderBar.style.width = count + '%';
-      if (count < 100) setTimeout(step, 45);
-      else setTimeout(finishLoading, 350);
-    };
-    step();
-  }
-
-  /* ---------- 3. COMPTADORS ---------- */
-  const countUp = (el) => {
-    const end = +el.dataset.count;
-    const suffix = el.dataset.suffix || '';
-    if (reduce) { el.textContent = end + suffix; return; }
-    const dur = 1600, t0 = performance.now();
-    const f = (t) => {
-      const p = clamp((t - t0) / dur);
-      el.textContent = Math.round(end * (1 - Math.pow(1 - p, 4))) + suffix;
-      if (p < 1) requestAnimationFrame(f);
-    };
-    requestAnimationFrame(f);
-  };
-
-  /* ---------- 4. REVELATS I COMPTADORS AL FER SCROLL ---------- */
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-    });
-  }, { threshold: .15 });
-  $$('.reveal').forEach(el => io.observe(el));
-
-  const cio = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { cio.unobserve(e.target); countUp(e.target); }
-    });
-  }, { threshold: .6 });
-  $$('[data-count]').forEach(el => cio.observe(el));
-
-  /* ---------- 5. TEXT QUE S'ENCÉN PARAULA A PARAULA ---------- */
-  const aboutText = $('[data-words]');
-  const words = [];
-  if (aboutText) {
-    const list = aboutText.textContent.trim().split(/\s+/);
-    aboutText.textContent = '';
-    list.forEach((w) => {
-      const s = document.createElement('span');
-      s.className = 'w' + (reduce ? ' lit' : '');
-      s.textContent = w;
-      aboutText.appendChild(s);
-      aboutText.appendChild(document.createTextNode(' '));
-      words.push(s);
-    });
-  }
-  const updateWords = () => {
-    if (!words.length || reduce) return;
-    const r = aboutText.getBoundingClientRect();
-    const p = clamp((innerHeight * .8 - r.top) / (r.height + innerHeight * .2));
-    const n = Math.round(p * words.length);
-    words.forEach((w, i) => w.classList.toggle('lit', i < n));
-  };
-
-  /* ---------- 6. SCROLL: BARRA DE PROGRÉS + PROJECTES HORITZONTALS ---------- */
-  const prog  = $('.progress i');
-  const work  = $('.work');
-  const track = $('.work-track');
-  const wprog = $('.work-progress i');
-
-  const sizeWork = () => {
-    if (mobile()) { work.style.height = ''; track.style.transform = ''; return; }
-    const maxX = track.offsetWidth - innerWidth;
-    work.style.height = (maxX * 1.15 + innerHeight) + 'px';
-  };
-
-  const onScroll = () => {
-    const max = root.scrollHeight - innerHeight;
-    prog.style.transform = 'scaleX(' + (max > 0 ? scrollY / max : 0) + ')';
-
-    if (!mobile()) {
-      const r = work.getBoundingClientRect();
-      const total = work.offsetHeight - innerHeight;
-      const p = total > 0 ? clamp(-r.top / total) : 0;
-      const maxX = track.offsetWidth - innerWidth;
-      track.style.transform = 'translate3d(' + (-p * maxX) + 'px,0,0)';
-      wprog.style.transform = 'scaleX(' + p + ')';
-    }
-    updateWords();
-  };
-
-  /* ---------- 7. CURSOR PERSONALITZAT + LLUM ---------- */
-  const glow = $('.glow');
-  const cur  = $('.cursor');
-  const lab  = $('.cursor-label');
-  let mx = innerWidth / 2, my = innerHeight / 2;
-  let gx = mx, gy = my, cx = mx, cy = my;
-  let pointerSeen = false;
-
-  addEventListener('pointermove', (e) => {
-    mx = e.clientX; my = e.clientY;
-    if (!pointerSeen) { pointerSeen = true; cur.classList.add('on'); }
-  }, { passive: true });
-
-  if (fine) {
-    root.classList.add('has-cursor');
-    document.addEventListener('pointerover', (e) => {
-      const t = e.target.closest('a, button, [data-cursor]');
-      cur.classList.toggle('active', !!t);
-      const txt = t ? t.dataset.cursor : '';
-      lab.textContent = txt || '';
-      lab.classList.toggle('show', !!txt);
-    });
-  }
-
-  /* ---------- 8. FONS DE PARTÍCULES ---------- */
-  const cv  = $('#bg');
-  const ctx = cv.getContext('2d');
-  let W = 0, H = 0, pts = [];
-
-  const col = (a) => 'hsl(' + hue + ' 100% 60% / ' + a + ')';
-
-  const initBg = () => {
-    const dpr = Math.min(devicePixelRatio || 1, 2);
-    W = innerWidth; H = innerHeight;
-    cv.width = W * dpr; cv.height = H * dpr;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    const n = Math.min(100, Math.round((W * H) / 16000));
-    pts = Array.from({ length: n }, () => ({
-      x: Math.random() * W,
-      y: Math.random() * H,
-      vx: (Math.random() - .5) * .35,
-      vy: (Math.random() - .5) * .35,
-      r: Math.random() * 1.5 + .5
-    }));
-  };
-
-  const drawBg = () => {
-    ctx.clearRect(0, 0, W, H);
-    for (let i = 0; i < pts.length; i++) {
-      const p = pts[i];
-
-      if (!reduce) {
-        p.x += p.vx; p.y += p.vy;
-        if (p.x < 0 || p.x > W) p.vx *= -1;
-        if (p.y < 0 || p.y > H) p.vy *= -1;
-        if (pointerSeen) {
-          const dx = p.x - mx, dy = p.y - my, d = Math.hypot(dx, dy);
-          if (d > 0 && d < 140) {
-            p.x += (dx / d) * (140 - d) * .02;
-            p.y += (dy / d) * (140 - d) * .02;
-          }
-        }
-      }
-
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = col(.8);
-      ctx.fill();
-
-      for (let j = i + 1; j < pts.length; j++) {
-        const q = pts[j];
-        const d = Math.hypot(p.x - q.x, p.y - q.y);
-        if (d < 120) {
-          ctx.strokeStyle = col(((1 - d / 120) * .25).toFixed(3));
-          ctx.lineWidth = 1;
-          ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y); ctx.stroke();
-        }
-      }
-
-      if (pointerSeen) {
-        const dm = Math.hypot(p.x - mx, p.y - my);
-        if (dm < 180) {
-          ctx.strokeStyle = col(((1 - dm / 180) * .5).toFixed(3));
-          ctx.lineWidth = 1;
-          ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(mx, my); ctx.stroke();
-        }
-      }
-    }
-  };
-
-  /* ---------- 9. BUCLE PRINCIPAL ---------- */
-  const tick = () => {
-    gx += (mx - gx) * .06; gy += (my - gy) * .06;
-    glow.style.transform = 'translate(' + gx + 'px,' + gy + 'px)';
-
-    if (fine) {
-      cx += (mx - cx) * .2; cy += (my - cy) * .2;
-      cur.style.transform = 'translate(' + cx + 'px,' + cy + 'px)';
-      lab.style.transform = 'translate(' + (cx + 26) + 'px,' + (cy + 26) + 'px)';
-    }
-    drawBg();
-    requestAnimationFrame(tick);
-  };
-
-  /* ---------- 10. BOTONS MAGNÈTICS ---------- */
-  if (fine && !reduce) {
-    $$('[data-magnetic]').forEach((el) => {
-      el.addEventListener('pointermove', (e) => {
-        const r = el.getBoundingClientRect();
-        const x = e.clientX - (r.left + r.width / 2);
-        const y = e.clientY - (r.top + r.height / 2);
-        el.style.transform = 'translate(' + (x * .3) + 'px,' + (y * .4) + 'px)';
-      });
-      el.addEventListener('pointerleave', () => { el.style.transform = ''; });
-    });
-  }
-
-  /* ---------- 11. TARGETES 3D AMB LLUM ---------- */
-  $$('[data-tilt]').forEach((el) => {
-    el.addEventListener('pointermove', (e) => {
-      const r = el.getBoundingClientRect();
-      const px = (e.clientX - r.left) / r.width;
-      const py = (e.clientY - r.top) / r.height;
-      el.style.setProperty('--mx', (px * 100) + '%');
-      el.style.setProperty('--my', (py * 100) + '%');
-      if (fine && !reduce) {
-        el.style.transform = 'perspective(900px) rotateX(' + ((.5 - py) * 8) + 'deg) rotateY(' + ((px - .5) * 8) + 'deg)';
-      }
-    });
-    el.addEventListener('pointerleave', () => { el.style.transform = ''; });
-  });
-
-  /* ---------- 12. PARALLAX DELS XIPS DEL HERO ---------- */
-  const chips = $$('.chip');
-  if (!reduce && chips.length) {
-    addEventListener('pointermove', (e) => {
-      const nx = e.clientX / innerWidth - .5;
-      const ny = e.clientY / innerHeight - .5;
-      chips.forEach((c) => {
-        const d = +c.dataset.depth || 20;
-        c.style.setProperty('--px', (nx * d) + 'px');
-        c.style.setProperty('--py', (ny * d) + 'px');
-      });
-    }, { passive: true });
-  }
-
-  /* ---------- 13. COPIAR EL CORREU ---------- */
-  $$('[data-copy]').forEach((b) => {
-    b.addEventListener('click', async () => {
-      const old = b.textContent;
-      try {
-        await navigator.clipboard.writeText(b.dataset.copy);
-        b.textContent = 'Copiat! ✓';
-      } catch (e) {
-        b.textContent = b.dataset.copy;
-      }
-      setTimeout(() => { b.textContent = old; }, 2000);
-    });
-  });
-
-  /* ---------- 14. ANY AL FOOTER ---------- */
-  const year = $('#year');
-  if (year) year.textContent = new Date().getFullYear();
-
-  /* ---------- 15. ARRENCADA ---------- */
-  initBg();
-  sizeWork();
-  onScroll();
-
-  if (reduce) drawBg(); else requestAnimationFrame(tick);
-
-  addEventListener('scroll', onScroll, { passive: true });
-
-  let resizeTimer;
-  addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-      initBg(); sizeWork(); onScroll();
-      if (reduce) drawBg();
-    }, 120);
-  });
-
-  // Quan carreguen les tipografies, les mides canvien: recalculem
-  const refresh = () => { sizeWork(); onScroll(); };
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(refresh);
-  addEventListener('load', refresh);
-})();
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jan Molist · Webs que ningú oblida</title>
+  <meta name="description" content="Disseny i desenvolupament web a mesura per a empreses. Webs ràpides, memorables i pensades per convertir.">
+  <meta name="theme-color" content="#0a0a0b">
+ 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+ 
+  <noscript>
+    <style>
+      .loader{display:none}
+      body.loading{overflow:auto}
+      .line>span{transform:none}
+      .reveal,.hero-top,.hero-bottom{opacity:1;transform:none}
+    </style>
+  </noscript>
+</head>
+ 
+<!--
+  ============================================================
+  COM PERSONALITZAR-HO
+  - Nom: busca "Jan Molist" i "JM" i canvia'ls pels teus.
+  - Correu: busca "hola@elteudomini.cat" i posa el teu.
+  - Enllaços: GitHub i LinkedIn, a la secció de contacte.
+  - Projectes: les 4 targetes són maquetes fetes només amb CSS.
+    Quan tinguis clients reals, substitueix el bloc <div class="screen ...">
+    per una <img src="imatges/el-teu-projecte.jpg" alt="..."> i ja està.
+  - Xifres i textos: tot és inventat, per provar.
+  ============================================================
+-->
+ 
+<body class="loading">
+ 
+  <!-- Pantalla de càrrega -->
+  <div class="loader" aria-hidden="true">
+    <div class="loader-inner">
+      <span class="loader-name">Jan Molist</span>
+      <span class="loader-num">0</span>
+    </div>
+    <div class="loader-bar"><i></i></div>
+  </div>
+ 
+  <!-- Elements de pantalla completa -->
+  <div class="progress" aria-hidden="true"><i></i></div>
+  <div class="cursor" aria-hidden="true"></div>
+  <div class="cursor-label" aria-hidden="true"></div>
+  <div class="glow" aria-hidden="true"></div>
+  <canvas id="bg" aria-hidden="true"></canvas>
+ 
+  <!-- Navegació -->
+  <header class="nav">
+    <a href="#inici" class="logo" data-magnetic>JM<span>.</span></a>
+ 
+    <nav class="links" aria-label="Principal">
+      <a href="#sobre">Sobre mi</a>
+      <a href="#projectes">Projectes</a>
+      <a href="#serveis">Serveis</a>
+      <a href="#proces">Procés</a>
+    </nav>
+ 
+    <div class="nav-right">
+      <div class="hues" role="group" aria-label="Canvia el color d'accent">
+        <button style="--h:75" data-hue="75" aria-label="Llima"></button>
+        <button style="--h:18" data-hue="18" aria-label="Taronja"></button>
+        <button style="--h:320" data-hue="320" aria-label="Rosa"></button>
+        <button style="--h:265" data-hue="265" aria-label="Violeta"></button>
+        <button style="--h:190" data-hue="190" aria-label="Cian"></button>
+      </div>
+      <a href="#contacte" class="btn btn-sm" data-magnetic>Parlem</a>
+    </div>
+  </header>
+ 
+  <main>
+ 
+    <!-- ===================== HERO ===================== -->
+    <section class="hero" id="inici">
+      <div class="hero-top">
+        <span class="pill"><i class="dot"></i> Disponible per a nous projectes</span>
+      </div>
+ 
+      <h1 class="hero-title" aria-label="Creo webs que ningú oblida.">
+        <span class="line"><span>Creo webs</span></span>
+        <span class="line"><span>que <em>ningú</em></span></span>
+        <span class="line"><span>oblida.</span></span>
+      </h1>
+ 
+      <div class="hero-bottom">
+        <p class="hero-lead">
+          Dissenyo i programo webs a mesura per a empreses que volen destacar.
+          Sense plantilles i sense excuses: idees atrevides que a més funcionen.
+        </p>
+        <div class="hero-cta">
+          <a class="btn" href="#projectes" data-magnetic>Veure projectes <span>↓</span></a>
+          <a class="btn btn-ghost" href="#contacte" data-magnetic>Explica'm el teu projecte</a>
+        </div>
+      </div>
+ 
+      <!-- Xips flotants amb parallax -->
+      <div class="chip c1" data-depth="40">HTML</div>
+      <div class="chip c2" data-depth="-30">Rendiment 100</div>
+      <div class="chip c3" data-depth="55">&lt;/CSS&gt;</div>
+ 
+      <!-- Segell giratori -->
+      <svg class="badge" viewBox="0 0 200 200" aria-hidden="true">
+        <defs>
+          <path id="circ" d="M100,100 m-80,0 a80,80 0 1,1 160,0 a80,80 0 1,1 -160,0"/>
+        </defs>
+        <text>
+          <textPath href="#circ" textLength="496" lengthAdjust="spacing">DISSENY ✦ CODI ✦ ANIMACIÓ ✦ ESTRATÈGIA ✦ </textPath>
+        </text>
+        <circle cx="100" cy="100" r="7"/>
+      </svg>
+    </section>
+ 
+    <!-- ===================== MARQUEE ===================== -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-group">
+        <span>Webs a mesura</span><span>✦</span>
+        <span class="s">Identitat digital</span><span>✦</span>
+        <span>Animacions</span><span>✦</span>
+        <span class="s">Rendiment</span><span>✦</span>
+        <span>SEO</span><span>✦</span>
+      </div>
+      <div class="marquee-group">
+        <span>Webs a mesura</span><span>✦</span>
+        <span class="s">Identitat digital</span><span>✦</span>
+        <span>Animacions</span><span>✦</span>
+        <span class="s">Rendiment</span><span>✦</span>
+        <span>SEO</span><span>✦</span>
+      </div>
+    </div>
+ 
+    <!-- ===================== SOBRE MI ===================== -->
+    <section class="section about" id="sobre">
+      <p class="eyebrow reveal">( Sobre mi )</p>
+ 
+      <p class="about-text" data-words>
+        Sóc dissenyador i desenvolupador web. Agafo la idea d'un negoci i la converteixo en una experiència digital que es veu, es sent i es recorda. Cada web que faig és única, ràpida i pensada per vendre.
+      </p>
+ 
+      <div class="about-grid reveal">
+        <div>
+          <h3>Disseny</h3>
+          <ul>
+            <li>Direcció d'art i identitat</li>
+            <li>UI / UX</li>
+            <li>Prototips interactius</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Desenvolupament</h3>
+          <ul>
+            <li>HTML, CSS i JavaScript</li>
+            <li>WordPress i Elementor</li>
+            <li>Next.js i Supabase</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Creixement</h3>
+          <ul>
+            <li>SEO tècnic</li>
+            <li>Velocitat de càrrega</li>
+            <li>Analítica i conversió</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+ 
+    <!-- ===================== PROJECTES (scroll horitzontal) ===================== -->
+    <section class="work" id="projectes">
+      <div class="work-sticky">
+ 
+        <div class="work-head">
+          <h2 class="h2">Projectes <em>seleccionats</em></h2>
+          <p class="work-count">Fes scroll → <span>(Projectes de mostra)</span></p>
+        </div>
+ 
+        <div class="work-track">
+ 
+          <!-- 1 · Restaurant -->
+          <article class="project" data-cursor="Veure">
+            <div class="browser">
+              <div class="bar"><i></i><i></i><i></i><span>brasa.cat</span></div>
+              <div class="screen s1">
+                <div class="s1-in">
+                  <span class="s1-title">Brasa</span>
+                  <span class="s1-sub">Cuina a la llenya</span>
+                </div>
+              </div>
+            </div>
+            <div class="meta"><h3>Brasa</h3><p>Restaurant · Web i reserves · 2026</p></div>
+          </article>
+ 
+          <!-- 2 · Arquitectura -->
+          <article class="project" data-cursor="Veure">
+            <div class="browser">
+              <div class="bar"><i></i><i></i><i></i><span>nordarquitectura.com</span></div>
+              <div class="screen s2">
+                <span class="s2-word">NORD</span>
+                <div class="s2-block"></div>
+                <div class="s2-dot"></div>
+              </div>
+            </div>
+            <div class="meta"><h3>Nord Arquitectura</h3><p>Estudi · Portafoli visual · 2026</p></div>
+          </article>
+ 
+          <!-- 3 · SaaS -->
+          <article class="project" data-cursor="Veure">
+            <div class="browser">
+              <div class="bar"><i></i><i></i><i></i><span>pulse.app</span></div>
+              <div class="screen s3">
+                <div class="s3-kpi"><b>+248%</b><small>Visites aquest mes</small></div>
+                <div class="s3-bars">
+                  <i style="--h:35%;--i:0"></i><i style="--h:55%;--i:1"></i>
+                  <i style="--h:42%;--i:2"></i><i style="--h:70%;--i:3"></i>
+                  <i style="--h:58%;--i:4"></i><i style="--h:85%;--i:5"></i>
+                  <i style="--h:66%;--i:6"></i><i style="--h:100%;--i:7"></i>
+                </div>
+              </div>
+            </div>
+            <div class="meta"><h3>Pulse</h3><p>SaaS · Landing i dashboard · 2026</p></div>
+          </article>
+ 
+          <!-- 4 · Botiga -->
+          <article class="project" data-cursor="Veure">
+            <div class="browser">
+              <div class="bar"><i></i><i></i><i></i><span>tallers.shop</span></div>
+              <div class="screen s4">
+                <div></div><div></div><div></div>
+              </div>
+            </div>
+            <div class="meta"><h3>Tallers</h3><p>Botiga en línia · E-commerce · 2026</p></div>
+          </article>
+ 
+          <!-- 5 · Crida a l'acció -->
+          <a class="project cta" href="#contacte" data-cursor="Parlem">
+            <div class="screen">El teu projecte <em>aquí</em> →</div>
+            <div class="meta"><h3>El següent?</h3><p>Comencem quan vulguis</p></div>
+          </a>
+ 
+        </div>
+ 
+        <div class="work-progress" aria-hidden="true"><i></i></div>
+      </div>
+    </section>
+ 
+    <!-- ===================== SERVEIS ===================== -->
+    <section class="section" id="serveis">
+      <p class="eyebrow reveal">( Serveis )</p>
+      <h2 class="h2 reveal">Tot el que <em>necessita</em><br>la teva presència online</h2>
+ 
+      <div class="services-grid reveal">
+        <article class="card" data-tilt>
+          <span class="ico">01</span>
+          <div>
+            <h3>Disseny web a mesura</h3>
+            <p>Interfícies úniques que expliquen la teva marca i guien l'usuari fins a l'acció.</p>
+          </div>
+        </article>
+        <article class="card" data-tilt>
+          <span class="ico">02</span>
+          <div>
+            <h3>Desenvolupament</h3>
+            <p>Codi net, ràpid i fàcil de mantenir. Des d'una landing fins a una aplicació completa.</p>
+          </div>
+        </article>
+        <article class="card" data-tilt>
+          <span class="ico">03</span>
+          <div>
+            <h3>Animació i interacció</h3>
+            <p>Microinteraccions i transicions que fan que el teu web se senti viu i es recordi.</p>
+          </div>
+        </article>
+        <article class="card" data-tilt>
+          <span class="ico">04</span>
+          <div>
+            <h3>SEO i rendiment</h3>
+            <p>Que et trobin a Google i que la pàgina carregui en un instant, també al mòbil.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+ 
+    <!-- ===================== PROCÉS ===================== -->
+    <section class="section" id="proces">
+      <p class="eyebrow reveal">( Procés )</p>
+      <h2 class="h2 reveal">Com <em>treballem</em></h2>
+ 
+      <ol class="steps">
+        <li class="step reveal">
+          <span class="n">01</span>
+          <h3>Descoberta</h3>
+          <p>Parlem del teu negoci, dels teus clients i dels teus objectius. Sense això, no hi ha bon disseny.</p>
+        </li>
+        <li class="step reveal">
+          <span class="n">02</span>
+          <h3>Disseny</h3>
+          <p>Proposta visual i prototip per veure i tocar el web abans de programar res.</p>
+        </li>
+        <li class="step reveal">
+          <span class="n">03</span>
+          <h3>Desenvolupament</h3>
+          <p>Ho construeixo amb cura: ràpid, adaptable a qualsevol pantalla i preparat per créixer.</p>
+        </li>
+        <li class="step reveal">
+          <span class="n">04</span>
+          <h3>Llançament</h3>
+          <p>Proves finals, posada en marxa i suport perquè tot funcioni des del primer dia.</p>
+        </li>
+      </ol>
+    </section>
+ 
+    <!-- ===================== XIFRES (inventades) ===================== -->
+    <section class="section stats">
+      <div class="stat reveal"><b data-count="100">0</b><span>Puntuació de rendiment objectiu</span></div>
+      <div class="stat reveal" style="--d:.1s"><b data-count="0">0</b><span>Plantilles reutilitzades</span></div>
+      <div class="stat reveal" style="--d:.2s"><b data-count="24" data-suffix="h">0</b><span>Temps de resposta</span></div>
+      <div class="stat reveal" style="--d:.3s"><b data-count="100" data-suffix="%">0</b><span>Dedicació a cada projecte</span></div>
+    </section>
+ 
+    <!-- ===================== CONTACTE ===================== -->
+    <section class="section contact" id="contacte">
+      <p class="eyebrow reveal">( Contacte )</p>
+      <h2 class="contact-title reveal">Fem alguna cosa <em>increïble</em>?</h2>
+ 
+      <a class="mail reveal" href="mailto:hola@elteudomini.cat" data-magnetic>hola@elteudomini.cat</a>
+ 
+      <div class="contact-actions reveal">
+        <button class="btn" data-copy="hola@elteudomini.cat" data-magnetic>Copia el correu</button>
+        <a class="btn btn-ghost" href="https://github.com/" target="_blank" rel="noopener" data-magnetic>GitHub ↗</a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/" target="_blank" rel="noopener" data-magnetic>LinkedIn ↗</a>
+      </div>
+    </section>
+ 
+  </main>
+ 
+  <footer class="footer">
+    <span>© <span id="year">2026</span> Jan Molist</span>
+    <span>Fet a mà amb HTML, CSS i JS</span>
+    <a href="#inici" data-magnetic>Tornar a dalt ↑</a>
+  </footer>
+ 
+  <script src="script.js"></script>
+</body>
+</html>
