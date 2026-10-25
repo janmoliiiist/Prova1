@@ -477,10 +477,17 @@ void main(){
       const total = sec.offsetHeight - innerHeight;
       const p = total > 0 ? clamp(-r.top / total) : 0;
 
+      // Posició "enganxada": cada paraula es queda quieta un moment a primer pla
+      const pos = p * (n - 1);
+      let k = Math.floor(pos), fr = pos - k;
+      if (k >= n - 1) { k = n - 1; fr = 0; }
+      const ease = fr * fr * fr * (fr * (fr * 6 - 15) + 10);
+      const cur = k + ease;
+
       for (let i = 0; i < n; i++) {
-        const d = i - p * (n - 1);                  // 0 = a primer pla
-        const z = -d * 700;
-        const o = d >= 0 ? clamp(1 - d * .55) : clamp(1 + d * 2.2);
+        const d = i - cur;                          // 0 = a primer pla
+        const z = -d * 800;
+        const o = d >= 0 ? clamp(1 - d * 1.25) : clamp(1 + d * 3.2);
         const l = layers[i];
         l.style.transform = 'translate3d(0,0,' + z.toFixed(1) + 'px)';
         l.style.opacity = o.toFixed(3);
