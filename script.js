@@ -109,6 +109,7 @@
   const wprog = $('.work-progress i');
 
   const sizeWork = () => {
+    if (!work || !track) return;
     if (mobile()) { work.style.height = ''; track.style.transform = ''; return; }
     const maxX = track.offsetWidth - innerWidth;
     work.style.height = (maxX * 1.15 + innerHeight) + 'px';
@@ -118,7 +119,7 @@
     const max = root.scrollHeight - innerHeight;
     prog.style.transform = 'scaleX(' + (max > 0 ? scrollY / max : 0) + ')';
 
-    if (!mobile()) {
+    if (work && track && !mobile()) {
       const r = work.getBoundingClientRect();
       const total = work.offsetHeight - innerHeight;
       const p = total > 0 ? clamp(-r.top / total) : 0;
