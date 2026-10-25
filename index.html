@@ -3,393 +3,243 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Jan Molist · Webs que ningú oblida</title>
-  <meta name="description" content="Disseny i desenvolupament web a mesura per a empreses. Webs ràpides, memorables i pensades per convertir.">
-  <meta name="theme-color" content="#0a0a0b">
-
+  <title>Laboratori · Jan Molist</title>
+  <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background-color: #0a0a0b;
+      color: #f3f4f6;
+      font-family: 'Space Grotesk', sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    .lab-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2rem 5%;
+      position: relative;
+      z-index: 10;
+    }
+    .lab-nav a {
+      color: #f3f4f6;
+      text-decoration: none;
+      font-weight: 700;
+    }
+    .lab-hero {
+      position: relative;
+      min-height: 70vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    #fluid {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+    .lab-hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      pointer-events: none;
+    }
+    .cube-stage {
+      width: 200px;
+      height: 200px;
+      margin: 4rem auto;
+      perspective: 800px;
+      cursor: grab;
+    }
+    .cube-stage.grab {
+      cursor: grabbing;
+    }
+    .cube {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+    }
+    .cube .face {
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(5px);
+    }
+    .cube .front  { transform: translateZ(100px); }
+    .cube .right  { transform: rotateY(90deg) translateZ(100px); }
+    .cube .back   { transform: rotateY(180deg) translateZ(100px); }
+    .cube .left   { transform: rotateY(-90deg) translateZ(100px); }
+    .cube .top    { transform: rotateX(90deg) translateZ(100px); }
+    .cube .bottom { transform: rotateX(-90deg) translateZ(100px); }
 
-  <noscript>
-    <style>
-      .loader{display:none}
-      body.loading{overflow:auto}
-      .line>span{transform:none}
-      .reveal,.hero-top,.hero-bottom{opacity:1;transform:none}
-    </style>
-  </noscript>
+    .tunnel {
+      position: relative;
+      height: 200vh;
+      margin-top: 5rem;
+    }
+    .tunnel-bar {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.1);
+      z-index: 20;
+    }
+    .tunnel-bar i {
+      display: block;
+      height: 100%;
+      background: #a3e635;
+      transform-origin: left;
+      transform: scaleX(0);
+    }
+    .tunnel-scene {
+      position: sticky;
+      top: 25vh;
+      height: 50vh;
+      perspective: 1000px;
+      transform-style: preserve-3d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .t-floor {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .t-layer {
+      position: absolute;
+      font-size: clamp(2rem, 6vw, 4.5rem);
+      font-weight: 700;
+      letter-spacing: -1px;
+    }
+
+    .ring-stage {
+      perspective: 1000px;
+      height: 420px;
+      position: relative;
+      overflow: hidden;
+      cursor: grab;
+      margin: 6rem 0;
+    }
+    .ring-stage.grab {
+      cursor: grabbing;
+    }
+    .ring {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      transform-style: preserve-3d;
+    }
+    .ring-card {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 240px;
+      height: 320px;
+      margin-left: -120px;
+      margin-top: -160px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 1.5rem;
+      backface-visibility: hidden;
+      display: flex;
+      align-items: flex-end;
+      font-weight: 700;
+    }
+    .depth-grid {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      padding: 4rem 5% 8rem 5%;
+    }
+    .depth-card {
+      width: 320px;
+      padding: 2.5rem;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transform: perspective(800px) rotateX(calc(var(--rx, 0) * 1deg)) rotateY(calc(var(--ry, 0) * 1deg));
+      transition: transform 0.1s ease-out;
+    }
+  </style>
 </head>
+<body>
 
-<body class="loading">
-
-  <!-- Pantalla de càrrega -->
-  <div class="loader" aria-hidden="true">
-    <div class="loader-inner">
-      <span class="loader-name">Jan Molist</span>
-      <span class="loader-num">0</span>
-    </div>
-    <div class="loader-bar"><i></i></div>
-  </div>
-
-  <!-- Elements de pantalla completa -->
-  <div class="progress" aria-hidden="true"><i></i></div>
-  <div class="cursor" aria-hidden="true"></div>
-  <div class="cursor-label" aria-hidden="true"></div>
-  <div class="glow" aria-hidden="true"></div>
-  <canvas id="bg" aria-hidden="true"></canvas>
-
-  <!-- Navegació -->
-  <header class="nav">
-    <a href="#inici" class="logo" data-magnetic>JM<span>.</span></a>
-
-    <nav class="links" aria-label="Principal">
-      <a href="#sobre">Sobre mi</a>
-      <a href="#projectes">Projectes</a>
-      <a href="#serveis">Serveis</a>
-      <a href="#proces">Procés</a>
-      <a href="#laboratori">Laboratori</a>
-    </nav>
-
-    <div class="nav-right">
-      <div class="hues" role="group" aria-label="Canvia el color d'accent">
-        <button style="--h:75" data-hue="75" aria-label="Llima"></button>
-        <button style="--h:18" data-hue="18" aria-label="Taronja"></button>
-        <button style="--h:320" data-hue="320" aria-label="Rosa"></button>
-        <button style="--h:265" data-hue="265" aria-label="Violeta"></button>
-        <button style="--h:190" data-hue="190" aria-label="Cian"></button>
-      </div>
-      <a href="#contacte" class="btn btn-sm" data-magnetic>Parlem</a>
-    </div>
+  <header class="lab-nav">
+    <a href="index.html">← Tornar a l'inici</a>
+    <span style="opacity: 0.5;">( Experiments & WebGL )</span>
   </header>
 
   <main>
-
-    <!-- ===================== HERO ===================== -->
-    <section class="hero" id="inici">
-      <!-- Shader WebGL interactiu de fons de lab.js -->
-      <canvas id="fluid" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:-1;"></canvas>
-
-      <div class="hero-top">
-        <span class="pill"><i class="dot"></i> Disponible per a nous projectes</span>
-      </div>
-
-      <h1 class="hero-title" aria-label="Creo webs que ningú oblida.">
-        <span class="line"><span>Creo webs</span></span>
-        <span class="line"><span>que <em>ningú</em></span></span>
-        <span class="line"><span>oblida.</span></span>
-      </h1>
-
-      <div class="hero-bottom">
-        <p class="hero-lead">
-          Dissenyo i programo webs a mesura per a empreses que volen destacar.
-          Sense plantilles i sense excuses: idees atrevides que a més funcionen.
-        </p>
-        <div class="hero-cta">
-          <a class="btn" href="#projectes" data-magnetic>Veure projectes <span>↓</span></a>
-          <a class="btn btn-ghost" href="#contacte" data-magnetic>Explica'm el teu projecte</a>
-        </div>
-      </div>
-
-      <!-- Xips flotants amb parallax -->
-      <div class="chip c1" data-depth="40">HTML</div>
-      <div class="chip c2" data-depth="-30">Rendiment 100</div>
-      <div class="chip c3" data-depth="55">&lt;/CSS&gt;</div>
-
-      <!-- Segell giratori -->
-      <svg class="badge" viewBox="0 0 200 200" aria-hidden="true">
-        <defs>
-          <path id="circ" d="M100,100 m-80,0 a80,80 0 1,1 160,0 a80,80 0 1,1 -160,0"/>
-        </defs>
-        <text>
-          <textPath href="#circ" textLength="496" lengthAdjust="spacing">DISSENY ✦ CODI ✦ ANIMACIÓ ✦ ESTRATÈGIA ✦ </textPath>
-        </text>
-        <circle cx="100" cy="100" r="7"/>
-      </svg>
-    </section>
-
-    <!-- ===================== MARQUEE ===================== -->
-    <div class="marquee" aria-hidden="true">
-      <div class="marquee-group">
-        <span>Webs a mesura</span><span>✦</span>
-        <span class="s">Identitat digital</span><span>✦</span>
-        <span>Animacions</span><span>✦</span>
-        <span class="s">Rendiment</span><span>✦</span>
-        <span>SEO</span><span>✦</span>
-      </div>
-      <div class="marquee-group">
-        <span>Webs a mesura</span><span>✦</span>
-        <span class="s">Identitat digital</span><span>✦</span>
-        <span>Animacions</span><span>✦</span>
-        <span class="s">Rendiment</span><span>✦</span>
-        <span>SEO</span><span>✦</span>
+    <!-- 1. WebGL Hero Shader -->
+    <div class="lab-hero">
+      <canvas id="fluid"></canvas>
+      <div class="lab-hero-content">
+        <h1 style="font-size: 3rem; margin-bottom: 0.5rem;">Laboratori</h1>
+        <p style="opacity: 0.6;">Interacciona amb el ratolí o arrossega la pantalla</p>
       </div>
     </div>
 
-    <!-- ===================== SOBRE MI ===================== -->
-    <section class="section about" id="sobre">
-      <p class="eyebrow reveal">( Sobre mi )</p>
+    <!-- 2. Partícules de text -->
+    <div style="width: 100%; height: 260px; margin: 4rem 0; position: relative;">
+      <canvas id="ptext" style="width: 100%; height: 100%; display: block;"></canvas>
+    </div>
 
-      <p class="about-text" data-words>
-        Sóc dissenyador i desenvolupador web. Agafo la idea d'un negoci i la converteixo en una experiència digital que es veu, es sent i es recorda. Cada web que faig és única, ràpida i pensada per vendre.
-      </p>
-
-      <div class="about-grid reveal">
-        <div>
-          <h3>Disseny</h3>
-          <ul>
-            <li>Direcció d'art i identitat</li>
-            <li>UI / UX</li>
-            <li>Prototips interactius</li>
-          </ul>
-        </div>
-        <div>
-          <h3>Desenvolupament</h3>
-          <ul>
-            <li>HTML, CSS i JavaScript</li>
-            <li>WordPress i Elementor</li>
-            <li>Next.js i Supabase</li>
-          </ul>
-        </div>
-        <div>
-          <h3>Creixement</h3>
-          <ul>
-            <li>SEO tècnic</li>
-            <li>Velocitat de càrrega</li>
-            <li>Analítica i conversió</li>
-          </ul>
-        </div>
+    <!-- 3. Cub 3D interactiu -->
+    <div class="cube-stage">
+      <div class="cube">
+        <div class="face front"></div>
+        <div class="face right"></div>
+        <div class="face back"></div>
+        <div class="face left"></div>
+        <div class="face top"></div>
+        <div class="face bottom"></div>
       </div>
-    </section>
+    </div>
 
-    <!-- ===================== PROJECTES ===================== -->
-    <section class="work" id="projectes">
-      <div class="work-sticky">
-
-        <div class="work-head">
-          <h2 class="h2">Projectes <em>seleccionats</em></h2>
-          <p class="work-count">Fes scroll → <span>(Projectes de mostra)</span></p>
-        </div>
-
-        <div class="work-track">
-
-          <!-- 1 · Restaurant -->
-          <article class="project" data-cursor="Veure">
-            <div class="browser">
-              <div class="bar"><i></i><i></i><i></i><span>brasa.cat</span></div>
-              <div class="screen s1">
-                <div class="s1-in">
-                  <span class="s1-title">Brasa</span>
-                  <span class="s1-sub">Cuina a la llenya</span>
-                </div>
-              </div>
-            </div>
-            <div class="meta"><h3>Brasa</h3><p>Restaurant · Web i reserves · 2026</p></div>
-          </article>
-
-          <!-- 2 · Arquitectura -->
-          <article class="project" data-cursor="Veure">
-            <div class="browser">
-              <div class="bar"><i></i><i></i><i></i><span>nordarquitectura.com</span></div>
-              <div class="screen s2">
-                <span class="s2-word">NORD</span>
-                <div class="s2-block"></div>
-                <div class="s2-dot"></div>
-              </div>
-            </div>
-            <div class="meta"><h3>Nord Arquitectura</h3><p>Estudi · Portafoli visual · 2026</p></div>
-          </article>
-
-          <!-- 3 · SaaS -->
-          <article class="project" data-cursor="Veure">
-            <div class="browser">
-              <div class="bar"><i></i><i></i><i></i><span>pulse.app</span></div>
-              <div class="screen s3">
-                <div class="s3-kpi"><b>+248%</b><small>Visites aquest mes</small></div>
-                <div class="s3-bars">
-                  <i style="--h:35%;--i:0"></i><i style="--h:55%;--i:1"></i>
-                  <i style="--h:42%;--i:2"></i><i style="--h:70%;--i:3"></i>
-                  <i style="--h:58%;--i:4"></i><i style="--h:85%;--i:5"></i>
-                  <i style="--h:66%;--i:6"></i><i style="--h:100%;--i:7"></i>
-                </div>
-              </div>
-            </div>
-            <div class="meta"><h3>Pulse</h3><p>SaaS · Landing i dashboard · 2026</p></div>
-          </article>
-
-          <!-- 4 · Botiga -->
-          <article class="project" data-cursor="Veure">
-            <div class="browser">
-              <div class="bar"><i></i><i></i><i></i><span>tallers.shop</span></div>
-              <div class="screen s4">
-                <div></div><div></div><div></div>
-              </div>
-            </div>
-            <div class="meta"><h3>Tallers</h3><p>Botiga en línia · E-commerce · 2026</p></div>
-          </article>
-
-          <!-- 5 · Crida a l'acció -->
-          <a class="project cta" href="#contacte" data-cursor="Parlem">
-            <div class="screen">El teu projecte <em>aquí</em> →</div>
-            <div class="meta"><h3>El següent?</h3><p>Comencem quan vulguis</p></div>
-          </a>
-
-        </div>
-
-        <div class="work-progress" aria-hidden="true"><i></i></div>
+    <!-- 4. Túnel de profunditat -->
+    <div class="tunnel">
+      <div class="tunnel-bar"><i></i></div>
+      <div class="tunnel-scene">
+        <div class="t-floor"></div>
+        <div class="t-layer">EXPERIMENTS</div>
+        <div class="t-layer">WEBGL 3D</div>
+        <div class="t-layer">INNOVACIÓ</div>
       </div>
-    </section>
+    </div>
 
-    <!-- ===================== SERVEIS ===================== -->
-    <section class="section" id="serveis">
-      <p class="eyebrow reveal">( Serveis )</p>
-      <h2 class="h2 reveal">Tot el que <em>necessita</em><br>la teva presència online</h2>
-
-      <div class="services-grid reveal">
-        <article class="card" data-tilt>
-          <span class="ico">01</span>
-          <div>
-            <h3>Disseny web a mesura</h3>
-            <p>Interfícies úniques que expliquen la teva marca i guien l'usuari fins a l'acció.</p>
-          </div>
-        </article>
-        <article class="card" data-tilt>
-          <span class="ico">02</span>
-          <div>
-            <h3>Desenvolupament</h3>
-            <p>Codi net, ràpid i fàcil de mantenir. Des d'una landing fins a una aplicació completa.</p>
-          </div>
-        </article>
-        <article class="card" data-tilt>
-          <span class="ico">03</span>
-          <div>
-            <h3>Animació i interacció</h3>
-            <p>Microinteraccions i transicions que fan que el teu web se senti viu i es recordi.</p>
-          </div>
-        </article>
-        <article class="card" data-tilt>
-          <span class="ico">04</span>
-          <div>
-            <h3>SEO i rendiment</h3>
-            <p>Que et trobin a Google i que la pàgina carregui en un instant, també al mòbil.</p>
-          </div>
-        </article>
+    <!-- 5. Galeria d'anell 3D -->
+    <div class="ring-stage">
+      <div class="ring">
+        <div class="ring-card">01 · FLUID SHADER</div>
+        <div class="ring-card">02 · TEXT PARTICLES</div>
+        <div class="ring-card">03 · 3D LIGHT CUBE</div>
+        <div class="ring-card">04 · DEPTH TUNNEL</div>
       </div>
-    </section>
+    </div>
 
-    <!-- ===================== PROCÉS ===================== -->
-    <section class="section" id="proces">
-      <p class="eyebrow reveal">( Procés )</p>
-      <h2 class="h2 reveal">Com <em>treballem</em></h2>
-
-      <ol class="steps">
-        <li class="step reveal">
-          <span class="n">01</span>
-          <h3>Descoberta</h3>
-          <p>Parlem del teu negoci, dels teus clients i dels teus objectius. Sense això, no hi ha bon disseny.</p>
-        </li>
-        <li class="step reveal">
-          <span class="n">02</span>
-          <h3>Disseny</h3>
-          <p>Proposta visual i prototip per veure i tocar el web abans de programar res.</p>
-        </li>
-        <li class="step reveal">
-          <span class="n">03</span>
-          <h3>Desenvolupament</h3>
-          <p>Ho construeixo amb cura: ràpid, adaptable a qualsevol pantalla i preparat per créixer.</p>
-        </li>
-        <li class="step reveal">
-          <span class="n">04</span>
-          <h3>Llançament</h3>
-          <p>Proves finals, posada en marxa i suport perquè tot funcioni des del primer dia.</p>
-        </li>
-      </ol>
-    </section>
-
-    <!-- ===================== LABORATORI ===================== -->
-    <section class="section lab" id="laboratori">
-      <p class="eyebrow reveal">( Laboratori )</p>
-      <h2 class="h2 reveal">Experiments &amp; <em>WebGL</em></h2>
-
-      <!-- 2. Text de partícules -->
-      <div style="width:100%; height:220px; margin:2rem 0; position:relative;">
-        <canvas id="ptext" style="width:100%; height:100%; display:block;"></canvas>
+    <!-- 6. Targeta amb llum dinàmica -->
+    <div class="depth-grid">
+      <div class="depth-card">
+        <h3>Interacció Dinàmica</h3>
+        <p style="opacity: 0.6; margin-top: 1rem;">Mou el cursor per sobre per provar el càlcul matemàtic de rotació i llum.</p>
       </div>
-
-      <!-- 3. Cub 3D amb inèrcia -->
-      <div class="cube-stage" style="width:200px; height:200px; margin:3rem auto; perspective:800px; cursor:grab;">
-        <div class="cube" style="width:100%; height:100%; position:relative; transform-style:preserve-3d;">
-          <div class="face front" style="position:absolute; inset:0; border:1px solid var(--accent); background:rgba(255,255,255,0.05); transform:translateZ(100px);"></div>
-          <div class="face right" style="position:absolute; inset:0; border:1px solid var(--accent); background:rgba(255,255,255,0.05); transform:rotateY(90deg) translateZ(100px);"></div>
-          <div class="face back" style="position:absolute; inset:0; border:1px solid var(--accent); background:rgba(255,255,255,0.05); transform:rotateY(180deg) translateZ(100px);"></div>
-          <div class="face left" style="position:absolute; inset:0; border:1px solid var(--accent); background:rgba(255,255,255,0.05); transform:rotateY(-90deg) translateZ(100px);"></div>
-          <div class="face top" style="position:absolute; inset:0; border:1px solid var(--accent); background:rgba(255,255,255,0.05); transform:rotateX(90deg) translateZ(100px);"></div>
-          <div class="face bottom" style="position:absolute; inset:0; border:1px solid var(--accent); background:rgba(255,255,255,0.05); transform:rotateX(-90deg) translateZ(100px);"></div>
-        </div>
-      </div>
-
-      <!-- 4. Túnel de profunditat -->
-      <div class="tunnel" style="position:relative; height:150vh; margin:4rem 0;">
-        <div class="tunnel-bar" style="position:sticky; top:10px; width:100%; height:2px; background:rgba(255,255,255,0.1);"><i style="display:block; height:100%; background:var(--accent, #a3e635); transform-origin:left;"></i></div>
-        <div class="tunnel-scene" style="position:sticky; top:20vh; height:60vh; perspective:1000px; transform-style:preserve-3d; display:flex; align-items:center; justify-content:center;">
-          <div class="t-floor" style="position:absolute; inset:0; pointer-events:none;"></div>
-          <div class="t-layer" style="position:absolute; font-size:3rem; font-weight:700;">EXPLORA</div>
-          <div class="t-layer" style="position:absolute; font-size:3rem; font-weight:700;">DISSENY</div>
-          <div class="t-layer" style="position:absolute; font-size:3rem; font-weight:700;">FUTUR</div>
-        </div>
-      </div>
-
-      <!-- 5. Galeria en anell 3D -->
-      <div class="ring-stage" style="perspective:1000px; height:400px; position:relative; overflow:hidden; cursor:grab; margin:3rem 0;">
-        <div class="ring" style="width:100%; height:100%; position:absolute; transform-style:preserve-3d;">
-          <div class="ring-card" style="position:absolute; left:50%; top:50%; width:240px; height:300px; margin-left:-120px; margin-top:-150px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:1.5rem; backface-visibility:hidden;">WebGL 01</div>
-          <div class="ring-card" style="position:absolute; left:50%; top:50%; width:240px; height:300px; margin-left:-120px; margin-top:-150px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:1.5rem; backface-visibility:hidden;">Shaders 02</div>
-          <div class="ring-card" style="position:absolute; left:50%; top:50%; width:240px; height:300px; margin-left:-120px; margin-top:-150px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:1.5rem; backface-visibility:hidden;">3D Space 03</div>
-          <div class="ring-card" style="position:absolute; left:50%; top:50%; width:240px; height:300px; margin-left:-120px; margin-top:-150px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:1.5rem; backface-visibility:hidden;">Canvas 04</div>
-        </div>
-      </div>
-
-      <!-- 6. Targeta amb profunditat i llum -->
-      <div style="display:flex; justify-content:center; gap:2rem; flex-wrap:wrap; margin:3rem 0;">
-        <div class="depth-card card" style="width:320px; padding:2.5rem; border-radius:20px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.1); transform:perspective(800px) rotateX(calc(var(--rx, 0) * 1deg)) rotateY(calc(var(--ry, 0) * 1deg)); transition:transform 0.1s ease-out;">
-          <h3>Interacció Dinàmica</h3>
-          <p style="margin-top:0.8rem; color:#9ca3af;">Mou el cursor per sobre per calcular la llum i la inclinació en temps real.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================== XIFRES ===================== -->
-    <section class="section stats">
-      <div class="stat reveal"><b data-count="100">0</b><span>Puntuació de rendiment objectiu</span></div>
-      <div class="stat reveal" style="--d:.1s"><b data-count="0">0</b><span>Plantilles reutilitzades</span></div>
-      <div class="stat reveal" style="--d:.2s"><b data-count="24" data-suffix="h">0</b><span>Temps de resposta</span></div>
-      <div class="stat reveal" style="--d:.3s"><b data-count="100" data-suffix="%">0</b><span>Dedicació a cada projecte</span></div>
-    </section>
-
-    <!-- ===================== CONTACTE ===================== -->
-    <section class="section contact" id="contacte">
-      <p class="eyebrow reveal">( Contacte )</p>
-      <h2 class="contact-title reveal">Fem alguna cosa <em>increïble</em>?</h2>
-
-      <a class="mail reveal" href="mailto:hola@elteudomini.cat" data-magnetic>hola@elteudomini.cat</a>
-
-      <div class="contact-actions reveal">
-        <button class="btn" data-copy="hola@elteudomini.cat" data-magnetic>Copia el correu</button>
-        <a class="btn btn-ghost" href="https://github.com/" target="_blank" rel="noopener" data-magnetic>GitHub ↗</a>
-        <a class="btn btn-ghost" href="https://www.linkedin.com/" target="_blank" rel="noopener" data-magnetic>LinkedIn ↗</a>
-      </div>
-    </section>
-
+    </div>
   </main>
 
-  <footer class="footer">
-    <span>© <span id="year">2026</span> Jan Molist</span>
-    <span>Fet a mà amb HTML, CSS i JS</span>
-    <a href="#inici" data-magnetic>Tornar a dalt ↑</a>
-  </footer>
-
-  <script src="script.js"></script>
+  <!-- Script que conté la lògica -->
   <script src="lab.js"></script>
 </body>
 </html>
