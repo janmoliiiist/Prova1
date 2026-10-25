@@ -3,14 +3,62 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Jan Molist · Webs que ningú oblida</title>
-  <meta name="description" content="Disseny i desenvolupament web a mesura per a empreses. Webs ràpides, memorables i pensades per convertir.">
+  <title>Jan Molist · Webs a mesura que ningú oblida</title>
+  <meta name="description" content="Disseny i desenvolupament web a mesura per a empreses. Webs ràpides, memorables i pensades per convertir. Mira els casos d'estudi i el laboratori.">
   <meta name="theme-color" content="#0a0a0b">
+  <meta name="author" content="Jan Molist">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <link rel="canonical" href="https://elteudomini.cat/">
+
+  <!-- Xarxes socials (WhatsApp, LinkedIn, X...) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Jan Molist">
+  <meta property="og:locale" content="ca_ES">
+  <meta property="og:title" content="Jan Molist · Webs a mesura que ningú oblida">
+  <meta property="og:description" content="Disseny i desenvolupament web a mesura per a empreses que volen destacar. Sense plantilles i sense excuses.">
+  <meta property="og:url" content="https://elteudomini.cat/">
+  <meta property="og:image" content="https://elteudomini.cat/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Creo webs que ningú oblida · Jan Molist">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Jan Molist · Webs a mesura que ningú oblida">
+  <meta name="twitter:description" content="Disseny i desenvolupament web a mesura per a empreses que volen destacar.">
+  <meta name="twitter:image" content="https://elteudomini.cat/og.png">
+
+  <!-- Icones de pestanya i de pantalla d'inici -->
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <!-- Dades estructurades per a Google -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Jan Molist · Webs a mesura",
+    "url": "https://elteudomini.cat/",
+    "image": "https://elteudomini.cat/og.png",
+    "email": "janmoliiiidt@gmail.com",
+    "description": "Disseny i desenvolupament web a mesura per a empreses: webs ràpides, memorables i pensades per convertir.",
+    "serviceType": ["Disseny web a mesura", "Desenvolupament web", "Animació i interacció", "SEO tècnic i rendiment"],
+    "founder": { "@type": "Person", "name": "Jan Molist" }
+  }
+  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="cases.css">
+
+  <!-- Qui ja ha vist la pantalla de càrrega en aquesta sessió, no la torna a veure -->
+  <script>
+    try {
+      if (sessionStorage.getItem('jm-seen')) document.documentElement.classList.add('seen');
+      addEventListener('load', function () { try { sessionStorage.setItem('jm-seen', '1'); } catch (e) {} });
+    } catch (e) {}
+  </script>
 
   <noscript>
     <style>
@@ -26,11 +74,13 @@
   ============================================================
   COM PERSONALITZAR-HO
   - Nom: busca "Jan Molist" i "JM" i canvia'ls pels teus.
-  - Correu: busca "hola@elteudomini.cat" i posa el teu.
+  - Correu i clau del formulari: config.js
+  - Domini: quan el tinguis, executa  python3 configura.py --domain https://el-teu-domini.cat
   - Enllaços: GitHub i LinkedIn, a la secció de contacte.
-  - Projectes: les 4 targetes són maquetes fetes només amb CSS.
-    Quan tinguis clients reals, substitueix el bloc <div class="screen ...">
-    per una <img src="imatges/el-teu-projecte.jpg" alt="..."> i ja està.
+  - Projectes: les 4 targetes són maquetes fetes només amb CSS i cadascuna
+    enllaça amb la seva pàgina de cas (projecte-*.html, generades amb
+    generar-casos.py). Quan tinguis clients reals, substitueix el bloc
+    <div class="screen ..."> per una <img src="imatges/el-teu-projecte.jpg" alt="...">
   - Xifres i textos: tot és inventat, per provar.
   ============================================================
 -->
@@ -185,8 +235,8 @@
         <div class="work-track">
 
           <!-- 1 · Restaurant -->
-          <article class="project" data-cursor="Veure">
-            <div class="browser">
+          <a class="project" href="projecte-brasa.html" data-cursor="Veure">
+            <div class="browser" style="view-transition-name:p-brasa">
               <div class="bar"><i></i><i></i><i></i><span>brasa.cat</span></div>
               <div class="screen s1">
                 <div class="s1-in">
@@ -196,11 +246,12 @@
               </div>
             </div>
             <div class="meta"><h3>Brasa</h3><p>Restaurant · Web i reserves · 2026</p></div>
-          </article>
+            <span class="go">Veure el cas d'estudi →</span>
+          </a>
 
           <!-- 2 · Arquitectura -->
-          <article class="project" data-cursor="Veure">
-            <div class="browser">
+          <a class="project" href="projecte-nord.html" data-cursor="Veure">
+            <div class="browser" style="view-transition-name:p-nord">
               <div class="bar"><i></i><i></i><i></i><span>nordarquitectura.com</span></div>
               <div class="screen s2">
                 <span class="s2-word">NORD</span>
@@ -209,11 +260,12 @@
               </div>
             </div>
             <div class="meta"><h3>Nord Arquitectura</h3><p>Estudi · Portafoli visual · 2026</p></div>
-          </article>
+            <span class="go">Veure el cas d'estudi →</span>
+          </a>
 
           <!-- 3 · SaaS -->
-          <article class="project" data-cursor="Veure">
-            <div class="browser">
+          <a class="project" href="projecte-pulse.html" data-cursor="Veure">
+            <div class="browser" style="view-transition-name:p-pulse">
               <div class="bar"><i></i><i></i><i></i><span>pulse.app</span></div>
               <div class="screen s3">
                 <div class="s3-kpi"><b>+248%</b><small>Visites aquest mes</small></div>
@@ -226,18 +278,20 @@
               </div>
             </div>
             <div class="meta"><h3>Pulse</h3><p>SaaS · Landing i dashboard · 2026</p></div>
-          </article>
+            <span class="go">Veure el cas d'estudi →</span>
+          </a>
 
           <!-- 4 · Botiga -->
-          <article class="project" data-cursor="Veure">
-            <div class="browser">
+          <a class="project" href="projecte-tallers.html" data-cursor="Veure">
+            <div class="browser" style="view-transition-name:p-tallers">
               <div class="bar"><i></i><i></i><i></i><span>tallers.shop</span></div>
               <div class="screen s4">
                 <div></div><div></div><div></div>
               </div>
             </div>
             <div class="meta"><h3>Tallers</h3><p>Botiga en línia · E-commerce · 2026</p></div>
-          </article>
+            <span class="go">Veure el cas d'estudi →</span>
+          </a>
 
           <!-- 5 · Crida a l'acció -->
           <a class="project cta" href="#contacte" data-cursor="Parlem">
@@ -340,13 +394,67 @@
       <p class="eyebrow reveal">( Contacte )</p>
       <h2 class="contact-title reveal">Fem alguna cosa <em>increïble</em>?</h2>
 
-      <a class="mail reveal" href="mailto:hola@elteudomini.cat" data-magnetic>hola@elteudomini.cat</a>
+      <a class="mail reveal" href="mailto:janmoliiiidt@gmail.com" data-magnetic>janmoliiiidt@gmail.com</a>
 
       <div class="contact-actions reveal">
-        <button class="btn" data-copy="hola@elteudomini.cat" data-magnetic>Copia el correu</button>
+        <button class="btn" data-copy="janmoliiiidt@gmail.com" data-magnetic>Copia el correu</button>
         <a class="btn btn-ghost" href="https://github.com/" target="_blank" rel="noopener" data-magnetic>GitHub ↗</a>
         <a class="btn btn-ghost" href="https://www.linkedin.com/" target="_blank" rel="noopener" data-magnetic>LinkedIn ↗</a>
       </div>
+
+      <!-- Formulari que s'envia de veritat (config.js + form.js) -->
+      <form class="cform reveal" novalidate aria-labelledby="cf-title">
+        <div class="cf-body">
+          <p class="cf-title" id="cf-title">O explica'm el teu projecte aquí</p>
+
+          <div class="cf-grid">
+            <div class="cf-field" data-field="name">
+              <label for="cf-name">Nom</label>
+              <input id="cf-name" name="name" type="text" autocomplete="name" placeholder="Com et dius?">
+              <span class="cf-err" aria-live="polite"></span>
+            </div>
+            <div class="cf-field" data-field="email">
+              <label for="cf-email">Correu</label>
+              <input id="cf-email" name="email" type="email" autocomplete="email" placeholder="nom@empresa.cat">
+              <span class="cf-err" aria-live="polite"></span>
+            </div>
+            <div class="cf-field cf-wide">
+              <label for="cf-topic">Què necessites?</label>
+              <select id="cf-topic" name="topic">
+                <option value="">Tria una opció…</option>
+                <option>Web corporativa</option>
+                <option>Botiga en línia</option>
+                <option>Landing page</option>
+                <option>Redisseny d'una web existent</option>
+                <option>Una altra cosa</option>
+              </select>
+            </div>
+            <div class="cf-field cf-wide" data-field="message">
+              <label for="cf-message">El teu projecte</label>
+              <textarea id="cf-message" name="message" rows="4" maxlength="1000" placeholder="Explica'm què tens al cap i per a quan."></textarea>
+              <span class="cf-err" aria-live="polite"></span>
+            </div>
+          </div>
+
+          <label class="cf-check-row"><input type="checkbox" name="consent"><span>Accepto que em contacteu per respondre aquesta consulta.</span></label>
+          <p class="cf-consent-err" hidden>Cal que ho acceptis per poder enviar.</p>
+
+          <!-- Camp trampa per a robots: les persones no el veuen -->
+          <input class="cf-hp" type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+          <div class="cf-actions">
+            <button class="btn cf-send" type="submit" data-magnetic>Enviar missatge</button>
+            <span class="cf-status" role="status" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="cf-ok" tabindex="-1" role="status">
+          <svg class="cf-check" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="44"/><path d="M30 52l14 14 27-30"/></svg>
+          <h3>Missatge <em>rebut</em>!</h3>
+          <p>Gràcies per escriure. Et respondré en menys de 24 hores.</p>
+          <button class="btn btn-ghost cf-again" type="button">Enviar-ne un altre</button>
+        </div>
+      </form>
     </section>
 
   </main>
@@ -357,6 +465,8 @@
     <a href="#inici" data-magnetic>Tornar a dalt ↑</a>
   </footer>
 
+  <script src="config.js"></script>
   <script src="script.js"></script>
+  <script src="form.js"></script>
 </body>
 </html>

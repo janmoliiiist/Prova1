@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pulse · Cas d&#x27;estudi: landing i dashboard SaaS | Jan Molist</title>
+  <meta name="description" content="Concepte de landing i dashboard per a un producte SaaS d&#x27;analítica: una xifra que mana, gràfics clars i una sola acció.">
+  <meta name="theme-color" content="#0a0a0b">
+  <meta name="author" content="Jan Molist">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <link rel="canonical" href="https://elteudomini.cat/projecte-pulse.html">
+
+  <!-- Xarxes socials -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Jan Molist">
+  <meta property="og:locale" content="ca_ES">
+  <meta property="og:title" content="Pulse · Cas d&#x27;estudi: landing i dashboard SaaS | Jan Molist">
+  <meta property="og:description" content="Concepte de landing i dashboard per a un producte SaaS d&#x27;analítica: una xifra que mana, gràfics clars i una sola acció.">
+  <meta property="og:url" content="https://elteudomini.cat/projecte-pulse.html">
+  <meta property="og:image" content="https://elteudomini.cat/og-pulse.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Pulse · cas de mostra de Jan Molist">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Pulse · Cas d&#x27;estudi: landing i dashboard SaaS | Jan Molist">
+  <meta name="twitter:description" content="Concepte de landing i dashboard per a un producte SaaS d&#x27;analítica: una xifra que mana, gràfics clars i una sola acció.">
+  <meta name="twitter:image" content="https://elteudomini.cat/og-pulse.png">
+
+  <!-- Icones -->
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Inici", "item": "https://elteudomini.cat/"}, {"@type": "ListItem", "position": 2, "name": "Projectes", "item": "https://elteudomini.cat/#projectes"}, {"@type": "ListItem", "position": 3, "name": "Pulse", "item": "https://elteudomini.cat/projecte-pulse.html"}]}</script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="cases.css">
+
+  <noscript>
+    <style>
+      .reveal{opacity:1;transform:none}
+    </style>
+  </noscript>
+</head>
+
+<body class="case-page">
+
+  <!-- (script.js necessita aquests elements) -->
+  <div class="loader" aria-hidden="true">
+    <div class="loader-inner"><span class="loader-name">Jan Molist</span><span class="loader-num">0</span></div>
+    <div class="loader-bar"><i></i></div>
+  </div>
+  <div class="progress" aria-hidden="true"><i></i></div>
+  <div class="cursor" aria-hidden="true"></div>
+  <div class="cursor-label" aria-hidden="true"></div>
+  <div class="glow" aria-hidden="true"></div>
+  <canvas id="bg" aria-hidden="true"></canvas>
+
+  <header class="nav">
+    <a href="index.html" class="logo" data-magnetic>JM<span>.</span></a>
+    <nav class="links" aria-label="Principal">
+      <a href="index.html">Inici</a>
+      <a href="index.html#projectes">Projectes</a>
+      <a href="index.html#serveis">Serveis</a>
+      <a href="index.html#proces">Procés</a>
+      <a href="lab.html" class="nav-lab">Laboratori <sup>nou</sup></a>
+    </nav>
+    <div class="nav-right">
+      <div class="hues" role="group" aria-label="Canvia el color d'accent">
+        <button style="--h:75" data-hue="75" aria-label="Llima"></button>
+        <button style="--h:18" data-hue="18" aria-label="Taronja"></button>
+        <button style="--h:320" data-hue="320" aria-label="Rosa"></button>
+        <button style="--h:265" data-hue="265" aria-label="Violeta"></button>
+        <button style="--h:190" data-hue="190" aria-label="Cian"></button>
+      </div>
+      <a href="index.html#contacte" class="btn btn-sm" data-magnetic>Parlem</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="case-hero">
+      <a class="back reveal" href="index.html#projectes" data-magnetic>← Tots els projectes</a>
+      <p class="eyebrow reveal">( Cas d'estudi · 2026 ) <span class="sample-tag">Cas de mostra</span></p>
+      <h1 class="case-title reveal">Pulse</h1>
+      <p class="case-lead reveal">Una landing que ven i un dashboard que s&#x27;entén de seguida.</p>
+      <div class="case-tags reveal"><span>SaaS</span><span>Landing</span><span>Dashboard</span></div>
+    </section>
+
+    <div class="case-shot">
+      <div class="browser" style="view-transition-name:p-pulse">
+        <div class="bar"><i></i><i></i><i></i><span>pulse.app</span></div>
+        <div class="screen s3"><div class="s3-kpi"><b>+248%</b><small>Visites aquest mes</small></div><div class="s3-bars"><i style="--h:35%;--i:0"></i><i style="--h:55%;--i:1"></i><i style="--h:42%;--i:2"></i><i style="--h:70%;--i:3"></i><i style="--h:58%;--i:4"></i><i style="--h:85%;--i:5"></i><i style="--h:66%;--i:6"></i><i style="--h:100%;--i:7"></i></div></div>
+      </div>
+    </div>
+
+    <dl class="case-meta reveal">
+      <div><dt>Client</dt><dd>Pulse · producte SaaS (concepte)</dd></div>
+      <div><dt>Serveis</dt><dd>Disseny de producte, landing i dashboard</dd></div>
+      <div><dt>Any</dt><dd>2026</dd></div>
+      <div><dt>Eines</dt><dd>Next.js i Supabase</dd></div>
+    </dl>
+
+    <section class="section case-sec">
+      <div class="reveal"><p class="eyebrow">( 01 )</p><h2>El <em>repte</em></h2></div>
+      <div class="reveal"><p>Un producte d&#x27;analítica amb moltes dades i poca claredat: la landing explicava funcions en lloc de beneficis i el dashboard mostrava totes les xifres alhora, sense jerarquia.</p><p>L&#x27;objectiu: que algú entengués el valor en uns segons i que, un cop dins, sabés què mirar primer.</p></div>
+    </section>
+
+    <section class="section case-sec">
+      <div class="reveal"><p class="eyebrow">( 02 )</p><h2>La <em>solució</em></h2></div>
+      <ol class="sol-list reveal"><li><div><b>Una xifra que mana</b><span>Cada pantalla té un indicador principal gran i legible; la resta queda en segon pla.</span></div></li><li><div><b>Gràfics que respiren</b><span>Barres amb moviment suau que expliquen l&#x27;evolució sense soroll visual.</span></div></li><li><div><b>Landing amb una sola acció</b><span>Un únic crida a l&#x27;acció repetit al llarg de la pàgina, sense camins alternatius.</span></div></li><li><div><b>Sistema de disseny reutilitzable</b><span>Colors, espais i components definits una vegada per créixer sense perdre coherència.</span></div></li></ol>
+    </section>
+
+    <section class="section case-sec" style="padding-bottom:0">
+      <div class="reveal"><p class="eyebrow">( 03 )</p><h2>Els <em>resultats</em></h2></div>
+      <div class="reveal"><p>Els objectius de disseny que han guiat el projecte:</p></div>
+    </section>
+    <section class="section stats case-stats"><div class="stat reveal" style="--d:0.0s"><b data-count="1">0</b><span>acció principal a la landing</span></div><div class="stat reveal" style="--d:0.1s"><b data-count="5" data-suffix=" s">0</b><span>objectiu per entendre el valor</span></div><div class="stat reveal" style="--d:0.2s"><b data-count="100">0</b><span>objectiu de rendiment Lighthouse</span></div></section>
+    <p class="case-note reveal"><b>Cas de mostra.</b> Aquest projecte és un concepte que he dissenyat per ensenyar com treballo; no és un client real i les xifres són objectius de disseny, no resultats mesurats. Quan tingui projectes reals, aquesta secció tindrà les dades reals.</p>
+
+    <section class="section lab-teaser">
+      <a class="lab-link reveal" href="projecte-tallers.html" data-cursor="Veure">
+        <span class="eyebrow">( Següent projecte )</span>
+        <span class="lab-big">Tallers <i>→</i></span>
+        <span class="lab-sub">Una botiga que sembla un aparador i es compra com una app.</span>
+      </a>
+    </section>
+
+    <section class="section contact" id="contacte">
+      <p class="eyebrow reveal">( Contacte )</p>
+      <h2 class="contact-title reveal">I el <em>teu</em> projecte?</h2>
+      <div class="contact-actions reveal">
+        <a class="btn" href="index.html#contacte" data-magnetic>Parlem-ne</a>
+        <a class="btn btn-ghost" href="mailto:janmoliiiidt@gmail.com" data-magnetic>janmoliiiidt@gmail.com</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>© <span id="year">2026</span> Jan Molist</span>
+    <span>Fet a mà amb HTML, CSS i JS</span>
+    <a href="#" data-magnetic>Tornar a dalt ↑</a>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,252 @@
+/* ==========================================================
+   CASOS D'ESTUDI, FORMULARI I TRANSICIONS · cases.css
+   Va després de style.css i reutilitza les seves variables.
+   ========================================================== */
+
+/* ----------------------------------------------------------
+   Transició fluida entre pàgines (View Transitions)
+   Chrome, Edge i Safari 18.2+. Als altres navegadors, navegació normal.
+   ---------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+}
+::view-transition-group(root) { animation-duration: .5s; }
+::view-transition-old(root) { animation: vt-out .35s var(--ease) both; }
+::view-transition-new(root) { animation: vt-in .5s var(--ease) both; }
+@keyframes vt-out { to { opacity: 0; } }
+@keyframes vt-in  { from { opacity: 0; } }
+/* La captura de la targeta del projecte es transforma en la del cas */
+::view-transition-group(*):not(:root) { animation-duration: .7s; animation-timing-function: var(--ease); }
+
+/* Qui ja ha vist l'animació de càrrega en aquesta sessió, no la torna a veure */
+.seen .loader { display: none; }
+.seen body.loading { overflow: auto; }
+.seen .hero-top, .seen .hero-bottom { opacity: 1; transform: none; transition: none; }
+.seen .line > span { transform: none; transition: none; }
+
+/* ----------------------------------------------------------
+   Targetes de projecte de la home (ara són enllaços)
+   ---------------------------------------------------------- */
+a.project { display: block; color: inherit; }
+.project .go {
+  display: inline-block;
+  margin-top: .9rem;
+  font-size: .85rem;
+  color: var(--accent);
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity .4s, transform .5s var(--ease);
+}
+.project:hover .go, .project:focus-visible .go { opacity: 1; transform: none; }
+.project:focus-visible { outline: 2px solid var(--accent); outline-offset: 6px; border-radius: 16px; }
+@media (hover: none) { .project .go { opacity: 1; transform: none; } }
+
+.sample-tag {
+  display: inline-block;
+  padding: .3rem .8rem;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  font-size: .72rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ----------------------------------------------------------
+   PÀGINA DE CAS
+   (no té pantalla de càrrega: la transició ja fa de portada)
+   ---------------------------------------------------------- */
+.case-page .loader { display: none; }
+.case-hero {
+  position: relative;
+  z-index: 1;
+  padding: 9rem var(--pad) 3rem;
+}
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  margin-bottom: 2.5rem;
+  color: var(--muted);
+  font-size: .9rem;
+  transition: color .3s, transform .4s var(--ease);
+}
+.back:hover { color: var(--accent); transform: translateX(-4px); }
+.case-title {
+  font-size: clamp(3.6rem, 13vw, 12rem);
+  line-height: .88;
+  letter-spacing: -.055em;
+  font-weight: 700;
+}
+.case-lead {
+  max-width: 42rem;
+  margin-top: 2rem;
+  color: var(--muted);
+  font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+}
+.case-tags { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 2rem; }
+.case-tags span {
+  padding: .45rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  font-size: .85rem;
+  color: var(--muted);
+}
+
+.case-shot { position: relative; z-index: 1; padding: 2rem var(--pad) 0; }
+.case-shot .browser { box-shadow: 0 40px 100px -30px rgba(0, 0, 0, .8); }
+.case-shot .screen { aspect-ratio: 16 / 9; }
+.case-shot .s1-title { font-size: clamp(3.5rem, 12vw, 11rem); }
+.case-shot .s1-sub   { font-size: clamp(.7rem, 1.1vw, 1rem); }
+.case-shot .s2-word  { font-size: clamp(3.5rem, 13vw, 12rem); }
+.case-shot .s3-kpi b { font-size: clamp(2rem, 7vw, 6rem); }
+.case-shot .s3-kpi small { font-size: clamp(.7rem, 1vw, .95rem); }
+.case-shot .bar span { font-size: .8rem; }
+
+.case-meta {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 2rem;
+  margin: 4rem var(--pad) 0;
+  padding-top: 2rem;
+  border-top: 1px solid var(--line);
+}
+.case-meta dt {
+  margin-bottom: .5rem;
+  font-size: .8rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.case-meta dd { font-size: 1.1rem; line-height: 1.35; }
+
+.case-sec {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2.2fr);
+  gap: clamp(2rem, 6vw, 6rem);
+  padding-block: clamp(4rem, 9vw, 8rem);
+}
+.case-sec + .case-sec { padding-top: 0; }
+.case-sec h2 {
+  font-size: clamp(2.2rem, 4.4vw, 4rem);
+  line-height: .95;
+  letter-spacing: -.04em;
+  font-weight: 700;
+}
+.case-sec .eyebrow { margin-bottom: 1rem; }
+.case-sec p {
+  font-size: clamp(1.15rem, 1.9vw, 1.7rem);
+  line-height: 1.4;
+  letter-spacing: -.015em;
+}
+.case-sec p + p { margin-top: 1.2rem; color: var(--muted); font-size: clamp(1rem, 1.4vw, 1.2rem); }
+
+.sol-list { counter-reset: s; border-top: 1px solid var(--line); }
+.sol-list li {
+  counter-increment: s;
+  display: grid;
+  grid-template-columns: 3.2rem 1fr;
+  gap: 1rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.sol-list li::before {
+  content: counter(s, decimal-leading-zero);
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.5rem;
+  line-height: 1.2;
+  color: var(--accent);
+}
+.sol-list b { display: block; margin-bottom: .3rem; font-size: 1.25rem; font-weight: 500; letter-spacing: -.02em; }
+.sol-list span { color: var(--muted); }
+
+.case-stats { padding-block: clamp(3rem, 6vw, 5rem) 1rem; }
+.case-note {
+  position: relative;
+  z-index: 1;
+  max-width: 44rem;
+  margin: 0 var(--pad);
+  padding: 1.1rem 1.4rem;
+  border: 1px dashed var(--line);
+  border-radius: 16px;
+  color: var(--muted);
+  font-size: .9rem;
+}
+.case-note b { color: var(--fg); font-weight: 500; }
+
+/* ----------------------------------------------------------
+   FORMULARI DE CONTACTE DE LA HOME
+   ---------------------------------------------------------- */
+.cform { width: min(100%, 44rem); margin-top: 4.5rem; text-align: left; }
+.cf-title { margin-bottom: 1.6rem; font-size: .85rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); text-align: center; }
+.cf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+.cf-wide { grid-column: 1 / -1; }
+.cf-field { position: relative; display: flex; flex-direction: column; gap: .4rem; }
+.cf-field label { font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.cf-field input, .cf-field textarea, .cf-field select {
+  width: 100%;
+  padding: .95rem 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, .03);
+  color: var(--fg);
+  font: inherit;
+  outline: none;
+  resize: vertical;
+  transition: border-color .3s, box-shadow .3s;
+}
+.cf-field select option { background: #16161a; }
+.cf-field input:focus, .cf-field textarea:focus, .cf-field select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.cf-field.good input, .cf-field.good textarea { border-color: #4ade80; }
+.cf-field.bad  input, .cf-field.bad  textarea { border-color: #f87171; }
+.cf-err { min-height: 1.2em; font-size: .8rem; color: #f87171; }
+.cf-check-row { display: flex; align-items: flex-start; gap: .7rem; margin: 1.2rem 0 .4rem; font-size: .9rem; color: var(--muted); cursor: pointer; }
+.cf-check-row input { width: 18px; height: 18px; margin-top: .2rem; accent-color: var(--accent); }
+.cf-consent-err { margin-bottom: .6rem; font-size: .85rem; color: #f87171; }
+.cf-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; overflow: hidden; }
+.cf-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-top: 1rem; }
+.cf-send[disabled] { opacity: .6; pointer-events: none; }
+.cf-status { font-size: .9rem; color: var(--muted); }
+.cf-status.err { color: #f87171; }
+.cf-status a { color: var(--fg); border-bottom: 1px solid var(--accent); }
+
+/* Confirmació animada */
+.cf-ok { position: relative; display: none; padding: 2.5rem 0; text-align: center; outline: none; }
+.cform.sent .cf-body { display: none; }
+.cform.sent .cf-ok { display: block; }
+.cf-check { display: block; width: 96px; height: 96px; margin: 0 auto 1.6rem; }
+.cf-check circle { fill: none; stroke: var(--accent); stroke-width: 3; stroke-dasharray: 280; stroke-dashoffset: 280; transform-origin: center; transform: rotate(-90deg); animation: cf-draw .8s var(--ease) forwards; }
+.cf-check path { fill: none; stroke: var(--accent); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 70; stroke-dashoffset: 70; animation: cf-draw .5s var(--ease) .55s forwards; }
+@keyframes cf-draw { to { stroke-dashoffset: 0; } }
+.cf-ok h3 { margin-bottom: .6rem; font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -.04em; line-height: 1; opacity: 0; transform: translateY(14px); animation: cf-up .7s var(--ease) .7s forwards; }
+.cf-ok p { max-width: 30rem; margin: 0 auto 1.6rem; color: var(--muted); opacity: 0; transform: translateY(14px); animation: cf-up .7s var(--ease) .85s forwards; }
+.cf-ok .btn { opacity: 0; animation: cf-up .7s var(--ease) 1s forwards; }
+@keyframes cf-up { to { opacity: 1; transform: none; } }
+
+.cf-burst { position: absolute; left: 50%; top: 48px; width: 0; height: 0; pointer-events: none; }
+.cf-burst i {
+  position: absolute;
+  width: 8px; height: 8px;
+  margin: -4px 0 0 -4px;
+  border-radius: 50%;
+  background: hsl(calc(var(--hue) + var(--h) - 60) 100% 60%);
+  opacity: 0;
+  animation: cf-pop .9s var(--ease) .5s forwards;
+}
+@keyframes cf-pop {
+  0%   { opacity: 1; transform: translate(0, 0) scale(1); }
+  100% { opacity: 0; transform: translate(var(--x), var(--y)) scale(.2); }
+}
+
+/* ----------------------------------------------------------
+   RESPONSIVE
+   ---------------------------------------------------------- */
+@media (max-width: 800px) {
+  .case-hero { padding-top: 7rem; }
+  .case-sec { grid-template-columns: 1fr; gap: 1.5rem; }
+  .cf-grid { grid-template-columns: 1fr; }
+  .case-meta { margin-top: 3rem; }
+}

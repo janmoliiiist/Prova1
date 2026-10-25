@@ -3,15 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Laboratori · Jan Molist</title>
-  <meta name="description" content="Experiments en 3D, shaders i partícules. El laboratori on Jan Molist trenca les regles del disseny web.">
+  <title>Laboratori · Experiments web en 3D i shaders | Jan Molist</title>
+  <meta name="description" content="Experiments en 3D, shaders i partícules. El laboratori on Jan Molist trenca les regles del disseny web: 21 demostracions interactives.">
   <meta name="theme-color" content="#0a0a0b">
+  <meta name="author" content="Jan Molist">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <link rel="canonical" href="https://elteudomini.cat/lab.html">
+
+  <!-- Xarxes socials -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Jan Molist">
+  <meta property="og:locale" content="ca_ES">
+  <meta property="og:title" content="Laboratori · Experiments web en 3D i shaders">
+  <meta property="og:description" content="21 experiments interactius: shaders WebGL, 3D amb CSS, partícules i eines reals. Aquí trenco les regles.">
+  <meta property="og:url" content="https://elteudomini.cat/lab.html">
+  <meta property="og:image" content="https://elteudomini.cat/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Laboratori de Jan Molist">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Laboratori · Experiments web en 3D i shaders">
+  <meta name="twitter:description" content="21 experiments interactius: shaders WebGL, 3D amb CSS, partícules i eines reals.">
+  <meta name="twitter:image" content="https://elteudomini.cat/og.png">
+
+  <!-- Icones -->
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="cases.css">
   <link rel="stylesheet" href="lab.css">
+
+  <!-- Qui ja ha vist la pantalla de càrrega en aquesta sessió, no la torna a veure -->
+  <script>
+    try {
+      if (sessionStorage.getItem('jm-seen')) document.documentElement.classList.add('seen');
+      addEventListener('load', function () { try { sessionStorage.setItem('jm-seen', '1'); } catch (e) {} });
+    } catch (e) {}
+  </script>
 
   <noscript>
     <style>
@@ -475,8 +508,8 @@
         </div>
       </div>
 
-      <!-- 20 · Formulari -->
-      <div class="tool-head reveal"><span class="tool-n">20</span><div><h3>Formulari intel·ligent</h3><p>Validació en directe, comptador i un final amb confeti.</p></div></div>
+      <!-- 20 · Formulari (ara envia de veritat: form.js + config.js) -->
+      <div class="tool-head reveal"><span class="tool-n">20</span><div><h3>Formulari intel·ligent</h3><p>Validació en directe, comptador, confeti i enviament real.</p></div></div>
       <form class="sform tool reveal" novalidate>
         <div class="sf-grid">
           <div class="sf-field">
@@ -513,9 +546,9 @@
 
         <button class="btn sf-send" type="submit">Enviar consulta</button>
 
-        <div class="sf-done" hidden>
+        <div class="sf-done" hidden aria-live="polite">
           <h4>Gairebé fet! 🎉</h4>
-          <p>Aquest formulari obre el teu programa de correu amb tot ja escrit. (Més endavant es pot connectar a un servei com Formspree perquè s'enviï directament.)</p>
+          <p>Aquest formulari obre el teu programa de correu amb tot ja escrit.</p>
           <div class="sf-done-actions">
             <button class="btn" id="sf-mail" type="button">Obrir el correu</button>
             <button class="btn btn-ghost" id="sf-reset" type="button">Tornar a començar</button>
@@ -542,7 +575,9 @@
     <a href="#inici" data-magnetic>Tornar a dalt ↑</a>
   </footer>
 
+  <script src="config.js"></script>
   <script src="script.js"></script>
   <script src="lab.js"></script>
+  <script src="form.js"></script>
 </body>
 </html>
