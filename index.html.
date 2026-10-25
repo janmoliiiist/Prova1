@@ -1,10 +1,93 @@
 <!DOCTYPE html>
 <html lang="ca">
 <head>
-  <meta charset="UTF-8">
-  <title>La meva web</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Desenvolupament Web Premium | Solucions 100% a Mida</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h1>Hola món! Web publicada amb GitHub Pages</h1>
+
+  <!-- Punter personalitzat lluminós -->
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <!-- Fons amb orbes flotants -->
+  <div class="background-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <nav class="navbar">
+    <div class="logo">STUDIO<span>.</span></div>
+    <a href="#contacte" class="btn btn-secondary">Parlem</a>
+  </nav>
+
+  <header class="hero">
+    <div class="badge">Desenvolupament Web d'Alt Impacte</div>
+    <h1 class="hero-title">
+      Dissenyem experiències digitals <span class="gradient-text">100% a mida</span> per empreses líders
+    </h1>
+    <p class="hero-subtitle">
+      Sense plantilles genèriques ni limitacions. Creem webs exclusives, ràpides i pensades per convertir visitants en clients.
+    </p>
+    <div class="hero-actions">
+      <a href="#serveis" class="btn btn-primary">Veure què fem</a>
+      <a href="#contacte" class="btn btn-glass">Sol·licitar proposta</a>
+    </div>
+  </header>
+
+  <section class="section" id="serveis">
+    <h2 class="section-title">Què fa úniques les nostres webs?</h2>
+    
+    <div class="cards-grid">
+      <!-- Targeta 1 -->
+      <div class="tilt-card">
+        <div class="card-glow"></div>
+        <div class="card-content">
+          <div class="icon">⚡</div>
+          <h3>Velocitat Extrema</h3>
+          <p>Codi net i optimitzat sense codi brossa. La teva web carregarà a l'instant, millorant el SEO i l'experiència d'usuari.</p>
+        </div>
+      </div>
+
+      <!-- Targeta 2 -->
+      <div class="tilt-card">
+        <div class="card-glow"></div>
+        <div class="card-content">
+          <div class="icon">🎨</div>
+          <h3>100% Personalitzat</h3>
+          <p>Identitat visual exclusiva i interfícies que transmeten la professionalitat i l'essència real de la teva marca.</p>
+        </div>
+      </div>
+
+      <!-- Targeta 3 -->
+      <div class="tilt-card">
+        <div class="card-glow"></div>
+        <div class="card-content">
+          <div class="icon">📈</div>
+          <h3>Enfocades a Resultats</h3>
+          <p>Estructura estratègica pensada per guiar el visitant cap a l'acció: més trucades, més contactes i més vendes.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-banner" id="contacte">
+    <div class="cta-box">
+      <h2>Portem la teva empresa al següent nivell digital?</h2>
+      <p>Explica'ns el teu projecte i dissenyem una solució exclusiva per a tu.</p>
+      <a href="mailto:contacte@empresa.com" class="btn btn-primary btn-large">Començar ara</a>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 Desenvolupament Web d'Alt Rendiment. Tots els drets reservats.</p>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
