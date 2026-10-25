@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a0a0b">
+  <title>Laboratori · Jan Molist</title>
+  <meta name="description" content="Laboratori de Jan Molist: experiments visuals amb WebGL, canvas i CSS 3D.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="lab.css">
+</head>
+<body>
+
+  <header class="lab-nav">
+    <a class="logo" href="index.html#inici">JM.</a>
+    <nav>
+      <a href="index.html#projectes">Projectes</a>
+      <a href="index.html#serveis">Serveis</a>
+      <a href="laboratori.html" aria-current="page">Laboratori</a>
+    </nav>
+    <label class="hue-ctl" title="Canvia el color d'accent">
+      <span>Color</span>
+      <input id="hue" type="range" min="0" max="360" value="75" aria-label="Color d'accent">
+    </label>
+  </header>
+
+  <main>
+    <!-- 1. HERO AMB SHADER -->
+    <section class="hero" id="inici">
+      <canvas id="fluid" aria-hidden="true"></canvas>
+      <div class="hero-in">
+        <p class="eyebrow">( Laboratori )</p>
+        <h1>On els experiments <em>es poden trencar</em>.</h1>
+        <p class="lead">Shaders, partícules, 3D amb CSS i scroll. Mou el ratolí i fes clic per tocar el fons.</p>
+        <a class="btn" href="#particules">Entrar ↓</a>
+      </div>
+    </section>
+
+    <!-- 2. PARTÍCULES -->
+    <section class="block" id="particules">
+      <header class="block-h">
+        <span class="num">01</span>
+        <h2>Text fet de <em>partícules</em></h2>
+        <p>Passa-hi el cursor per apartar-les. Fes clic per fer-les explotar.</p>
+      </header>
+      <canvas id="ptext" aria-label="Text JAN MOLIST fet de partícules"></canvas>
+    </section>
+
+    <!-- 3. CUB -->
+    <section class="block" id="cub">
+      <header class="block-h">
+        <span class="num">02</span>
+        <h2>Cub 3D amb <em>inèrcia</em></h2>
+        <p>Arrossega'l i deixa'l anar: conserva la velocitat i torna a girar sol. La llum es recalcula a cada cara.</p>
+      </header>
+      <div class="cube-stage">
+        <div class="cube">
+          <div class="face f-front">HTML</div>
+          <div class="face f-right">CSS</div>
+          <div class="face f-back">JS</div>
+          <div class="face f-left">WebGL</div>
+          <div class="face f-top">UX</div>
+          <div class="face f-bottom">SEO</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. TÚNEL -->
+    <section class="tunnel" id="tunel">
+      <div class="tunnel-sticky">
+        <div class="tunnel-scene">
+          <div class="t-floor"></div>
+          <div class="t-layer"><div><span>01</span><h3>Idea</h3><p>Tot comença amb una pregunta.</p></div></div>
+          <div class="t-layer"><div><span>02</span><h3>Disseny</h3><p>Dibuixem abans de programar.</p></div></div>
+          <div class="t-layer"><div><span>03</span><h3>Codi</h3><p>Net, ràpid i sense llibreries.</p></div></div>
+          <div class="t-layer"><div><span>04</span><h3>Moviment</h3><p>El que es mou, es recorda.</p></div></div>
+          <div class="t-layer"><div><span>05</span><h3>Llançament</h3><p>I a començar el següent.</p></div></div>
+        </div>
+        <div class="tunnel-hud">
+          <span>03 · Túnel de profunditat · fes scroll</span>
+          <div class="tunnel-bar"><i></i></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. ANELL -->
+    <section class="block" id="anell">
+      <header class="block-h">
+        <span class="num">04</span>
+        <h2>Galeria en <em>anell</em></h2>
+        <p>Arrossega, o usa els botons. Si hi poses el cursor al damunt, s'atura.</p>
+      </header>
+      <div class="ring-stage">
+        <div class="ring">
+          <article class="ring-card"><b>Brasa</b><span>Restaurant</span></article>
+          <article class="ring-card"><b>Nord</b><span>Arquitectura</span></article>
+          <article class="ring-card"><b>Pulse</b><span>SaaS</span></article>
+          <article class="ring-card"><b>Tallers</b><span>E-commerce</span></article>
+          <article class="ring-card"><b>Aire</b><span>Estudi de dansa</span></article>
+          <article class="ring-card"><b>Vora</b><span>Turisme rural</span></article>
+          <article class="ring-card"><b>Ona</b><span>Fitness</span></article>
+        </div>
+      </div>
+      <div class="ring-ctl">
+        <button class="btn ghost" data-ring="-1" aria-label="Anterior">←</button>
+        <button class="btn ghost" data-ring="1" aria-label="Següent">→</button>
+      </div>
+    </section>
+
+    <!-- 6. TARGETES AMB PROFUNDITAT -->
+    <section class="block" id="targetes">
+      <header class="block-h">
+        <span class="num">05</span>
+        <h2>Targetes amb <em>llum</em></h2>
+        <p>S'inclinen cap al cursor i la llum et segueix.</p>
+      </header>
+      <div class="depth-grid">
+        <article class="depth-card"><h3>Disseny</h3><p>Identitat, UI i prototips interactius.</p></article>
+        <article class="depth-card"><h3>Codi</h3><p>HTML, CSS i JavaScript sense dependències.</p></article>
+        <article class="depth-card"><h3>Rendiment</h3><p>Webs que carreguen en un instant.</p></article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="lab-foot">
+    <span>© 2026 Jan Molist · Fet a mà amb HTML, CSS i JS</span>
+    <a href="index.html#inici">← Tornar a la web</a>
+  </footer>
+
+  <script>
+    // Selector de color: canvia --hue a l'arrel i lab.js ho detecta sol
+    (function () {
+      var r = document.getElementById('hue');
+      r.addEventListener('input', function () {
+        document.documentElement.style.setProperty('--hue', r.value);
+      });
+      document.documentElement.style.setProperty('--hue', r.value);
+    })();
+  </script>
+  <!-- Si la teva web ja té script.js, descomenta la línia següent (lab.js ha d'anar després) -->
+  <!-- <script src="script.js"></script> -->
+  <script src="lab.js"></script>
+</body>
+</html>
