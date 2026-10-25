@@ -109,7 +109,7 @@
   const wprog = $('.work-progress i');
 
   const sizeWork = () => {
-    if (!work || !track) return;
+    if (!work) return;
     if (mobile()) { work.style.height = ''; track.style.transform = ''; return; }
     const maxX = track.offsetWidth - innerWidth;
     work.style.height = (maxX * 1.15 + innerHeight) + 'px';
@@ -117,9 +117,9 @@
 
   const onScroll = () => {
     const max = root.scrollHeight - innerHeight;
-    prog.style.transform = 'scaleX(' + (max > 0 ? scrollY / max : 0) + ')';
+    if (prog) prog.style.transform = 'scaleX(' + (max > 0 ? scrollY / max : 0) + ')';
 
-    if (work && track && !mobile()) {
+    if (work && !mobile()) {
       const r = work.getBoundingClientRect();
       const total = work.offsetHeight - innerHeight;
       const p = total > 0 ? clamp(-r.top / total) : 0;
@@ -156,12 +156,13 @@
 
   /* ---------- 8. FONS DE PARTÍCULES ---------- */
   const cv  = $('#bg');
-  const ctx = cv.getContext('2d');
+  const ctx = cv ? cv.getContext('2d') : null;
   let W = 0, H = 0, pts = [];
 
   const col = (a) => 'hsl(' + hue + ' 100% 60% / ' + a + ')';
 
   const initBg = () => {
+    if (!ctx) return;
     const dpr = Math.min(devicePixelRatio || 1, 2);
     W = innerWidth; H = innerHeight;
     cv.width = W * dpr; cv.height = H * dpr;
@@ -177,6 +178,7 @@
   };
 
   const drawBg = () => {
+    if (!ctx) return;
     ctx.clearRect(0, 0, W, H);
     for (let i = 0; i < pts.length; i++) {
       const p = pts[i];
