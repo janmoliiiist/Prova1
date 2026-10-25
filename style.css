@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Àlex Ferrer · Webs que ningú oblida</title>
+  <title>Jan Molist · Webs que ningú oblida</title>
   <meta name="description" content="Disseny i desenvolupament web a mesura per a empreses. Webs ràpides, memorables i pensades per convertir.">
   <meta name="theme-color" content="#0a0a0b">
-
+ 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-
+  <link rel="stylesheet" href="estils.css">
+ 
   <noscript>
     <style>
       .loader{display:none}
@@ -21,11 +21,11 @@
     </style>
   </noscript>
 </head>
-
+ 
 <!--
   ============================================================
   COM PERSONALITZAR-HO
-  - Nom: busca "Àlex Ferrer" i "ÀF" i canvia'ls pels teus.
+  - Nom: busca "Jan Molist" i "JM" i canvia'ls pels teus.
   - Correu: busca "hola@elteudomini.cat" i posa el teu.
   - Enllaços: GitHub i LinkedIn, a la secció de contacte.
   - Projectes: les 4 targetes són maquetes fetes només amb CSS.
@@ -34,36 +34,36 @@
   - Xifres i textos: tot és inventat, per provar.
   ============================================================
 -->
-
+ 
 <body class="loading">
-
+ 
   <!-- Pantalla de càrrega -->
   <div class="loader" aria-hidden="true">
     <div class="loader-inner">
-      <span class="loader-name">Àlex Ferrer</span>
+      <span class="loader-name">Jan Molist</span>
       <span class="loader-num">0</span>
     </div>
     <div class="loader-bar"><i></i></div>
   </div>
-
+ 
   <!-- Elements de pantalla completa -->
   <div class="progress" aria-hidden="true"><i></i></div>
   <div class="cursor" aria-hidden="true"></div>
   <div class="cursor-label" aria-hidden="true"></div>
   <div class="glow" aria-hidden="true"></div>
   <canvas id="bg" aria-hidden="true"></canvas>
-
+ 
   <!-- Navegació -->
   <header class="nav">
-    <a href="#inici" class="logo" data-magnetic>ÀF<span>.</span></a>
-
+    <a href="#inici" class="logo" data-magnetic>JM<span>.</span></a>
+ 
     <nav class="links" aria-label="Principal">
       <a href="#sobre">Sobre mi</a>
       <a href="#projectes">Projectes</a>
       <a href="#serveis">Serveis</a>
       <a href="#proces">Procés</a>
     </nav>
-
+ 
     <div class="nav-right">
       <div class="hues" role="group" aria-label="Canvia el color d'accent">
         <button style="--h:75" data-hue="75" aria-label="Llima"></button>
@@ -75,21 +75,21 @@
       <a href="#contacte" class="btn btn-sm" data-magnetic>Parlem</a>
     </div>
   </header>
-
+ 
   <main>
-
+ 
     <!-- ===================== HERO ===================== -->
     <section class="hero" id="inici">
       <div class="hero-top">
         <span class="pill"><i class="dot"></i> Disponible per a nous projectes</span>
       </div>
-
+ 
       <h1 class="hero-title" aria-label="Creo webs que ningú oblida.">
         <span class="line"><span>Creo webs</span></span>
         <span class="line"><span>que <em>ningú</em></span></span>
         <span class="line"><span>oblida.</span></span>
       </h1>
-
+ 
       <div class="hero-bottom">
         <p class="hero-lead">
           Dissenyo i programo webs a mesura per a empreses que volen destacar.
@@ -100,12 +100,12 @@
           <a class="btn btn-ghost" href="#contacte" data-magnetic>Explica'm el teu projecte</a>
         </div>
       </div>
-
+ 
       <!-- Xips flotants amb parallax -->
       <div class="chip c1" data-depth="40">HTML</div>
       <div class="chip c2" data-depth="-30">Rendiment 100</div>
       <div class="chip c3" data-depth="55">&lt;/CSS&gt;</div>
-
+ 
       <!-- Segell giratori -->
       <svg class="badge" viewBox="0 0 200 200" aria-hidden="true">
         <defs>
@@ -117,7 +117,7 @@
         <circle cx="100" cy="100" r="7"/>
       </svg>
     </section>
-
+ 
     <!-- ===================== MARQUEE ===================== -->
     <div class="marquee" aria-hidden="true">
       <div class="marquee-group">
@@ -135,15 +135,15 @@
         <span>SEO</span><span>✦</span>
       </div>
     </div>
-
+ 
     <!-- ===================== SOBRE MI ===================== -->
     <section class="section about" id="sobre">
       <p class="eyebrow reveal">( Sobre mi )</p>
-
+ 
       <p class="about-text" data-words>
         Sóc dissenyador i desenvolupador web. Agafo la idea d'un negoci i la converteixo en una experiència digital que es veu, es sent i es recorda. Cada web que faig és única, ràpida i pensada per vendre.
       </p>
-
+ 
       <div class="about-grid reveal">
         <div>
           <h3>Disseny</h3>
@@ -171,18 +171,18 @@
         </div>
       </div>
     </section>
-
+ 
     <!-- ===================== PROJECTES (scroll horitzontal) ===================== -->
     <section class="work" id="projectes">
       <div class="work-sticky">
-
+ 
         <div class="work-head">
           <h2 class="h2">Projectes <em>seleccionats</em></h2>
           <p class="work-count">Fes scroll → <span>(Projectes de mostra)</span></p>
         </div>
-
+ 
         <div class="work-track">
-
+ 
           <!-- 1 · Restaurant -->
           <article class="project" data-cursor="Veure">
             <div class="browser">
@@ -196,7 +196,7 @@
             </div>
             <div class="meta"><h3>Brasa</h3><p>Restaurant · Web i reserves · 2026</p></div>
           </article>
-
+ 
           <!-- 2 · Arquitectura -->
           <article class="project" data-cursor="Veure">
             <div class="browser">
@@ -209,7 +209,7 @@
             </div>
             <div class="meta"><h3>Nord Arquitectura</h3><p>Estudi · Portafoli visual · 2026</p></div>
           </article>
-
+ 
           <!-- 3 · SaaS -->
           <article class="project" data-cursor="Veure">
             <div class="browser">
@@ -226,7 +226,7 @@
             </div>
             <div class="meta"><h3>Pulse</h3><p>SaaS · Landing i dashboard · 2026</p></div>
           </article>
-
+ 
           <!-- 4 · Botiga -->
           <article class="project" data-cursor="Veure">
             <div class="browser">
@@ -237,24 +237,24 @@
             </div>
             <div class="meta"><h3>Tallers</h3><p>Botiga en línia · E-commerce · 2026</p></div>
           </article>
-
+ 
           <!-- 5 · Crida a l'acció -->
           <a class="project cta" href="#contacte" data-cursor="Parlem">
             <div class="screen">El teu projecte <em>aquí</em> →</div>
             <div class="meta"><h3>El següent?</h3><p>Comencem quan vulguis</p></div>
           </a>
-
+ 
         </div>
-
+ 
         <div class="work-progress" aria-hidden="true"><i></i></div>
       </div>
     </section>
-
+ 
     <!-- ===================== SERVEIS ===================== -->
     <section class="section" id="serveis">
       <p class="eyebrow reveal">( Serveis )</p>
       <h2 class="h2 reveal">Tot el que <em>necessita</em><br>la teva presència online</h2>
-
+ 
       <div class="services-grid reveal">
         <article class="card" data-tilt>
           <span class="ico">01</span>
@@ -286,12 +286,12 @@
         </article>
       </div>
     </section>
-
+ 
     <!-- ===================== PROCÉS ===================== -->
     <section class="section" id="proces">
       <p class="eyebrow reveal">( Procés )</p>
       <h2 class="h2 reveal">Com <em>treballem</em></h2>
-
+ 
       <ol class="steps">
         <li class="step reveal">
           <span class="n">01</span>
@@ -315,7 +315,7 @@
         </li>
       </ol>
     </section>
-
+ 
     <!-- ===================== XIFRES (inventades) ===================== -->
     <section class="section stats">
       <div class="stat reveal"><b data-count="100">0</b><span>Puntuació de rendiment objectiu</span></div>
@@ -323,29 +323,29 @@
       <div class="stat reveal" style="--d:.2s"><b data-count="24" data-suffix="h">0</b><span>Temps de resposta</span></div>
       <div class="stat reveal" style="--d:.3s"><b data-count="100" data-suffix="%">0</b><span>Dedicació a cada projecte</span></div>
     </section>
-
+ 
     <!-- ===================== CONTACTE ===================== -->
     <section class="section contact" id="contacte">
       <p class="eyebrow reveal">( Contacte )</p>
       <h2 class="contact-title reveal">Fem alguna cosa <em>increïble</em>?</h2>
-
+ 
       <a class="mail reveal" href="mailto:hola@elteudomini.cat" data-magnetic>hola@elteudomini.cat</a>
-
+ 
       <div class="contact-actions reveal">
         <button class="btn" data-copy="hola@elteudomini.cat" data-magnetic>Copia el correu</button>
         <a class="btn btn-ghost" href="https://github.com/" target="_blank" rel="noopener" data-magnetic>GitHub ↗</a>
         <a class="btn btn-ghost" href="https://www.linkedin.com/" target="_blank" rel="noopener" data-magnetic>LinkedIn ↗</a>
       </div>
     </section>
-
+ 
   </main>
-
+ 
   <footer class="footer">
-    <span>© <span id="year">2026</span> Àlex Ferrer</span>
+    <span>© <span id="year">2026</span> Jan Molist</span>
     <span>Fet a mà amb HTML, CSS i JS</span>
     <a href="#inici" data-magnetic>Tornar a dalt ↑</a>
   </footer>
-
-  <script src="script.js"></script>
+ 
+  <script src="main.js"></script>
 </body>
 </html>
