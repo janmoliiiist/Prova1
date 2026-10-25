@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Laboratori · Jan Molist</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #0a0a0b;
+      color: #f3f4f6;
+      font-family: 'Space Grotesk', sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    .lab-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2rem 5%;
+      position: relative;
+      z-index: 10;
+    }
+    .lab-nav a {
+      color: #f3f4f6;
+      text-decoration: none;
+      font-weight: 700;
+    }
+    .lab-hero {
+      position: relative;
+      min-height: 70vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    #fluid {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+    .lab-hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      pointer-events: none;
+    }
+    .cube-stage {
+      width: 200px;
+      height: 200px;
+      margin: 4rem auto;
+      perspective: 800px;
+      cursor: grab;
+    }
+    .cube-stage.grab {
+      cursor: grabbing;
+    }
+    .cube {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+    }
+    .cube .face {
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(5px);
+    }
+    .cube .front  { transform: translateZ(100px); }
+    .cube .right  { transform: rotateY(90deg) translateZ(100px); }
+    .cube .back   { transform: rotateY(180deg) translateZ(100px); }
+    .cube .left   { transform: rotateY(-90deg) translateZ(100px); }
+    .cube .top    { transform: rotateX(90deg) translateZ(100px); }
+    .cube .bottom { transform: rotateX(-90deg) translateZ(100px); }
+
+    .tunnel {
+      position: relative;
+      height: 200vh;
+      margin-top: 5rem;
+    }
+    .tunnel-bar {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.1);
+      z-index: 20;
+    }
+    .tunnel-bar i {
+      display: block;
+      height: 100%;
+      background: #a3e635;
+      transform-origin: left;
+      transform: scaleX(0);
+    }
+    .tunnel-scene {
+      position: sticky;
+      top: 25vh;
+      height: 50vh;
+      perspective: 1000px;
+      transform-style: preserve-3d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .t-floor {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .t-layer {
+      position: absolute;
+      font-size: clamp(2rem, 6vw, 4.5rem);
+      font-weight: 700;
+      letter-spacing: -1px;
+    }
+
+    .ring-stage {
+      perspective: 1000px;
+      height: 420px;
+      position: relative;
+      overflow: hidden;
+      cursor: grab;
+      margin: 6rem 0;
+    }
+    .ring-stage.grab {
+      cursor: grabbing;
+    }
+    .ring {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      transform-style: preserve-3d;
+    }
+    .ring-card {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 240px;
+      height: 320px;
+      margin-left: -120px;
+      margin-top: -160px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 1.5rem;
+      backface-visibility: hidden;
+      display: flex;
+      align-items: flex-end;
+      font-weight: 700;
+    }
+    .depth-grid {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      padding: 4rem 5% 8rem 5%;
+    }
+    .depth-card {
+      width: 320px;
+      padding: 2.5rem;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transform: perspective(800px) rotateX(calc(var(--rx, 0) * 1deg)) rotateY(calc(var(--ry, 0) * 1deg));
+      transition: transform 0.1s ease-out;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="lab-nav">
+    <a href="index.html">← Tornar a l'inici</a>
+    <span style="opacity: 0.5;">( Experiments & WebGL )</span>
+  </header>
+
+  <main>
+    <!-- 1. WebGL Hero Shader -->
+    <div class="lab-hero">
+      <canvas id="fluid"></canvas>
+      <div class="lab-hero-content">
+        <h1 style="font-size: 3rem; margin-bottom: 0.5rem;">Laboratori</h1>
+        <p style="opacity: 0.6;">Interacciona amb el ratolí o arrossega la pantalla</p>
+      </div>
+    </div>
+
+    <!-- 2. Partícules de text -->
+    <div style="width: 100%; height: 260px; margin: 4rem 0; position: relative;">
+      <canvas id="ptext" style="width: 100%; height: 100%; display: block;"></canvas>
+    </div>
+
+    <!-- 3. Cub 3D interactiu -->
+    <div class="cube-stage">
+      <div class="cube">
+        <div class="face front"></div>
+        <div class="face right"></div>
+        <div class="face back"></div>
+        <div class="face left"></div>
+        <div class="face top"></div>
+        <div class="face bottom"></div>
+      </div>
+    </div>
+
+    <!-- 4. Túnel de profunditat -->
+    <div class="tunnel">
+      <div class="tunnel-bar"><i></i></div>
+      <div class="tunnel-scene">
+        <div class="t-floor"></div>
+        <div class="t-layer">EXPERIMENTS</div>
+        <div class="t-layer">WEBGL 3D</div>
+        <div class="t-layer">INNOVACIÓ</div>
+      </div>
+    </div>
+
+    <!-- 5. Galeria d'anell 3D -->
+    <div class="ring-stage">
+      <div class="ring">
+        <div class="ring-card">01 · FLUID SHADER</div>
+        <div class="ring-card">02 · TEXT PARTICLES</div>
+        <div class="ring-card">03 · 3D LIGHT CUBE</div>
+        <div class="ring-card">04 · DEPTH TUNNEL</div>
+      </div>
+    </div>
+
+    <!-- 6. Targeta amb llum dinàmica -->
+    <div class="depth-grid">
+      <div class="depth-card">
+        <h3>Interacció Dinàmica</h3>
+        <p style="opacity: 0.6; margin-top: 1rem;">Mou el cursor per sobre per provar el càlcul matemàtic de rotació i llum.</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Script que conté la lògica -->
+  <script src="lab.js"></script>
+</body>
+</html>
