@@ -11,6 +11,7 @@
   --muted: #8d8d94;
   --line: rgba(255, 255, 255, .1);
   --font: "Space Grotesk", system-ui, -apple-system, Arial, sans-serif;
+  --serif: "Instrument Serif", Georgia, serif;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -24,7 +25,7 @@ body {
   overflow-x: hidden;
 }
 a { color: inherit; text-decoration: none; }
-em { font-style: normal; color: var(--accent); }
+em { font-family: var(--serif); font-style: italic; font-weight: 400; color: var(--accent); }
 
 /* ---------- NAV ---------- */
 .lab-nav {
@@ -35,11 +36,19 @@ em { font-style: normal; color: var(--accent); }
   backdrop-filter: blur(6px);
 }
 .lab-nav .logo { font-weight: 700; font-size: 1.25rem; }
+.lab-nav .logo span { color: var(--accent); }
 .lab-nav nav { display: flex; gap: 1.5rem; margin-left: auto; font-size: .95rem; }
 .lab-nav nav a { color: var(--muted); transition: color .2s; }
 .lab-nav nav a:hover, .lab-nav nav a[aria-current] { color: var(--fg); }
-.hue-ctl { display: flex; align-items: center; gap: .5rem; font-size: .8rem; color: var(--muted); }
-.hue-ctl input { width: 90px; accent-color: var(--accent); }
+.nav-right { display: flex; align-items: center; gap: 1rem; }
+.hues { display: flex; gap: .45rem; }
+.hues button {
+  width: 16px; height: 16px; padding: 0; border-radius: 50%; cursor: pointer;
+  background: hsl(var(--h) 100% 60%); border: 2px solid transparent; transition: transform .2s;
+}
+.hues button:hover { transform: scale(1.2); }
+.hues button.on { border-color: var(--fg); }
+.btn-sm { padding: .5rem 1.1rem; font-size: .85rem; }
 
 /* ---------- HERO ---------- */
 .hero { position: relative; height: 100vh; height: 100svh; min-height: 520px; overflow: hidden; display: flex; align-items: center; }
@@ -56,8 +65,8 @@ em { font-style: normal; color: var(--accent); }
   background: var(--accent); color: #0a0a0b; transition: transform .2s, background .2s;
 }
 .btn:hover { transform: translateY(-2px); }
-.btn.ghost { background: transparent; color: var(--fg); border-color: var(--line); min-width: 3.5rem; }
-.btn.ghost:hover { border-color: var(--accent); color: var(--accent); }
+.btn-ghost { background: transparent; color: var(--fg); border-color: var(--line); min-width: 3.5rem; }
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
 
 /* ---------- BLOCS ---------- */
 .block { padding: clamp(4rem, 10vw, 8rem) clamp(1rem, 4vw, 3rem); max-width: 1200px; margin: 0 auto; }
@@ -147,14 +156,45 @@ em { font-style: normal; color: var(--accent); }
 .depth-card h3 { font-size: 1.8rem; margin-bottom: .6rem; }
 .depth-card p { color: var(--muted); }
 
+/* ---------- ÍNDEX DEL HERO ---------- */
+.lab-index { position: absolute; z-index: 2; left: clamp(1rem, 6vw, 5rem); right: clamp(1rem, 6vw, 5rem); bottom: 1.8rem; display: flex; flex-wrap: wrap; gap: .4rem 1.4rem; list-style: none; font-size: .8rem; color: var(--muted); }
+.lab-index a { transition: color .2s; }
+.lab-index a:hover { color: var(--accent); }
+
+/* ---------- CONSTEL·LACIÓ I BANDADA ---------- */
+#net, #flock { display: block; width: 100%; height: clamp(300px, 50vw, 460px); border-radius: 1.2rem; background: var(--bg2); border: 1px solid var(--line); touch-action: pan-y; cursor: crosshair; }
+
+/* ---------- TIPOGRAFIA VIVA ---------- */
+.kinetic { font-family: var(--serif); font-weight: 400; font-size: clamp(3rem, 11vw, 9rem); line-height: 1.05; letter-spacing: -.02em; text-align: center; padding: 2rem 0; touch-action: pan-y; user-select: none; }
+.kw { display: inline-block; white-space: nowrap; }
+.kc {
+  --k: 0;
+  display: inline-block;
+  transform: translateY(calc(var(--k) * -.16em)) scale(calc(1 + var(--k) * .35));
+  color: color-mix(in srgb, var(--accent) calc(var(--k) * 100%), var(--fg));
+  transition: transform .15s ease-out, color .15s;
+  will-change: transform;
+}
+
+/* ---------- TEXT DESXIFRAT ---------- */
+.scr-list { list-style: none; border-top: 1px solid var(--line); }
+.scr-list li { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: 1.3rem 0; border-bottom: 1px solid var(--line); font-size: clamp(1.6rem, 4.6vw, 3.4rem); letter-spacing: -.02em; transition: color .2s, padding .3s; }
+.scr-list li:hover { color: var(--accent); padding-left: .8rem; }
+.scr-list small { font-size: .9rem; color: var(--muted); }
+
+/* ---------- CRIDA FINAL ---------- */
+.lab-cta { text-align: center; display: grid; justify-items: center; gap: 2rem; }
+.lab-cta h2 { font-size: clamp(2rem, 6vw, 4.5rem); line-height: 1.05; letter-spacing: -.02em; max-width: 14ch; }
+
 /* ---------- PEU ---------- */
 .lab-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; padding: 2rem clamp(1rem, 4vw, 3rem); border-top: 1px solid var(--line); color: var(--muted); font-size: .9rem; }
 .lab-foot a:hover { color: var(--accent); }
 
 /* ---------- MÒBIL ---------- */
 @media (max-width: 640px) {
-  .lab-nav nav { display: none; }
-  .hue-ctl { margin-left: auto; }
+  .lab-nav nav, .lab-index { display: none; }
+  .nav-right { margin-left: auto; }
+  .nav-right .btn-sm { display: none; }
   .cube-stage { --s: 170px; height: 380px; }
   .ring-stage { height: 400px; }
   .ring { width: 200px; height: 280px; margin: -140px 0 0 -100px; }
