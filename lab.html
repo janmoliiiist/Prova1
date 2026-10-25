@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Laboratori · Jan Molist</title>
+  <meta name="description" content="Experiments en 3D, shaders i partícules. El laboratori on Jan Molist trenca les regles del disseny web.">
+  <meta name="theme-color" content="#0a0a0b">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="lab.css">
+
+  <noscript>
+    <style>
+      .loader{display:none}
+      body.loading{overflow:auto}
+      .line>span{transform:none}
+      .reveal,.hero-top,.hero-bottom{opacity:1;transform:none}
+    </style>
+  </noscript>
+</head>
+
+<body class="loading">
+
+  <!-- Pantalla de càrrega -->
+  <div class="loader" aria-hidden="true">
+    <div class="loader-inner">
+      <span class="loader-name">Laboratori</span>
+      <span class="loader-num">0</span>
+    </div>
+    <div class="loader-bar"><i></i></div>
+  </div>
+
+  <div class="progress" aria-hidden="true"><i></i></div>
+  <div class="cursor" aria-hidden="true"></div>
+  <div class="cursor-label" aria-hidden="true"></div>
+  <div class="glow" aria-hidden="true"></div>
+
+  <!-- Navegació -->
+  <header class="nav">
+    <a href="index.html" class="logo" data-magnetic>JM<span>.</span></a>
+
+    <nav class="links" aria-label="Principal">
+      <a href="index.html">Inici</a>
+      <a href="#cub">3D</a>
+      <a href="#vida">Vida</a>
+      <a href="#tipografia">Tipografia</a>
+      <a href="#materia">Matèria</a>
+      <a href="#eines">Eines</a>
+    </nav>
+
+    <div class="nav-right">
+      <div class="hues" role="group" aria-label="Canvia el color d'accent">
+        <button style="--h:75" data-hue="75" aria-label="Llima"></button>
+        <button style="--h:18" data-hue="18" aria-label="Taronja"></button>
+        <button style="--h:320" data-hue="320" aria-label="Rosa"></button>
+        <button style="--h:265" data-hue="265" aria-label="Violeta"></button>
+        <button style="--h:190" data-hue="190" aria-label="Cian"></button>
+      </div>
+      <a href="index.html#contacte" class="btn btn-sm" data-magnetic>Parlem</a>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ===================== HERO AMB SHADER ===================== -->
+    <section class="hero lab-hero" id="inici">
+      <canvas id="fluid" class="fluid" aria-hidden="true"></canvas>
+
+      <div class="hero-top">
+        <span class="pill"><i class="dot"></i> Laboratori · 21 experiments</span>
+      </div>
+
+      <h1 class="hero-title" aria-label="Aquí trenco les regles.">
+        <span class="line"><span>Aquí trenco</span></span>
+        <span class="line"><span>les <em>regles</em>.</span></span>
+      </h1>
+
+      <div class="hero-bottom">
+        <p class="hero-lead">
+          Shaders, 3D i partícules. Tot allò que no cap en un web de plantilla… i que fa que un client digui «vull això».
+        </p>
+        <div class="hero-cta">
+          <a class="btn" href="#particules" data-magnetic>Entrar al laboratori <span>↓</span></a>
+          <a class="btn btn-ghost" href="index.html" data-magnetic>← Tornar a l'inici</a>
+        </div>
+      </div>
+
+      <p class="hint">Mou el cursor · Fes clic i mantén premut</p>
+    </section>
+
+    <!-- ===================== 01 · PARTÍCULES ===================== -->
+    <section class="section" id="particules">
+      <p class="eyebrow reveal">( 01 · Partícules )</p>
+      <h2 class="h2 reveal">Toca les <em>lletres</em></h2>
+      <p class="lead reveal">Cada punt és una partícula amb la seva pròpia física. Passa-hi el cursor per escampar-les i fes clic per fer-les explotar.</p>
+
+      <div class="ptext-wrap reveal" data-cursor="Toca">
+        <canvas id="ptext"></canvas>
+        <span class="ptext-hint">Clic = explosió ✦</span>
+      </div>
+    </section>
+
+    <!-- ===================== 02 · CUB 3D ===================== -->
+    <section class="section" id="cub">
+      <div class="cube-wrap">
+        <div class="cube-copy">
+          <p class="eyebrow reveal">( 02 · 3D real )</p>
+          <h2 class="h2 reveal">Agafa'l i <em>gira'l</em></h2>
+          <p class="lead reveal">Un cub 3D fet només amb CSS, amb inèrcia, una llum que il·lumina cada cara segons com el giris i una ombra que respira al terra.</p>
+          <div class="chips-row reveal"><span>CSS 3D</span><span>Inèrcia</span><span>Il·luminació</span><span>0 llibreries</span></div>
+        </div>
+
+        <div class="cube-stage reveal" data-cursor="Arrossega">
+          <div class="cube-floor"></div>
+          <div class="cube-shadow"></div>
+          <div class="cube-float">
+            <div class="cube">
+              <div class="face f0"><div class="screen s1"><div class="s1-in"><span class="s1-title">Brasa</span><span class="s1-sub">Cuina a la llenya</span></div></div></div>
+              <div class="face f1"><div class="screen s2"><span class="s2-word">NORD</span><div class="s2-block"></div><div class="s2-dot"></div></div></div>
+              <div class="face f2"><div class="screen s3">
+                <div class="s3-kpi"><b>+248%</b><small>Visites</small></div>
+                <div class="s3-bars">
+                  <i style="--h:35%;--i:0"></i><i style="--h:55%;--i:1"></i><i style="--h:42%;--i:2"></i><i style="--h:70%;--i:3"></i>
+                  <i style="--h:58%;--i:4"></i><i style="--h:85%;--i:5"></i><i style="--h:66%;--i:6"></i><i style="--h:100%;--i:7"></i>
+                </div></div></div>
+              <div class="face f3"><div class="screen s4"><div></div><div></div><div></div></div></div>
+              <div class="face f4"><div class="screen face-top"><b>JM<em>.</em></b></div></div>
+              <div class="face f5"><div class="screen face-bottom"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 03 · TÚNEL DE PROFUNDITAT ===================== -->
+    <section class="tunnel" id="tunel">
+      <div class="tunnel-sticky">
+        <p class="tunnel-label">( 03 · Profunditat ) — Fes scroll</p>
+
+        <div class="t-floor" aria-hidden="true"></div>
+
+        <div class="tunnel-cam">
+          <div class="tunnel-scene">
+            <div class="t-layer"><span>Idea</span></div>
+            <div class="t-layer"><span>Disseny</span></div>
+            <div class="t-layer"><span>Codi</span></div>
+            <div class="t-layer"><span>Moviment</span></div>
+            <div class="t-layer"><span>Impacte</span></div>
+          </div>
+        </div>
+
+        <div class="tunnel-bar" aria-hidden="true"><i></i></div>
+      </div>
+    </section>
+
+    <!-- ===================== 04 · GALERIA GIRATÒRIA ===================== -->
+    <section class="section" id="galeria">
+      <p class="eyebrow reveal">( 04 · Galeria )</p>
+      <h2 class="h2 reveal">Una galeria que <em>gira</em></h2>
+      <p class="lead reveal">Vuit peces en un anell 3D. Arrossega, fes servir les fletxes o simplement deixa-la anar.</p>
+
+      <div class="ring-stage reveal" data-cursor="Arrossega">
+        <div class="ring-floor"></div>
+        <div class="ring">
+          <div class="ring-card"><div class="screen s1"><div class="s1-in"><span class="s1-title">Brasa</span><span class="s1-sub">Restaurant</span></div></div></div>
+          <div class="ring-card"><div class="screen k k1"><span>Aurora</span></div></div>
+          <div class="ring-card"><div class="screen s2"><span class="s2-word">NORD</span><div class="s2-block"></div><div class="s2-dot"></div></div></div>
+          <div class="ring-card"><div class="screen k k2"><span>Kinetic</span></div></div>
+          <div class="ring-card"><div class="screen s3">
+            <div class="s3-kpi"><b>+248%</b><small>Visites</small></div>
+            <div class="s3-bars">
+              <i style="--h:35%;--i:0"></i><i style="--h:55%;--i:1"></i><i style="--h:42%;--i:2"></i><i style="--h:70%;--i:3"></i>
+              <i style="--h:58%;--i:4"></i><i style="--h:85%;--i:5"></i><i style="--h:66%;--i:6"></i><i style="--h:100%;--i:7"></i>
+            </div></div></div>
+          <div class="ring-card"><div class="screen k k3"><span>Vertex</span></div></div>
+          <div class="ring-card"><div class="screen s4"><div></div><div></div><div></div></div></div>
+          <div class="ring-card"><div class="screen k k4"><span>Orbit</span></div></div>
+        </div>
+      </div>
+
+      <div class="ring-ctrl">
+        <button class="btn btn-ghost btn-sm" data-ring="-1" aria-label="Anterior">←</button>
+        <button class="btn btn-ghost btn-sm" data-ring="1" aria-label="Següent">→</button>
+      </div>
+    </section>
+
+    <!-- ===================== 05 · TARGETES AMB PROFUNDITAT ===================== -->
+    <section class="section" id="capes">
+      <p class="eyebrow reveal">( 05 · Capes )</p>
+      <h2 class="h2 reveal">Cada element, a la seva <em>alçada</em></h2>
+      <p class="lead reveal">Mou el cursor per sobre: les capes se separen, la llum les segueix i l'ombra es desplaça. Així es crea la sensació de tenir-ho a les mans.</p>
+
+      <div class="depth-grid reveal">
+
+        <article class="depth-card dc1">
+          <span class="dc-tag dc-l" style="--z:40px">01 · Marca</span>
+          <div class="dc-orb dc-l" style="--z:30px"></div>
+          <div class="dc-ring dc-l" style="--z:60px"></div>
+          <div class="dc-chip dc-l" style="--z:120px">Logo</div>
+          <div class="dc-title dc-l" style="--z:80px">
+            <h3>Identitat<br><em>visual</em></h3>
+            <p>Logo, color i tipografia que es recorden.</p>
+          </div>
+        </article>
+
+        <article class="depth-card dc2">
+          <span class="dc-tag dc-l" style="--z:40px">02 · Interfície</span>
+          <div class="dc-win dc-l" style="--z:30px">
+            <div class="dc-bar"><i></i><i></i><i></i></div>
+            <div class="dc-lines"><b></b><b></b><b></b></div>
+          </div>
+          <div class="dc-chart dc-l" style="--z:70px">
+            <i style="--h:40%"></i><i style="--h:65%"></i><i style="--h:50%"></i><i style="--h:90%"></i><i style="--h:70%"></i>
+          </div>
+          <div class="dc-btn dc-l" style="--z:120px">Comprar →</div>
+          <div class="dc-title dc-l" style="--z:80px">
+            <h3>Webs que<br><em>converteixen</em></h3>
+            <p>Interfícies clares amb detalls que fan la diferència.</p>
+          </div>
+        </article>
+
+        <article class="depth-card dc3">
+          <span class="dc-tag dc-l" style="--z:40px">03 · Moviment</span>
+          <div class="dc-orbit o1 dc-l" style="--z:20px"></div>
+          <div class="dc-orbit o2 dc-l" style="--z:60px"></div>
+          <div class="dc-core dc-l" style="--z:110px"></div>
+          <div class="dc-title dc-l" style="--z:80px">
+            <h3>Animació<br><em>amb sentit</em></h3>
+            <p>Moviment que guia l'ull i explica la marca.</p>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ===================== 06 · VIDA ARTIFICIAL (exp. 7 i 8) ===================== -->
+    <section class="section" id="vida">
+      <p class="eyebrow reveal">( 06 · Vida artificial )</p>
+      <h2 class="h2 reveal">Coses que semblen <em>vives</em></h2>
+      <p class="lead reveal">Una xarxa que s'enganxa al cursor i una bandada on cada punt només segueix tres regles simples. Cap animació pregravada.</p>
+
+      <div class="duo reveal">
+        <figure class="stage" data-cursor="Mou">
+          <canvas id="net"></canvas>
+          <figcaption>Constel·lació · clic = nous nodes</figcaption>
+        </figure>
+        <figure class="stage" data-cursor="Espanta">
+          <canvas id="flock"></canvas>
+          <figcaption>Bandada · clic = espantar-les</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ===================== 07 · TIPOGRAFIA (exp. 9 i 10) ===================== -->
+    <section class="section" id="tipografia">
+      <p class="eyebrow reveal">( 07 · Tipografia )</p>
+      <h2 class="kinetic" data-text="Les lletres et senten" data-cursor="Mou">Les lletres et senten</h2>
+      <p class="lead reveal">Cada lletra mesura la distància al teu cursor: s'il·lumina, s'aixeca i creix. A sota, text que es desxifra en passar-hi per sobre.</p>
+
+      <ul class="scr-list reveal">
+        <li><span class="scr-n">01</span><span class="scr-t" data-scramble="Disseny web a mesura"></span><span class="scr-d">Identitat i interfície</span></li>
+        <li><span class="scr-n">02</span><span class="scr-t" data-scramble="Desenvolupament net"></span><span class="scr-d">Codi ràpid i mantenible</span></li>
+        <li><span class="scr-n">03</span><span class="scr-t" data-scramble="Animació amb sentit"></span><span class="scr-d">Moviment que guia l'ull</span></li>
+        <li><span class="scr-n">04</span><span class="scr-t" data-scramble="SEO i rendiment"></span><span class="scr-d">Que et trobin i carregui en un instant</span></li>
+      </ul>
+    </section>
+
+    <!-- ===================== 08 · MATÈRIA (exp. 11, 12 i 13) ===================== -->
+    <section class="section" id="materia">
+      <p class="eyebrow reveal">( 08 · Matèria )</p>
+      <h2 class="h2 reveal">Píxels que es <em>comporten</em></h2>
+      <p class="lead reveal">Una graella d'ones, un rastre de llum i metabolles calculades per la targeta gràfica. Juga-hi: tot respon.</p>
+
+      <div class="matter reveal">
+        <figure class="stage m-wave" data-cursor="Toca">
+          <canvas id="wave"></canvas>
+          <figcaption>Graella d'ones · clic = onada</figcaption>
+        </figure>
+        <figure class="stage m-trail" data-cursor="Dibuixa">
+          <canvas id="trail"></canvas>
+          <figcaption>Rastre de llum · clic = espurnes</figcaption>
+        </figure>
+        <figure class="stage m-blobs" data-cursor="Mou">
+          <canvas id="blobs"></canvas>
+          <figcaption>Metabolles · shader · clic = massa</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ===================== 09 · LLANTERNA (exp. 14) ===================== -->
+    <section class="section" id="llanterna">
+      <p class="eyebrow reveal">( 09 · Llanterna )</p>
+      <h2 class="h2 reveal">Troba el que està <em>amagat</em></h2>
+      <p class="lead reveal">Un revelat amb màscara que segueix el cursor. Fes clic i mantén per ampliar el feix de llum.</p>
+
+      <div class="flash reveal" data-cursor="Il·lumina">
+        <div class="fl-layer fl-base" aria-hidden="true">
+          <p>Aquí no hi ha res…</p>
+        </div>
+        <div class="fl-layer fl-lit">
+          <div>
+            <span class="fl-tag">✦ Missatge secret</span>
+            <p>Els detalls amagats són <em>el que es recorda</em>.</p>
+            <small>Un web memorable sempre té alguna cosa per descobrir.</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 10 · VELOCITAT (exp. 15) ===================== -->
+    <section class="vmarq" id="velocitat" aria-label="Marquee que reacciona al scroll">
+      <p class="vm-label">( 10 · Velocitat ) — Fes scroll amunt i avall</p>
+      <div class="vm-row" data-text="Webs que es recorden"><div class="vm-track"></div></div>
+      <div class="vm-row outline" data-text="Disseny · Codi · Moviment"><div class="vm-track"></div></div>
+      <div class="vm-row serif" data-text="Fes scroll i m'accelero"><div class="vm-track"></div></div>
+    </section>
+
+    <!-- ===================== 11 · ABANS / DESPRÉS (exp. 16) ===================== -->
+    <section class="section" id="abans">
+      <p class="eyebrow reveal">( 11 · Abans / Després )</p>
+      <h2 class="h2 reveal">El mateix negoci. <em>Dues</em> alçades.</h2>
+      <p class="lead reveal">Arrossega la barra (o fes servir les fletxes del teclat) per comparar un web de fa vint anys amb un de fet amb cura. Negoci fictici, només és una demostració.</p>
+
+      <div class="ba reveal" data-cursor="Arrossega">
+        <div class="ba-before" aria-hidden="true">
+          <div class="bp-old">
+            <p class="bo-nav"><u>Inici</u> | <u>Serveis</u> | <u>Preus</u> | <u>Contacte</u></p>
+            <h4>BENVINGUTS A LA PERRUQUERIA MARIA!!!</h4>
+            <p>Som una perruqueria amb 20 anys d'experiència. Truqui'ns al 93 000 00 00.</p>
+            <div class="bo-pics"><span>[foto]</span><span>[foto]</span><span>[foto]</span></div>
+            <p><u>Cliqui aquí</u> per veure els nostres preus.</p>
+            <p class="bo-count">Visitants: 000412</p>
+          </div>
+        </div>
+
+        <div class="ba-after" aria-hidden="true">
+          <div class="bp-new">
+            <div class="bn-nav"><b>Maria<em>.</em></b><span>Serveis</span><span>Preus</span><span class="bn-cta">Reserva</span></div>
+            <h4>El teu cabell,<br><em>a les millors mans.</em></h4>
+            <p>Talls, color i cura capil·lar. Reserva en 30 segons.</p>
+            <span class="bn-btn">Reserva cita →</span>
+            <div class="bn-cards"><i></i><i></i><i></i></div>
+          </div>
+        </div>
+
+        <span class="ba-tag ba-tag-l">Abans</span>
+        <span class="ba-tag ba-tag-r">Després</span>
+
+        <div class="ba-handle" role="slider" tabindex="0" aria-label="Compara l'abans i el després" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+          <span class="ba-knob">↔</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 12 · EINES REALS (exp. 17 a 21) ===================== -->
+    <section class="section" id="eines">
+      <p class="eyebrow reveal">( 12 · Eines reals )</p>
+      <h2 class="h2 reveal">Quan el client <em>interactua</em>, converteix</h2>
+      <p class="lead reveal">Cinc eines que funcionen de debò: pressupostador, mesurador de rendiment, laboratori de color, formulari amb validació i mode clar/fosc. Això és el que un web pot fer pel teu negoci.</p>
+
+      <!-- 17 · Pressupostador -->
+      <div class="tool-head reveal"><span class="tool-n">17</span><div><h3>Pressupostador interactiu</h3><p>Tria el que necessites i veuràs una estimació a l'instant. (Preus de mostra.)</p></div></div>
+      <div class="quote tool reveal">
+        <div class="q-form">
+          <fieldset>
+            <legend>Tipus de web</legend>
+            <label class="opt"><input type="radio" name="q-type" value="landing"><span>Landing page</span></label>
+            <label class="opt"><input type="radio" name="q-type" value="corporate" checked><span>Web corporativa</span></label>
+            <label class="opt"><input type="radio" name="q-type" value="shop"><span>Botiga en línia</span></label>
+          </fieldset>
+
+          <div class="q-range">
+            <label for="q-pages">Pàgines</label>
+            <output id="q-pages-o">5</output>
+            <input type="range" id="q-pages" min="1" max="15" value="5">
+          </div>
+
+          <fieldset>
+            <legend>Extres</legend>
+            <label class="opt"><input type="checkbox" name="q-extra" value="seo"><span>SEO tècnic</span></label>
+            <label class="opt"><input type="checkbox" name="q-extra" value="anim"><span>Animacions a mesura</span></label>
+            <label class="opt"><input type="checkbox" name="q-extra" value="i18n"><span>Multiidioma</span></label>
+            <label class="opt"><input type="checkbox" name="q-extra" value="blog"><span>Blog</span></label>
+            <label class="opt"><input type="checkbox" name="q-extra" value="stat"><span>Analítica</span></label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Termini</legend>
+            <label class="opt"><input type="radio" name="q-pace" value="calm"><span>Sense pressa</span></label>
+            <label class="opt"><input type="radio" name="q-pace" value="normal" checked><span>Normal</span></label>
+            <label class="opt"><input type="radio" name="q-pace" value="rush"><span>Urgent</span></label>
+          </fieldset>
+        </div>
+
+        <aside class="q-result" aria-live="polite">
+          <p class="q-label">Estimació orientativa</p>
+          <p class="q-price"><span id="q-min">0</span> – <span id="q-max">0</span> <small>€</small></p>
+          <p class="q-time">Uns <b id="q-weeks">0</b> setmanes</p>
+          <ul class="q-break"></ul>
+          <div class="q-actions">
+            <button class="btn" id="q-mail" type="button">Enviar per correu</button>
+            <button class="btn btn-ghost" id="q-copy" type="button">Copia el resum</button>
+          </div>
+        </aside>
+      </div>
+
+      <!-- 18 i 21 · Rendiment + tema -->
+      <div class="duo duo-tools">
+        <div>
+          <div class="tool-head reveal"><span class="tool-n">18</span><div><h3>Rendiment en directe</h3><p>Mesurat al teu navegador, ara mateix.</p></div></div>
+          <div class="perf tool reveal">
+            <div class="pf-fps"><div><b id="pf-fps">—</b><span>FPS</span></div><canvas id="fps-cv"></canvas></div>
+            <ul class="pf-grid">
+              <li><span>Càrrega</span><b id="pf-load">…</b></li>
+              <li><span>Primer pintat</span><b id="pf-fcp">…</b></li>
+              <li><span>Contingut principal</span><b id="pf-lcp">…</b></li>
+              <li><span>Pes transferit</span><b id="pf-size">…</b></li>
+              <li><span>Peticions</span><b id="pf-req">…</b></li>
+              <li><span>Nodes DOM</span><b id="pf-dom">…</b></li>
+              <li><span>Memòria JS</span><b id="pf-mem">…</b></li>
+              <li><span>Connexió</span><b id="pf-net">…</b></li>
+            </ul>
+          </div>
+        </div>
+
+        <div>
+          <div class="tool-head reveal"><span class="tool-n">21</span><div><h3>Mode clar / fosc</h3><p>El canvi es revela en cercle des del botó.</p></div></div>
+          <div class="theme reveal">
+            <div class="th-view" data-theme="dark">
+              <div class="th-nav"><b>JM.</b><span>Inici</span><span>Projectes</span><button class="th-toggle" type="button" aria-label="Canvia entre mode clar i fosc"></button></div>
+              <div class="th-hero">
+                <h3>El teu web, <em>de dia i de nit</em></h3>
+                <p>Un mode clar i un mode fosc dissenyats amb la mateixa cura.</p>
+                <span class="th-btn">Veure més</span>
+              </div>
+              <div class="th-cards"><i></i><i></i><i></i></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 19 · Color -->
+      <div class="tool-head reveal"><span class="tool-n">19</span><div><h3>Laboratori de color</h3><p>Genera una paleta, comprova el contrast d'accessibilitat i aplica el color a tot el web.</p></div></div>
+      <div class="clab tool reveal">
+        <div class="cl-ctrl">
+          <label>To <output id="cl-h-o">75</output><input type="range" id="cl-h" min="0" max="360" value="75"></label>
+          <label>Saturació <output id="cl-s-o">100</output>%<input type="range" id="cl-s" min="0" max="100" value="100"></label>
+          <label>Lluminositat <output id="cl-l-o">60</output>%<input type="range" id="cl-l" min="0" max="100" value="60"></label>
+          <div class="cl-actions">
+            <button class="btn btn-sm" id="cl-apply" type="button">Aplica al web</button>
+            <button class="btn btn-ghost btn-sm" id="cl-css" type="button">Copia el CSS</button>
+          </div>
+        </div>
+
+        <div id="cl-pal" class="cl-pal"></div>
+
+        <div class="cl-contrast">
+          <h4>Contrast WCAG</h4>
+          <div class="cl-row">
+            <label>Text <input type="color" id="cl-fg" value="#d4ff3a"></label>
+            <label>Fons <input type="color" id="cl-bg" value="#0a0a0b"></label>
+            <button class="btn btn-ghost btn-sm" id="cl-swap" type="button" aria-label="Intercanvia text i fons">⇄</button>
+          </div>
+          <div id="cl-prev" class="cl-prev">Així es llegeix el teu text</div>
+          <p class="cl-ratio"><b id="cl-r">0</b> : 1</p>
+          <ul class="cl-badges">
+            <li id="b-aa" data-ok="0">AA text</li>
+            <li id="b-aal" data-ok="0">AA gran</li>
+            <li id="b-aaa" data-ok="0">AAA</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 20 · Formulari -->
+      <div class="tool-head reveal"><span class="tool-n">20</span><div><h3>Formulari intel·ligent</h3><p>Validació en directe, comptador i un final amb confeti.</p></div></div>
+      <form class="sform tool reveal" novalidate>
+        <div class="sf-grid">
+          <div class="sf-field">
+            <label for="sf-name">Nom</label>
+            <input id="sf-name" type="text" data-rule="name" autocomplete="name" placeholder="Com et dius?">
+            <span class="sf-err" aria-live="polite"></span>
+          </div>
+          <div class="sf-field">
+            <label for="sf-email">Correu</label>
+            <input id="sf-email" type="email" data-rule="email" autocomplete="email" placeholder="nom@empresa.cat">
+            <span class="sf-err" aria-live="polite"></span>
+          </div>
+          <div class="sf-field sf-wide">
+            <label for="sf-type">Tipus de projecte</label>
+            <select id="sf-type" data-rule="type">
+              <option value="">Tria una opció…</option>
+              <option>Web corporativa</option>
+              <option>Botiga en línia</option>
+              <option>Landing page</option>
+              <option>Una altra cosa</option>
+            </select>
+            <span class="sf-err" aria-live="polite"></span>
+          </div>
+          <div class="sf-field sf-wide">
+            <label for="sf-msg">Explica'm el teu projecte</label>
+            <textarea id="sf-msg" data-rule="msg" rows="4" maxlength="400" placeholder="Què necessites? Per a quan?"></textarea>
+            <span class="sf-count" id="sf-count">0/400</span>
+            <span class="sf-err" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <label class="sf-check"><input type="checkbox" id="sf-consent"><span>Accepto que em contacteu per respondre aquesta consulta.</span></label>
+        <p class="sf-check-err" hidden>Cal que ho acceptis per poder enviar.</p>
+
+        <button class="btn sf-send" type="submit">Enviar consulta</button>
+
+        <div class="sf-done" hidden>
+          <h4>Gairebé fet! 🎉</h4>
+          <p>Aquest formulari obre el teu programa de correu amb tot ja escrit. (Més endavant es pot connectar a un servei com Formspree perquè s'enviï directament.)</p>
+          <div class="sf-done-actions">
+            <button class="btn" id="sf-mail" type="button">Obrir el correu</button>
+            <button class="btn btn-ghost" id="sf-reset" type="button">Tornar a començar</button>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <!-- ===================== CONTACTE ===================== -->
+    <section class="section contact" id="contacte">
+      <p class="eyebrow reveal">( I ara què? )</p>
+      <h2 class="contact-title reveal">Imagina-ho al <em>teu</em> web.</h2>
+      <div class="contact-actions reveal">
+        <a class="btn" href="index.html#contacte" data-magnetic>Parlem del teu projecte</a>
+        <a class="btn btn-ghost" href="index.html" data-magnetic>← Tornar a l'inici</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <span>© <span id="year">2026</span> Jan Molist</span>
+    <span>Laboratori · HTML, CSS, JS i WebGL</span>
+    <a href="#inici" data-magnetic>Tornar a dalt ↑</a>
+  </footer>
+
+  <script src="script.js"></script>
+  <script src="lab.js"></script>
+</body>
+</html>
