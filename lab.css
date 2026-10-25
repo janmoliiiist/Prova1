@@ -1,92 +1,55 @@
 /* ==========================================================
-   LABORATORI · lab.css  (independent de la resta de la web)
+   LABORATORI · lab.css
+   Només el que és propi del laboratori. Variables, base, nav,
+   botons, cursor, loader, footer... vénen de style.css.
    ========================================================== */
-:root {
-  --hue: 75;
-  --accent: hsl(var(--hue) 100% 60%);
-  --accent-soft: hsl(var(--hue) 100% 60% / .15);
-  --bg: #0a0a0b;
-  --bg2: #131316;
-  --fg: #f2f2ee;
-  --muted: #8d8d94;
-  --line: rgba(255, 255, 255, .1);
-  --font: "Space Grotesk", system-ui, -apple-system, Arial, sans-serif;
-  --serif: "Instrument Serif", Georgia, serif;
-}
+:root { --panel: rgba(17, 17, 19, .75); }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body {
-  background: var(--bg);
-  color: var(--fg);
-  font-family: var(--font);
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
-}
-a { color: inherit; text-decoration: none; }
-em { font-family: var(--serif); font-style: italic; font-weight: 400; color: var(--accent); }
+/* Enllaç actiu del menú */
+.links a[aria-current] { color: var(--fg); }
+.links a[aria-current]::after { transform: scaleX(1); }
 
-/* ---------- NAV ---------- */
-.lab-nav {
-  position: fixed; inset: 0 0 auto 0; z-index: 50;
-  display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
-  padding: 1rem clamp(1rem, 4vw, 3rem);
-  background: linear-gradient(#0a0a0bcc, #0a0a0b00);
-  backdrop-filter: blur(6px);
+/* ---------- HERO AMB SHADER ---------- */
+.lab-hero {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 8rem var(--pad) 2.2rem;
+  overflow: hidden;
 }
-.lab-nav .logo { font-weight: 700; font-size: 1.25rem; }
-.lab-nav .logo span { color: var(--accent); }
-.lab-nav nav { display: flex; gap: 1.5rem; margin-left: auto; font-size: .95rem; }
-.lab-nav nav a { color: var(--muted); transition: color .2s; }
-.lab-nav nav a:hover, .lab-nav nav a[aria-current] { color: var(--fg); }
-.nav-right { display: flex; align-items: center; gap: 1rem; }
-.hues { display: flex; gap: .45rem; }
-.hues button {
-  width: 16px; height: 16px; padding: 0; border-radius: 50%; cursor: pointer;
-  background: hsl(var(--h) 100% 60%); border: 2px solid transparent; transition: transform .2s;
-}
-.hues button:hover { transform: scale(1.2); }
-.hues button.on { border-color: var(--fg); }
-.btn-sm { padding: .5rem 1.1rem; font-size: .85rem; }
+#fluid { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: 0; }
+.lab-hero > *:not(canvas) { position: relative; z-index: 2; }
+.lab-hero .hero-title { font-size: clamp(3rem, 9.5vw, 9rem); max-width: 12ch; margin: 2rem 0 2.5rem; }
 
-/* ---------- HERO ---------- */
-.hero { position: relative; height: 100vh; height: 100svh; min-height: 520px; overflow: hidden; display: flex; align-items: center; }
-#fluid { position: absolute; inset: 0; width: 100%; height: 100%; display: block; background: var(--bg); }
-.hero-in { position: relative; z-index: 2; padding: 0 clamp(1rem, 6vw, 5rem); max-width: 900px; pointer-events: none; }
-.hero-in .btn { pointer-events: auto; }
-.eyebrow { color: var(--accent); font-size: .9rem; letter-spacing: .08em; margin-bottom: 1rem; }
-.hero h1 { font-size: clamp(2.4rem, 7vw, 5.5rem); line-height: 1.02; letter-spacing: -.03em; font-weight: 700; }
-.lead { margin: 1.4rem 0 2rem; color: #c9c9cf; max-width: 520px; font-size: clamp(1rem, 1.6vw, 1.2rem); }
-
-.btn {
-  display: inline-block; cursor: pointer; font: inherit; font-weight: 500;
-  padding: .85rem 1.6rem; border-radius: 999px; border: 1px solid var(--accent);
-  background: var(--accent); color: #0a0a0b; transition: transform .2s, background .2s;
+.lab-index {
+  display: flex; flex-wrap: wrap; gap: .5rem 1.6rem;
+  margin-top: 2.5rem; padding-top: 1.4rem;
+  border-top: 1px solid var(--line);
+  font-size: .8rem; color: var(--muted);
 }
-.btn:hover { transform: translateY(-2px); }
-.btn-ghost { background: transparent; color: var(--fg); border-color: var(--line); min-width: 3.5rem; }
-.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+.lab-index a { transition: color .3s; }
+.lab-index a:hover { color: var(--accent); }
 
 /* ---------- BLOCS ---------- */
-.block { padding: clamp(4rem, 10vw, 8rem) clamp(1rem, 4vw, 3rem); max-width: 1200px; margin: 0 auto; }
-.block-h { margin-bottom: 2.5rem; max-width: 640px; }
-.block-h .num { color: var(--accent); font-size: .9rem; letter-spacing: .1em; }
-.block-h h2 { font-size: clamp(2rem, 5vw, 3.6rem); line-height: 1.05; letter-spacing: -.02em; margin: .4rem 0 1rem; }
-.block-h p { color: var(--muted); }
+.lab-block { max-width: 1400px; margin-inline: auto; padding-block: clamp(4rem, 9vw, 8rem); }
+.lab-block .h2 { font-size: clamp(2.2rem, 6vw, 5rem); }
+.lab-note { max-width: 34rem; margin-top: 1.4rem; color: var(--muted); }
+.stage { margin-top: 3rem; border: 1px solid var(--line); border-radius: 22px; background: var(--panel); overflow: hidden; }
 
-/* ---------- PARTÍCULES ---------- */
-#ptext { display: block; width: 100%; height: clamp(220px, 40vw, 380px); cursor: crosshair; touch-action: none; border-radius: 1.2rem; background: var(--bg2); border: 1px solid var(--line); }
+/* ---------- 01 PARTÍCULES ---------- */
+#ptext { display: block; width: 100%; height: clamp(220px, 40vw, 380px); touch-action: none; }
 
-/* ---------- CUB ---------- */
+/* ---------- 02 CUB ---------- */
 .cube-stage {
   --s: 220px;
   height: 460px; display: grid; place-items: center; perspective: 1100px;
-  cursor: grab; touch-action: none; user-select: none;
-  border-radius: 1.2rem; background: radial-gradient(circle at 50% 40%, var(--accent-soft), transparent 60%), var(--bg2);
-  border: 1px solid var(--line);
+  touch-action: none; user-select: none;
+  background: radial-gradient(circle at 50% 40%, var(--accent-soft), transparent 60%), var(--panel);
 }
-.cube-stage.grab { cursor: grabbing; }
 .cube { position: relative; width: var(--s); height: var(--s); transform-style: preserve-3d; will-change: transform; }
 .face {
   --sh: .3;
@@ -102,13 +65,13 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; color: var
 .f-top    { transform: rotateX(90deg)  translateZ(calc(var(--s) / 2)); }
 .f-bottom { transform: rotateX(-90deg) translateZ(calc(var(--s) / 2)); }
 
-/* ---------- TÚNEL ---------- */
-.tunnel { position: relative; height: 500vh; }
+/* ---------- 03 TÚNEL ---------- */
+.tunnel { position: relative; z-index: 1; height: 500vh; }
 .tunnel-sticky { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; perspective: 800px; background: radial-gradient(ellipse at 50% 50%, #17171b, var(--bg) 70%); }
 .tunnel-scene { position: absolute; inset: 0; transform-style: preserve-3d; will-change: transform; }
 .t-layer { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; transform-style: preserve-3d; will-change: transform, opacity; padding: 1rem; }
-.t-layer span { color: var(--accent); font-size: 1rem; letter-spacing: .1em; }
-.t-layer h3 { font-size: clamp(3rem, 12vw, 9rem); line-height: 1; letter-spacing: -.04em; }
+.t-layer span { font-family: var(--serif); font-style: italic; font-size: 2rem; color: var(--accent); }
+.t-layer h3 { font-size: clamp(3rem, 12vw, 9rem); line-height: .95; letter-spacing: -.045em; }
 .t-layer p { color: var(--muted); font-size: clamp(1rem, 2vw, 1.4rem); margin-top: .5rem; }
 .t-floor {
   --gy: 0px;
@@ -121,51 +84,50 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; color: var
   -webkit-mask-image: linear-gradient(#000 0, transparent 40%); mask-image: linear-gradient(#000 0, transparent 40%);
   pointer-events: none;
 }
-.tunnel-hud { position: absolute; left: 0; right: 0; bottom: 0; padding: 1.2rem clamp(1rem, 4vw, 3rem) 1.6rem; font-size: .85rem; color: var(--muted); z-index: 3; }
-.tunnel-bar { height: 3px; margin-top: .6rem; background: var(--line); }
+.tunnel-hud { position: absolute; left: 0; right: 0; bottom: 0; padding: 1.2rem var(--pad) 1.6rem; font-size: .85rem; color: var(--muted); z-index: 3; }
+.tunnel-bar { height: 2px; margin-top: .6rem; background: var(--line); }
 .tunnel-bar i { display: block; height: 100%; background: var(--accent); transform-origin: 0 50%; transform: scaleX(0); }
 
-/* ---------- ANELL ---------- */
-.ring-stage { position: relative; height: 460px; perspective: 1300px; overflow: hidden; cursor: grab; touch-action: pan-y; user-select: none; border-radius: 1.2rem; background: var(--bg2); border: 1px solid var(--line); }
-.ring-stage.grab { cursor: grabbing; }
+/* ---------- 04 ANELL ---------- */
+.ring-stage { position: relative; height: 460px; perspective: 1300px; touch-action: pan-y; user-select: none; }
 .ring { position: absolute; left: 50%; top: 50%; width: 260px; height: 340px; margin: -170px 0 0 -130px; transform-style: preserve-3d; will-change: transform; }
 .ring-card {
   --d: 0;
   position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; gap: .2rem;
-  padding: 1.4rem; border-radius: 1rem; overflow: hidden;
+  padding: 1.4rem; border-radius: 18px; overflow: hidden;
   background: linear-gradient(160deg, var(--accent), hsl(calc(var(--hue) + 60) 90% 35%));
   color: #0a0a0b; backface-visibility: hidden;
 }
-.ring-card b { font-size: 2rem; letter-spacing: -.02em; }
+.ring-card b { font-size: 2rem; letter-spacing: -.03em; }
 .ring-card span { font-size: .9rem; opacity: .75; }
 .ring-card::after { content: ""; position: absolute; inset: 0; background: #000; opacity: var(--d); pointer-events: none; }
 .ring-ctl { display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem; }
 
-/* ---------- TARGETES ---------- */
-.depth-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.2rem; }
+/* ---------- 05 TARGETES AMB LLUM ---------- */
+.depth-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.2rem; margin-top: 3rem; }
 .depth-card {
   --rx: 0; --ry: 0; --gx: 50%; --gy: 50%;
-  position: relative; padding: 2rem 1.6rem; min-height: 240px; border-radius: 1.2rem;
-  background: radial-gradient(circle at var(--gx) var(--gy), var(--accent-soft), transparent 55%), var(--bg2);
+  position: relative; padding: 2rem; min-height: 280px; border-radius: 22px;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  background: radial-gradient(circle at var(--gx) var(--gy), var(--accent-soft), transparent 55%), var(--panel);
   border: 1px solid var(--line);
   transform: perspective(800px) rotateX(calc(var(--rx) * 1deg)) rotateY(calc(var(--ry) * 1deg));
-  transition: transform .15s ease-out, border-color .2s;
+  transition: transform .15s ease-out, border-color .3s;
   will-change: transform;
 }
-.depth-card:hover { border-color: var(--accent); }
-.depth-card h3 { font-size: 1.8rem; margin-bottom: .6rem; }
+.depth-card:hover { border-color: hsl(var(--hue) 100% 60% / .5); }
+.depth-card h3 { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 2.4rem; color: var(--accent); margin-bottom: .4rem; }
 .depth-card p { color: var(--muted); }
 
-/* ---------- ÍNDEX DEL HERO ---------- */
-.lab-index { position: absolute; z-index: 2; left: clamp(1rem, 6vw, 5rem); right: clamp(1rem, 6vw, 5rem); bottom: 1.8rem; display: flex; flex-wrap: wrap; gap: .4rem 1.4rem; list-style: none; font-size: .8rem; color: var(--muted); }
-.lab-index a { transition: color .2s; }
-.lab-index a:hover { color: var(--accent); }
+/* ---------- 06 i 07 CANVAS ---------- */
+#net, #flock { display: block; width: 100%; height: clamp(300px, 50vw, 460px); touch-action: pan-y; }
 
-/* ---------- CONSTEL·LACIÓ I BANDADA ---------- */
-#net, #flock { display: block; width: 100%; height: clamp(300px, 50vw, 460px); border-radius: 1.2rem; background: var(--bg2); border: 1px solid var(--line); touch-action: pan-y; cursor: crosshair; }
-
-/* ---------- TIPOGRAFIA VIVA ---------- */
-.kinetic { font-family: var(--serif); font-weight: 400; font-size: clamp(3rem, 11vw, 9rem); line-height: 1.05; letter-spacing: -.02em; text-align: center; padding: 2rem 0; touch-action: pan-y; user-select: none; }
+/* ---------- 08 TIPOGRAFIA VIVA ---------- */
+.kinetic {
+  margin-top: 2rem; padding: 2rem 0; text-align: center; user-select: none; touch-action: pan-y;
+  font-family: var(--serif); font-weight: 400;
+  font-size: clamp(3rem, 11vw, 9rem); line-height: 1.05; letter-spacing: -.02em;
+}
 .kw { display: inline-block; white-space: nowrap; }
 .kc {
   --k: 0;
@@ -176,33 +138,34 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; color: var
   will-change: transform;
 }
 
-/* ---------- TEXT DESXIFRAT ---------- */
-.scr-list { list-style: none; border-top: 1px solid var(--line); }
-.scr-list li { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: 1.3rem 0; border-bottom: 1px solid var(--line); font-size: clamp(1.6rem, 4.6vw, 3.4rem); letter-spacing: -.02em; transition: color .2s, padding .3s; }
-.scr-list li:hover { color: var(--accent); padding-left: .8rem; }
-.scr-list small { font-size: .9rem; color: var(--muted); }
+/* ---------- 09 TEXT DESXIFRAT ---------- */
+.scr-list { margin-top: 3rem; border-top: 1px solid var(--line); }
+.scr-list li {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 1rem;
+  padding: 1.5rem 0; border-bottom: 1px solid var(--line);
+  font-size: clamp(1.8rem, 5vw, 3.8rem); font-weight: 700; letter-spacing: -.04em;
+  transition: color .3s, padding .5s var(--ease);
+}
+.scr-list li:hover { color: var(--accent); padding-left: 1.2rem; }
+.scr-list small { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 1.4rem; color: var(--accent); letter-spacing: 0; }
 
 /* ---------- CRIDA FINAL ---------- */
-.lab-cta { text-align: center; display: grid; justify-items: center; gap: 2rem; }
-.lab-cta h2 { font-size: clamp(2rem, 6vw, 4.5rem); line-height: 1.05; letter-spacing: -.02em; max-width: 14ch; }
-
-/* ---------- PEU ---------- */
-.lab-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; padding: 2rem clamp(1rem, 4vw, 3rem); border-top: 1px solid var(--line); color: var(--muted); font-size: .9rem; }
-.lab-foot a:hover { color: var(--accent); }
+.lab-cta .contact-title { font-size: clamp(2.4rem, 8vw, 7rem); max-width: 14ch; }
 
 /* ---------- MÒBIL ---------- */
-@media (max-width: 640px) {
-  .lab-nav nav, .lab-index { display: none; }
-  .nav-right { margin-left: auto; }
-  .nav-right .btn-sm { display: none; }
+@media (max-width: 800px) {
+  .lab-hero .hero-title { max-width: none; }
   .cube-stage { --s: 170px; height: 380px; }
   .ring-stage { height: 400px; }
   .ring { width: 200px; height: 280px; margin: -140px 0 0 -100px; }
 }
+@media (max-width: 640px) {
+  .lab-index { display: none; }
+  .nav-right .btn-sm { display: none; }
+}
 
 /* ---------- MOVIMENT REDUÏT ---------- */
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
   .tunnel { height: auto; }
   .tunnel-sticky { position: static; height: auto; perspective: none; padding: 4rem 0; }
   .tunnel-scene { position: static; }
