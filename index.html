@@ -51,6 +51,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="cases.css">
+  <link rel="stylesheet" href="seccions.css">
 
   <!-- Qui ja ha vist la pantalla de càrrega en aquesta sessió, no la torna a veure -->
   <script>
@@ -81,6 +82,11 @@
     enllaça amb la seva pàgina de cas (projecte-*.html, generades amb
     generar-casos.py). Quan tinguis clients reals, substitueix el bloc
     <div class="screen ..."> per una <img src="imatges/el-teu-projecte.jpg" alt="...">
+  - Preus: són de mostra i coincideixen amb els del pressupostador del
+    laboratori (lab.js, bloc TYPES). Si els canvies, canvia'ls als dos llocs.
+  - Testimonis i logos: són d'exemple. Quan en tinguis de reals, substitueix
+    el text i treu la classe "is-sample" de <section id="confianca">: les
+    etiquetes "Exemple" desapareixen soles.
   - Xifres i textos: tot és inventat, per provar.
   ============================================================
 -->
@@ -111,6 +117,7 @@
       <a href="#sobre">Sobre mi</a>
       <a href="#projectes">Projectes</a>
       <a href="#serveis">Serveis</a>
+      <a href="#preus">Preus</a>
       <a href="#proces">Procés</a>
       <a href="lab.html" class="nav-lab">Laboratori <sup>nou</sup></a>
     </nav>
@@ -342,31 +349,107 @@
       </div>
     </section>
 
+    <!-- ===================== PREUS ===================== -->
+    <section class="section" id="preus">
+      <p class="eyebrow reveal">( Preus )</p>
+      <h2 class="h2 reveal">Preus <em>clars</em>,<br>sense sorpreses</h2>
+      <p class="sec-lead reveal">
+        Tres punts de partida segons el que necessites. El preu final depèn de cada projecte,
+        però així tens una idea abans de la primera trucada.
+        <span class="sample-tag">Preus de mostra</span>
+      </p>
+
+      <div class="price-grid reveal">
+        <article class="card price" data-tilt>
+          <div>
+            <h3>Landing page</h3>
+            <p class="price-desc">Una sola pàgina que explica una cosa i fa que passi alguna cosa.</p>
+          </div>
+          <p class="price-num"><small>Des de</small> <b>600</b> <span>€</span></p>
+          <p class="price-time">Uns 2 setmanes</p>
+          <ul class="price-list">
+            <li>1 pàgina dissenyada a mesura</li>
+            <li>Adaptada a mòbil i tauleta</li>
+            <li>Formulari de contacte</li>
+            <li>Càrrega ràpida i SEO bàsic</li>
+          </ul>
+          <a class="btn btn-ghost" href="lab.html?tipus=landing#pressupostador">Calcula el pressupost →</a>
+        </article>
+
+        <article class="card price" data-tilt>
+          <div>
+            <h3>Web corporativa</h3>
+            <p class="price-desc">La web completa del teu negoci: servei, equip, projectes i contacte.</p>
+          </div>
+          <p class="price-num"><small>Des de</small> <b>1.400</b> <span>€</span></p>
+          <p class="price-time">Uns 4 setmanes</p>
+          <ul class="price-list">
+            <li>Fins a 5 pàgines a mesura</li>
+            <li>Animacions i transicions</li>
+            <li>SEO tècnic bàsic</li>
+            <li>Pàgines addicionals: 140 € cadascuna</li>
+          </ul>
+          <a class="btn btn-ghost" href="lab.html?tipus=corporate#pressupostador">Calcula el pressupost →</a>
+        </article>
+
+        <article class="card price" data-tilt>
+          <div>
+            <h3>Botiga en línia</h3>
+            <p class="price-desc">Catàleg, carret i pagament, amb una experiència de compra pensada al detall.</p>
+          </div>
+          <p class="price-num"><small>Des de</small> <b>3.000</b> <span>€</span></p>
+          <p class="price-time">Uns 7 setmanes</p>
+          <ul class="price-list">
+            <li>Fins a 8 pàgines a mesura</li>
+            <li>Catàleg, carret i pagament</li>
+            <li>Panell per gestionar productes</li>
+            <li>Pàgines addicionals: 160 € cadascuna</li>
+          </ul>
+          <a class="btn btn-ghost" href="lab.html?tipus=shop#pressupostador">Calcula el pressupost →</a>
+        </article>
+      </div>
+
+      <p class="price-note reveal">
+        Preus orientatius i de mostra. Vols afinar-ho amb extres i terminis?
+        <a href="lab.html#pressupostador">Obre el pressupostador →</a>
+      </p>
+    </section>
+
     <!-- ===================== PROCÉS ===================== -->
     <section class="section" id="proces">
       <p class="eyebrow reveal">( Procés )</p>
-      <h2 class="h2 reveal">Com <em>treballem</em></h2>
+      <h2 class="h2 reveal">De la trucada<br><em>al llançament</em></h2>
 
       <ol class="steps">
         <li class="step reveal">
           <span class="n">01</span>
-          <h3>Descoberta</h3>
-          <p>Parlem del teu negoci, dels teus clients i dels teus objectius. Sense això, no hi ha bon disseny.</p>
+          <h3>Primera trucada</h3>
+          <p>Parlem del teu negoci, dels teus clients i dels teus objectius. Sense això, no hi ha bon disseny.
+            <span class="step-tag">≈ 30 minuts</span></p>
         </li>
         <li class="step reveal">
           <span class="n">02</span>
-          <h3>Disseny</h3>
-          <p>Proposta visual i prototip per veure i tocar el web abans de programar res.</p>
+          <h3>Proposta i pressupost</h3>
+          <p>Et passo una proposta clara amb l'abast, el termini i el preu, perquè sàpigues què rebràs abans de començar.
+            <span class="step-tag">1-2 dies</span></p>
         </li>
         <li class="step reveal">
           <span class="n">03</span>
-          <h3>Desenvolupament</h3>
-          <p>Ho construeixo amb cura: ràpid, adaptable a qualsevol pantalla i preparat per créixer.</p>
+          <h3>Disseny</h3>
+          <p>Proposta visual i prototip per veure i tocar el web abans de programar res.
+            <span class="step-tag">1-2 setmanes</span></p>
         </li>
         <li class="step reveal">
           <span class="n">04</span>
+          <h3>Desenvolupament</h3>
+          <p>Ho construeixo amb cura: ràpid, adaptable a qualsevol pantalla i preparat per créixer.
+            <span class="step-tag">2-4 setmanes</span></p>
+        </li>
+        <li class="step reveal">
+          <span class="n">05</span>
           <h3>Llançament</h3>
-          <p>Proves finals, posada en marxa i suport perquè tot funcioni des del primer dia.</p>
+          <p>Proves finals, posada en marxa i suport perquè tot funcioni des del primer dia.
+            <span class="step-tag">Última setmana</span></p>
         </li>
       </ol>
     </section>
@@ -377,6 +460,42 @@
       <div class="stat reveal" style="--d:.1s"><b data-count="0">0</b><span>Plantilles reutilitzades</span></div>
       <div class="stat reveal" style="--d:.2s"><b data-count="24" data-suffix="h">0</b><span>Temps de resposta</span></div>
       <div class="stat reveal" style="--d:.3s"><b data-count="100" data-suffix="%">0</b><span>Dedicació a cada projecte</span></div>
+    </section>
+
+    <!-- ===================== CONFIANÇA · TESTIMONIS I LOGOS ===================== -->
+    <!-- Contingut d'exemple. Quan tinguis testimonis i logos reals, canvia els textos
+         i treu la classe "is-sample": les etiquetes "Exemple" desapareixen soles. -->
+    <section class="section trust is-sample" id="confianca">
+      <p class="eyebrow reveal">( Confiança )</p>
+      <h2 class="h2 reveal">Què diuen <em>els clients</em></h2>
+      <p class="sample-flag reveal">
+        <span class="sample-tag">Contingut d'exemple</span>
+        Aquests testimonis i logos són marcadors de posició: quan en tingui de reals, ocuparan aquest espai.
+      </p>
+
+      <ul class="logos reveal" aria-label="Logos de clients (exemple)">
+        <li class="lg1">Brasa</li>
+        <li class="lg2">NORD</li>
+        <li class="lg3">Pulse</li>
+        <li class="lg4">tallers.</li>
+        <li class="lg5">Logo client</li>
+        <li class="lg6">El teu logo</li>
+      </ul>
+
+      <div class="quotes reveal">
+        <figure class="tcard">
+          <blockquote>Va entendre el nostre negoci a la primera trucada. La web nova ens ha portat més consultes des del primer mes.</blockquote>
+          <figcaption><span class="av" aria-hidden="true">NC</span><span><b>Nom Cognom</b><small>Càrrec · Empresa</small></span></figcaption>
+        </figure>
+        <figure class="tcard">
+          <blockquote>Una web ràpida, clara i diferent de la de la competència. I el procés va ser senzill de principi a fi.</blockquote>
+          <figcaption><span class="av" aria-hidden="true">NC</span><span><b>Nom Cognom</b><small>Càrrec · Empresa</small></span></figcaption>
+        </figure>
+        <figure class="tcard">
+          <blockquote>Va complir els terminis i ens va explicar cada decisió. El recomanaria sense dubtar-ho.</blockquote>
+          <figcaption><span class="av" aria-hidden="true">NC</span><span><b>Nom Cognom</b><small>Càrrec · Empresa</small></span></figcaption>
+        </figure>
+      </div>
     </section>
 
     <!-- ===================== TEASER DEL LABORATORI ===================== -->

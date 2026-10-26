@@ -1,0 +1,170 @@
+/* ==========================================================
+   SECCIONS DE LA HOME · seccions.css
+   Preus i confiança (testimonis i logos).
+   Va després de style.css i cases.css i reutilitza les seves variables.
+   ========================================================== */
+
+.sec-lead {
+  max-width: 40rem;
+  margin-top: 1.8rem;
+  color: var(--muted);
+  font-size: clamp(1rem, 1.4vw, 1.2rem);
+}
+.sec-lead .sample-tag { margin-left: .6rem; vertical-align: middle; }
+
+/* El pressupostador del laboratori és destí d'enllaços des de la home */
+#pressupostador { scroll-margin-top: 6rem; }
+
+/* ----------------------------------------------------------
+   PREUS
+   ---------------------------------------------------------- */
+.price-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 1.2rem;
+  margin-top: 4rem;
+}
+.price { min-height: auto; justify-content: flex-start; gap: 1.5rem; }
+.price h3 { margin-bottom: .5rem; }
+.price-desc { color: var(--muted); font-size: .95rem; }
+
+.price-num {
+  display: flex;
+  align-items: baseline;
+  gap: .5rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--line);
+  line-height: 1;
+}
+.price-num small { color: var(--muted); font-size: .85rem; }
+.price-num b { font-size: clamp(3rem, 5vw, 4.4rem); font-weight: 700; letter-spacing: -.05em; color: var(--fg); }
+.price-num span { font-family: var(--serif); font-style: italic; font-size: 1.8rem; color: var(--accent); }
+.price-time { margin-top: -.7rem; color: var(--muted); font-size: .9rem; }
+
+.price-list li {
+  position: relative;
+  padding: .4rem 0 .4rem 1.7rem;
+  color: var(--fg);
+  font-size: .95rem;
+}
+.price-list li::before { content: '✓'; position: absolute; left: 0; color: var(--accent); }
+.price .btn { margin-top: auto; justify-content: center; }
+
+.price-note { margin-top: 2rem; color: var(--muted); font-size: .9rem; }
+.price-note a { color: var(--fg); border-bottom: 1px solid var(--accent); transition: color .3s; }
+.price-note a:hover { color: var(--accent); }
+
+/* ----------------------------------------------------------
+   PROCÉS · durada de cada pas
+   ---------------------------------------------------------- */
+.step-tag {
+  display: block;
+  width: fit-content;
+  margin-top: .9rem;
+  padding: .25rem .85rem;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  font-size: .78rem;
+  letter-spacing: .04em;
+  color: var(--accent);
+}
+
+/* ----------------------------------------------------------
+   CONFIANÇA · testimonis i logos
+   Mentre la secció té la classe "is-sample" tot apareix marcat com a exemple.
+   Quan hi posis testimonis i logos reals, treu "is-sample" de la secció.
+   ---------------------------------------------------------- */
+.sample-flag { display: none; max-width: 44rem; margin-top: 1.8rem; color: var(--muted); font-size: .9rem; }
+.is-sample .sample-flag { display: block; }
+.sample-flag .sample-tag { margin-right: .6rem; }
+
+.logos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1px;
+  margin-top: 4rem;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--line);
+}
+.logos li {
+  display: grid;
+  place-items: center;
+  min-height: 110px;
+  padding: 1.5rem 1rem;
+  background: rgba(17, 17, 19, .9);
+  color: var(--muted);
+  font-size: 1.5rem;
+  text-align: center;
+  transition: color .4s, background .4s;
+}
+.logos li:hover { color: var(--fg); background: rgba(24, 24, 27, .95); }
+.lg1 { font-family: var(--serif); font-style: italic; font-size: 2.1rem !important; }
+.lg2 { font-weight: 700; letter-spacing: -.06em; font-size: 1.9rem !important; }
+.lg3 { display: flex !important; align-items: center; justify-content: center; font-weight: 700; letter-spacing: -.04em; }
+.lg3::before { content: ''; display: inline-block; width: .45em; height: .45em; margin-right: .35em; border-radius: 50%; background: currentColor; }
+.lg4 { font-weight: 500; letter-spacing: .02em; }
+.lg5 { font-size: 1rem !important; letter-spacing: .06em; text-transform: uppercase; }
+.lg6 { font-size: 1rem !important; letter-spacing: .06em; text-transform: uppercase; color: var(--accent) !important; }
+
+.quotes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.2rem;
+  margin-top: 1.2rem;
+}
+.tcard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.6rem;
+  padding: 2rem;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: rgba(17, 17, 19, .75);
+}
+.tcard::before {
+  content: '\201C';
+  height: 2.2rem;
+  font-family: var(--serif);
+  font-size: 5rem;
+  line-height: .9;
+  color: var(--accent);
+}
+.tcard blockquote { font-size: clamp(1.1rem, 1.6vw, 1.4rem); line-height: 1.35; letter-spacing: -.02em; }
+.tcard figcaption { display: flex; align-items: center; gap: .9rem; }
+.tcard figcaption b { display: block; font-weight: 500; }
+.tcard figcaption small { color: var(--muted); }
+.av {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  border: 1px solid hsl(var(--hue) 100% 60% / .35);
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: .85rem;
+  font-weight: 700;
+}
+.is-sample .tcard::after {
+  content: 'Exemple';
+  position: absolute;
+  top: 1.4rem;
+  right: 1.4rem;
+  padding: .2rem .7rem;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  font-size: .7rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+@media (max-width: 800px) {
+  .price-grid { margin-top: 3rem; }
+  .logos { margin-top: 3rem; }
+}
