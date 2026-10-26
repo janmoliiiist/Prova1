@@ -1258,7 +1258,7 @@ void main(){
       copy(summary, (ok) => flashText(b, ok ? 'Copiat ✓' : 'No s\'ha pogut'));
     });
     $('#q-mail').addEventListener('click', () => {
-      location.href = 'mailto:janmoliiiidt@gmail.com?subject=' + encodeURIComponent('Pressupost web') +
+      location.href = 'mailto:janmoliiiist@gmail.com?subject=' + encodeURIComponent('Pressupost web') +
         '&body=' + encodeURIComponent(summary + '\n\nEl meu nom:\nEl meu projecte:\n');
     });
   };
@@ -1474,7 +1474,7 @@ void main(){
     });
     $('#sf-mail').addEventListener('click', () => {
       const v = values();
-      location.href = 'mailto:janmoliiiidt@gmail.com?subject=' + encodeURIComponent('Nou projecte: ' + v.type) +
+      location.href = 'mailto:janmoliiiist@gmail.com?subject=' + encodeURIComponent('Nou projecte: ' + v.type) +
         '&body=' + encodeURIComponent(v.msg + '\n\n— ' + v.name + ' (' + v.email + ')');
     });
     $('#sf-reset').addEventListener('click', () => {

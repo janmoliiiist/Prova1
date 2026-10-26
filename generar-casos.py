@@ -16,7 +16,7 @@ from pathlib import Path
 # CONFIGURACIÓ
 # ----------------------------------------------------------------------------
 DOMAIN = 'https://elteudomini.cat'      # canvia-ho quan tinguis el domini (o fes servir configura.py)
-EMAIL = 'janmoliiiidt@gmail.com'
+EMAIL = 'janmoliiiist@gmail.com'
 LASTMOD = '2026-10-25'
 OUT = Path(__file__).resolve().parent
 
@@ -191,6 +191,7 @@ def page(c, nxt):
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="cases.css">
+  <link rel="stylesheet" href="extras.css">
 
   <noscript>
     <style>
@@ -218,6 +219,7 @@ def page(c, nxt):
       <a href="index.html">Inici</a>
       <a href="index.html#projectes">Projectes</a>
       <a href="index.html#serveis">Serveis</a>
+      <a href="index.html#preus">Preus</a>
       <a href="index.html#proces">Procés</a>
       <a href="lab.html" class="nav-lab">Laboratori <sup>nou</sup></a>
     </nav>
@@ -293,7 +295,9 @@ def page(c, nxt):
     <a href="#" data-magnetic>Tornar a dalt ↑</a>
   </footer>
 
+  <script src="config.js"></script>
   <script src="script.js"></script>
+  <script src="extras.js"></script>
 </body>
 </html>
 '''

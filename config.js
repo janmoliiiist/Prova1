@@ -5,7 +5,7 @@
    ========================================================== */
 window.JM = {
   // Correu on vols rebre els missatges (també es fa servir si l'enviament falla)
-  email: 'janmoliiiidt@gmail.com',
+  email: 'janmoliiiist@gmail.com',
 
   // Clau pública de Web3Forms (gratuïta). Com aconseguir-la:
   //   1. Ves a https://web3forms.com i escriu el teu correu.

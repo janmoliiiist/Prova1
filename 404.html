@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- GitHub Pages serveix aquesta pàgina per a qualsevol adreça que no existeix, també
+       dins de carpetes. El <base> fa que els fitxers (CSS, JS, imatges) i els enllaços es
+       trobin sempre. Amb un domini propi, la base és simplement "/".
+       (Si algun dia la web viu a l'arrel d'un usuari de GitHub Pages, esborra aquest bloc.) -->
+  <script>
+    (function () {
+      var b = '/';
+      if (/\.github\.io$/.test(location.hostname)) {
+        var seg = location.pathname.split('/')[1];
+        b = seg ? '/' + seg + '/' : '/';
+      }
+      document.write('<base href="' + b + '">');
+    })();
+  </script>
+
+  <title>Pàgina no trobada (404) · Jan Molist</title>
+  <meta name="description" content="Aquesta pàgina no existeix, però pots jugar una partida mentre tornes a l'inici.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#0a0a0b">
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="cases.css">
+  <link rel="stylesheet" href="extras.css">
+
+  <noscript>
+    <style>.reveal{opacity:1;transform:none}</style>
+  </noscript>
+</head>
+
+<body class="case-page">
+
+  <!-- (script.js necessita aquests elements) -->
+  <div class="loader" aria-hidden="true">
+    <div class="loader-inner"><span class="loader-name">Jan Molist</span><span class="loader-num">0</span></div>
+    <div class="loader-bar"><i></i></div>
+  </div>
+  <div class="progress" aria-hidden="true"><i></i></div>
+  <div class="cursor" aria-hidden="true"></div>
+  <div class="cursor-label" aria-hidden="true"></div>
+  <div class="glow" aria-hidden="true"></div>
+  <canvas id="bg" aria-hidden="true"></canvas>
+
+  <header class="nav">
+    <a href="index.html" class="logo" data-magnetic>JM<span>.</span></a>
+    <nav class="links" aria-label="Principal">
+      <a href="index.html">Inici</a>
+      <a href="index.html#projectes">Projectes</a>
+      <a href="index.html#preus">Preus</a>
+      <a href="lab.html" class="nav-lab">Laboratori <sup>nou</sup></a>
+    </nav>
+    <div class="nav-right">
+      <div class="hues" role="group" aria-label="Canvia el color d'accent">
+        <button style="--h:75" data-hue="75" aria-label="Llima"></button>
+        <button style="--h:18" data-hue="18" aria-label="Taronja"></button>
+        <button style="--h:320" data-hue="320" aria-label="Rosa"></button>
+        <button style="--h:265" data-hue="265" aria-label="Violeta"></button>
+        <button style="--h:190" data-hue="190" aria-label="Cian"></button>
+      </div>
+      <a href="index.html#contacte" class="btn btn-sm" data-magnetic>Parlem</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="nf">
+      <p class="eyebrow reveal">( Error 404 )</p>
+      <h1 class="nf-title reveal">Aquesta pàgina<br>s'ha <em>perdut</em></h1>
+      <p class="nf-lead reveal">No trobo el que busques, però pots jugar una partida mentre tornes a l'inici.</p>
+      <div class="nf-actions reveal">
+        <a class="btn" href="index.html" data-magnetic>Tornar a l'inici</a>
+        <a class="btn btn-ghost" href="index.html#projectes" data-magnetic>Veure projectes</a>
+      </div>
+
+      <div class="game reveal">
+        <canvas id="game" tabindex="0" role="img" aria-label="Joc: atrapa els punts amb la pala i esquiva els blocs 404"></canvas>
+        <div class="game-ov" id="g-ov">
+          <p class="g-big">4<em>0</em>4</p>
+          <p class="g-msg" id="g-msg">Atrapa els punts i esquiva els errors. Tens 3 vides.</p>
+          <button class="btn" id="g-start" type="button">Jugar</button>
+          <p class="g-help">Ratolí, dit o fletxes ← →</p>
+        </div>
+        <p class="sr-only" id="g-live" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>© <span id="year">2026</span> Jan Molist</span>
+    <span>Fet a mà amb HTML, CSS i JS</span>
+    <a href="#" data-magnetic>Tornar a dalt ↑</a>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+  <script src="extras.js"></script>
+  <script src="joc404.js"></script>
+</body>
+</html>
