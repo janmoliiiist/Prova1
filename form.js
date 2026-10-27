@@ -12,6 +12,7 @@
   const $  = (s, c = document) => c.querySelector(s);
   const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const T = (s, v) => (window.JMI18N ? window.JMI18N.t(s, v) : String(s).replace(/\{(\w+)\}/g, (m, k) => (v && k in v ? v[k] : m)));
   const CFG = Object.assign({ email: '', web3formsKey: '', subject: 'Nou missatge' }, window.JM || {});
   const hasKey = !!CFG.web3formsKey && CFG.web3formsKey !== 'EL_TEU_ACCESS_KEY';
 
@@ -70,9 +71,9 @@
     if (!form) return;
 
     const rules = {
-      name:    (v) => v.trim().length >= 2 ? '' : 'Escriu el teu nom.',
-      email:   (v) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) ? '' : 'Aquest correu no sembla vàlid.',
-      message: (v) => v.trim().length >= 15 ? '' : 'Explica\'m una mica més (mínim 15 caràcters).'
+      name:    (v) => v.trim().length >= 2 ? '' : T('Escriu el teu nom.'),
+      email:   (v) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) ? '' : T('Aquest correu no sembla vàlid.'),
+      message: (v) => v.trim().length >= 15 ? '' : T('Explica\'m una mica més (mínim 15 caràcters).')
     };
     const fields = $$('.cf-field[data-field]', form);
     const consent = $('input[name="consent"]', form);
@@ -122,7 +123,7 @@
       btn.disabled = true;
       form.classList.add('sending');
       const label = btn.textContent;
-      btn.textContent = 'Enviant…';
+      btn.textContent = T('Enviant…');
 
       const r = await send(v);
 
@@ -139,11 +140,11 @@
       }
       status.classList.add('err');
       if (r.reason === 'nokey') {
-        status.innerHTML = 'L\'enviament automàtic encara no està configurat. ' +
-          '<a href="' + mailtoHref(v).replace(/"/g, '&quot;') + '">Obre el correu amb el missatge ja escrit →</a>';
+        status.innerHTML = T('L\'enviament automàtic encara no està configurat.') + ' ' +
+          '<a href="' + mailtoHref(v).replace(/"/g, '&quot;') + '">' + T('Obre el correu amb el missatge ja escrit →') + '</a>';
       } else {
-        status.innerHTML = 'No s\'ha pogut enviar. Torna-ho a provar o ' +
-          '<a href="' + mailtoHref(v).replace(/"/g, '&quot;') + '">escriu-me per correu →</a>';
+        status.innerHTML = T('No s\'ha pogut enviar. Torna-ho a provar o') + ' ' +
+          '<a href="' + mailtoHref(v).replace(/"/g, '&quot;') + '">' + T('escriu-me per correu →') + '</a>';
       }
     });
 
@@ -179,21 +180,21 @@
         message: ($('#sf-msg') || {}).value || ''
       };
       if (!hasKey) {
-        h.textContent = 'Gairebé fet! 🎉';
-        p.textContent = 'L\'enviament automàtic encara no està configurat: prem el botó i s\'obrirà el teu correu amb el missatge ja escrit.';
+        h.textContent = T('Gairebé fet! 🎉');
+        p.textContent = T('L\'enviament automàtic encara no està configurat: prem el botó i s\'obrirà el teu correu amb el missatge ja escrit.');
         busy = false;
         return;
       }
-      h.textContent = 'Enviant…';
-      p.textContent = 'Un moment, estic enviant el teu missatge.';
+      h.textContent = T('Enviant…');
+      p.textContent = T('Un moment, estic enviant el teu missatge.');
       if (mailBtn) mailBtn.hidden = true;
       const r = await send(v);
       if (r.ok) {
-        h.textContent = 'Enviat! 🎉';
-        p.textContent = 'Gràcies, ' + (v.name.split(' ')[0] || '') + '. T\'he rebut el missatge i et respondré en menys de 24 hores.';
+        h.textContent = T('Enviat! 🎉');
+        p.textContent = T('Gràcies, {name}. T\'he rebut el missatge i et respondré en menys de 24 hores.', { name: v.name.split(' ')[0] || '' });
       } else {
-        h.textContent = 'Ups, no s\'ha pogut enviar';
-        p.textContent = 'Pot ser un problema de connexió. Pots obrir el correu amb el missatge ja escrit i enviar-lo des d\'allà.';
+        h.textContent = T('Ups, no s\'ha pogut enviar');
+        p.textContent = T('Pot ser un problema de connexió. Pots obrir el correu amb el missatge ja escrit i enviar-lo des d\'allà.');
         if (mailBtn) mailBtn.hidden = false;
       }
       busy = false;

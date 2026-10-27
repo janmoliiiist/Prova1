@@ -9,7 +9,7 @@
   const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
   const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.classList.contains('a11y-calm');
   const fine   = matchMedia('(hover: hover) and (pointer: fine)').matches;
   const root   = document.documentElement;
   const mobile = () => innerWidth <= 800;
@@ -81,11 +81,11 @@
 
   /* ---------- 5. TEXT QUE S'ENCÉN PARAULA A PARAULA ---------- */
   const aboutText = $('[data-words]');
-  const words = [];
-  if (aboutText) {
-    const list = aboutText.textContent.trim().split(/\s+/);
+  let words = [];
+  const buildWords = (text) => {
     aboutText.textContent = '';
-    list.forEach((w) => {
+    words = [];
+    text.trim().split(/\s+/).forEach((w) => {
       const s = document.createElement('span');
       s.className = 'w' + (reduce ? ' lit' : '');
       s.textContent = w;
@@ -93,6 +93,11 @@
       aboutText.appendChild(document.createTextNode(' '));
       words.push(s);
     });
+  };
+  if (aboutText) {
+    buildWords(aboutText.textContent);
+    // i18n.js demana tornar a partir el text quan es canvia d'idioma
+    aboutText.addEventListener('jm:words', (e) => { buildWords(e.detail); updateWords(); });
   }
   const updateWords = () => {
     if (!words.length || reduce) return;
@@ -284,7 +289,7 @@
       const old = b.textContent;
       try {
         await navigator.clipboard.writeText(b.dataset.copy);
-        b.textContent = 'Copiat! ✓';
+        b.textContent = window.JMI18N ? window.JMI18N.t('Copiat! ✓') : 'Copiat! ✓';
       } catch (e) {
         b.textContent = b.dataset.copy;
       }

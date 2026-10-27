@@ -186,9 +186,8 @@ def page(c, nxt):
 
   <script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="preload" href="fonts/space-grotesk-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/instrument-serif-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="cases.css">
   <link rel="stylesheet" href="extras.css">
@@ -295,9 +294,11 @@ def page(c, nxt):
     <a href="#" data-magnetic>Tornar a dalt ↑</a>
   </footer>
 
-  <script src="config.js"></script>
-  <script src="script.js"></script>
-  <script src="extras.js"></script>
+  <script src="config.js" defer></script>
+  <script src="a11y.js" defer></script>
+  <script src="script.js" defer></script>
+  <script src="extras.js" defer></script>
+  <script src="i18n.js" defer></script>
 </body>
 </html>
 '''

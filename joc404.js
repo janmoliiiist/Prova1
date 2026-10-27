@@ -7,6 +7,7 @@
    ========================================================== */
 (() => {
   'use strict';
+  const T = (s, v) => (window.JMI18N ? window.JMI18N.t(s, v) : String(s).replace(/\{(\w+)\}/g, (m, k) => (v && k in v ? v[k] : m)));
 
   const cv = document.getElementById('game');
   if (!cv) return;
@@ -61,7 +62,7 @@
     paddle.x = paddle.target = W / 2;
     last = performance.now();
     publish();
-    if (live) live.textContent = 'Partida començada';
+    if (live) live.textContent = T('Partida començada');
     try { cv.focus({ preventScroll: true }); } catch (e) {}
   };
 
@@ -69,9 +70,9 @@
     mode = 'over';
     const record = score > best;
     if (record) { best = score; store.set('jm-404-best', String(best)); }
-    msg.textContent = 'Fi de la partida · ' + score + (score === 1 ? ' punt' : ' punts') +
-      (record && score > 0 ? ' · Nou rècord!' : ' · Millor: ' + best);
-    startBtn.textContent = 'Torna-ho a provar';
+    msg.textContent = T('Fi de la partida') + ' · ' + T(score === 1 ? '{n} punt' : '{n} punts', { n: score }) +
+      (record && score > 0 ? ' · ' + T('Nou rècord!') : ' · ' + T('Millor') + ': ' + best);
+    startBtn.textContent = T('Torna-ho a provar');
     ov.hidden = false;
     publish();
     if (live) live.textContent = msg.textContent;
@@ -115,12 +116,12 @@
         if (it.bug) {
           lives--; flash = 1; snd('hit');
           burst(it.x, it.y, '#ff5d5d');
-          if (live) live.textContent = 'Error 404! Vides: ' + lives;
+          if (live) live.textContent = T('Error 404! Vides') + ': ' + lives;
           if (lives <= 0) { over(); return; }
         } else {
           score++; snd('catch');
           burst(it.x, it.y, acc(1));
-          if (score % 5 === 0 && live) live.textContent = score + ' punts';
+          if (score % 5 === 0 && live) live.textContent = T('{n} punts', { n: score });
         }
         publish();
       }
@@ -186,9 +187,9 @@
     ctx.textBaseline = 'top';
     ctx.textAlign = 'left';
     ctx.fillStyle = '#f2f0ea';
-    ctx.fillText('Punts  ' + score, 20 * U, 18 * U);
+    ctx.fillText(T('Punts') + '  ' + score, 20 * U, 18 * U);
     ctx.fillStyle = '#8b8b93';
-    ctx.fillText('Millor  ' + Math.max(best, score), 20 * U, 18 * U + fs * 1.5);
+    ctx.fillText(T('Millor') + '  ' + Math.max(best, score), 20 * U, 18 * U + fs * 1.5);
     ctx.textAlign = 'right';
     for (let i = 0; i < 3; i++) {
       ctx.fillStyle = i < lives ? '#ff5d5d' : 'rgba(255,255,255,.15)';

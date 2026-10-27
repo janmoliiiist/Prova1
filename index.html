@@ -46,9 +46,8 @@
   }
   </script>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="preload" href="fonts/space-grotesk-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/instrument-serif-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="cases.css">
   <link rel="stylesheet" href="seccions.css">
@@ -197,7 +196,8 @@
 
     <!-- ===================== SOBRE MI ===================== -->
     <section class="section about" id="sobre">
-      <p class="eyebrow reveal">( Sobre mi )</p>
+      <h2 class="sr-only">Sobre mi</h2>
+      <p class="eyebrow reveal" aria-hidden="true">( Sobre mi )</p>
 
       <p class="about-text" data-words>
         Sóc dissenyador i desenvolupador web. Agafo la idea d'un negoci i la converteixo en una experiència digital que es veu, es sent i es recorda. Cada web que faig és única, ràpida i pensada per vendre.
@@ -585,9 +585,11 @@
     <a href="#inici" data-magnetic>Tornar a dalt ↑</a>
   </footer>
 
-  <script src="config.js"></script>
-  <script src="script.js"></script>
-  <script src="form.js"></script>
-  <script src="extras.js"></script>
+  <script src="config.js" defer></script>
+  <script src="a11y.js" defer></script>
+  <script src="script.js" defer></script>
+  <script src="form.js" defer></script>
+  <script src="extras.js" defer></script>
+  <script src="i18n.js" defer></script>
 </body>
 </html>

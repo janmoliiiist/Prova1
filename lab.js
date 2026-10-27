@@ -10,8 +10,13 @@
   const $  = (s, c = document) => c.querySelector(s);
   const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
   const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.classList.contains('a11y-calm');
   const root = document.documentElement;
+
+  /* ---------- IDIOMES (i18n.js; si no hi és, tot queda en català) ---------- */
+  const T = (s, v) => (window.JMI18N ? window.JMI18N.t(s, v) : String(s).replace(/\{(\w+)\}/g, (m, k) => (v && k in v ? v[k] : m)));
+  const LOC = () => (window.JMI18N ? window.JMI18N.locale() : 'ca');
+  const onLang = (fn) => document.addEventListener('jm:lang', () => { try { fn(); } catch (e) { console.warn(e); } });
 
   /* ---------- COLOR D'ACCENT COMPARTIT ---------- */
   let hue = 75;
@@ -768,21 +773,27 @@ void main(){
   const initKinetic = () => {
     const el = $('.kinetic');
     if (!el) return;
-    const text = el.dataset.text || el.textContent;
-    el.setAttribute('aria-label', text);
-    el.textContent = '';
-    const letters = [];
-    text.split(' ').forEach((word) => {
-      const w = document.createElement('span');
-      w.className = 'kw'; w.setAttribute('aria-hidden', 'true');
-      for (const ch of word) {
-        const s = document.createElement('span');
-        s.className = 'kc'; s.textContent = ch;
-        w.appendChild(s); letters.push(s);
-      }
-      el.appendChild(w);
-      el.appendChild(document.createTextNode(' '));
-    });
+    if (!el.dataset.text) el.dataset.text = el.textContent;
+    let letters = [];
+    const build = () => {
+      const text = el.dataset.text;
+      el.setAttribute('aria-label', text);
+      el.textContent = '';
+      letters = [];
+      text.split(' ').forEach((word) => {
+        const w = document.createElement('span');
+        w.className = 'kw'; w.setAttribute('aria-hidden', 'true');
+        for (const ch of word) {
+          const s = document.createElement('span');
+          s.className = 'kc'; s.textContent = ch;
+          w.appendChild(s); letters.push(s);
+        }
+        el.appendChild(w);
+        el.appendChild(document.createTextNode(' '));
+      });
+    };
+    build();
+    onLang(build);
     if (reduce) return;
 
     const R = 220;
@@ -836,6 +847,7 @@ void main(){
       const row = el.closest('li') || el;
       row.addEventListener('pointerenter', () => run(el));
     });
+    onLang(() => els.forEach((el) => { el._tk = (el._tk || 0) + 1; el.setAttribute('aria-label', el.dataset.scramble); el.textContent = el.dataset.scramble; }));
     // primera vegada: quan entra a pantalla
     const io = new IntersectionObserver((es) => {
       es.forEach((e) => {
@@ -1103,6 +1115,7 @@ void main(){
     };
     build();
     onResize(build);
+    onLang(build);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(build);
     if (reduce) return;
     watch(sec, (on) => { visible = on; });
@@ -1202,7 +1215,7 @@ void main(){
       normal: { name: 'Termini normal', mult: 1,   wk: 1 },
       rush:   { name: 'Urgent',        mult: 1.25, wk: .7 }
     };
-    const eur = (n) => Math.round(n).toLocaleString('ca');
+    const eur = (n) => Math.round(n).toLocaleString(LOC());
     const tween = (el, to, fmt) => {
       const from = el._v || 0; el._v = to;
       if (reduce) { el.textContent = fmt(to); return; }
@@ -1231,7 +1244,7 @@ void main(){
 
       const extraPages = Math.max(0, n - type.inc);
       const lines = [[type.name, type.base]];
-      if (extraPages) lines.push([extraPages + ' pàgin' + (extraPages > 1 ? 'es' : 'a') + ' addicional' + (extraPages > 1 ? 's' : ''), extraPages * type.per]);
+      if (extraPages) lines.push([T(extraPages > 1 ? '{n} pàgines addicionals' : '{n} pàgina addicional', { n: extraPages }), extraPages * type.per]);
       extras.forEach((x) => lines.push([x.name, x.price]));
       const sub = lines.reduce((s, l) => s + l[1], 0);
       const total = sub * pace.mult;
@@ -1243,23 +1256,24 @@ void main(){
       $('.q-break').innerHTML = lines.map((l) => '<li><span>' + l[0] + '</span><b>' + eur(l[1]) + ' €</b></li>').join('') +
         (pace.mult !== 1 ? '<li><span>' + pace.name + '</span><b>' + (pace.mult > 1 ? '+' : '−') + Math.round(Math.abs(pace.mult - 1) * 100) + '%</b></li>' : '');
 
-      summary = 'Pressupost orientatiu\n' +
-        '- Tipus: ' + type.name + ' (' + n + ' pàgin' + (n > 1 ? 'es' : 'a') + ')\n' +
-        (extras.length ? '- Extres: ' + extras.map((x) => x.name).join(', ') + '\n' : '') +
-        '- Termini: ' + pace.name + ' (~' + wk + ' setmanes)\n' +
-        '- Estimació: ' + eur(min) + '–' + eur(max) + ' €';
+      summary = T('Pressupost orientatiu') + '\n' +
+        '- ' + T('Tipus') + ': ' + T(type.name) + ' (' + T(n > 1 ? '{n} pàgines' : '{n} pàgina', { n }) + ')\n' +
+        (extras.length ? '- ' + T('Extres') + ': ' + extras.map((x) => T(x.name)).join(', ') + '\n' : '') +
+        '- ' + T('Termini') + ': ' + T(pace.name) + ' (~' + T(wk > 1 ? '{n} setmanes' : '{n} setmana', { n: wk }) + ')\n' +
+        '- ' + T('Estimació') + ': ' + eur(min) + '–' + eur(max) + ' €';
     };
     box.addEventListener('input', calc);
     box.addEventListener('change', calc);
     calc();
+    onLang(calc);
 
     $('#q-copy').addEventListener('click', (e) => {
       const b = e.currentTarget;
       copy(summary, (ok) => flashText(b, ok ? 'Copiat ✓' : 'No s\'ha pogut'));
     });
     $('#q-mail').addEventListener('click', () => {
-      location.href = 'mailto:janmoliiiist@gmail.com?subject=' + encodeURIComponent('Pressupost web') +
-        '&body=' + encodeURIComponent(summary + '\n\nEl meu nom:\nEl meu projecte:\n');
+      location.href = 'mailto:janmoliiiist@gmail.com?subject=' + encodeURIComponent(T('Pressupost web')) +
+        '&body=' + encodeURIComponent(summary + '\n\n' + T('El meu nom:') + '\n' + T('El meu projecte:') + '\n');
     });
   };
 
@@ -1276,7 +1290,7 @@ void main(){
       const li = el.closest('li');
       if (li) li.dataset.s = v == null ? '' : v <= good ? 'good' : v <= ok ? 'ok' : 'bad';
     };
-    const fmtMs = (ms) => ms >= 1000 ? (ms / 1000).toLocaleString('ca', { maximumFractionDigits: 2 }) + ' s' : Math.round(ms) + ' ms';
+    const fmtMs = (ms) => ms >= 1000 ? (ms / 1000).toLocaleString(LOC(), { maximumFractionDigits: 2 }) + ' s' : Math.round(ms) + ' ms';
 
     let lcp = null;
     try {
@@ -1297,9 +1311,9 @@ void main(){
       els.load.textContent = loadMs ? fmtMs(loadMs) : '…'; rate(els.load, loadMs, 3000, 6000);
       els.fcp.textContent = fcp ? fmtMs(fcp) : 'n/d'; rate(els.fcp, fcp || null, 1800, 3000);
       els.lcp.textContent = lcp ? fmtMs(lcp) : 'n/d'; rate(els.lcp, lcp, 2500, 4000);
-      els.size.textContent = bytes ? (bytes / 1024).toLocaleString('ca', { maximumFractionDigits: 0 }) + ' KB' : 'n/d';
+      els.size.textContent = bytes ? (bytes / 1024).toLocaleString(LOC(), { maximumFractionDigits: 0 }) + ' KB' : 'n/d';
       els.req.textContent = res.length;
-      els.dom.textContent = document.getElementsByTagName('*').length.toLocaleString('ca');
+      els.dom.textContent = document.getElementsByTagName('*').length.toLocaleString(LOC());
       const mem = performance.memory;
       els.mem.textContent = mem ? (mem.usedJSHeapSize / 1048576).toFixed(1) + ' MB' : 'n/d';
       const c = navigator.connection;
@@ -1408,7 +1422,7 @@ void main(){
     const check = () => {
       prev.style.color = fg.value; prev.style.background = bg.value;
       const r = ratio(fg.value, bg.value);
-      $('#cl-r').textContent = (Math.floor(r * 100) / 100).toLocaleString('ca', { minimumFractionDigits: 2 });
+      $('#cl-r').textContent = (Math.floor(r * 100) / 100).toLocaleString(LOC(), { minimumFractionDigits: 2 });
       const set = (id, ok) => { const li = $(id); li.dataset.ok = ok ? '1' : '0'; };
       set('#b-aa', r >= 4.5); set('#b-aal', r >= 3); set('#b-aaa', r >= 7);
     };
@@ -1474,7 +1488,7 @@ void main(){
     });
     $('#sf-mail').addEventListener('click', () => {
       const v = values();
-      location.href = 'mailto:janmoliiiist@gmail.com?subject=' + encodeURIComponent('Nou projecte: ' + v.type) +
+      location.href = 'mailto:janmoliiiist@gmail.com?subject=' + encodeURIComponent(T('Nou projecte') + ': ' + v.type) +
         '&body=' + encodeURIComponent(v.msg + '\n\n— ' + v.name + ' (' + v.email + ')');
     });
     $('#sf-reset').addEventListener('click', () => {

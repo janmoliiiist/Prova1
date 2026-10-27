@@ -17,11 +17,66 @@
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const CFG = Object.assign({ email: 'janmoliiiist@gmail.com' }, window.JM || {});
   const isMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent || '');
+  const tr = (s) => (window.JMI18N ? window.JMI18N.t(s) : s);
   const norm = (s) => String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
 
   const store = {
     get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
     set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  };
+
+
+  /* ---------- Finestra flotant lleugera (idioma, accessibilitat) ---------- */
+  const popOpen = [];
+  const Popover = (trigger, panel, opts = {}) => {
+    panel.classList.add('pop');
+    panel.hidden = true;
+    panel.setAttribute('role', 'dialog');
+    if (!panel.id) panel.id = 'pop-' + Math.random().toString(36).slice(2, 7);
+    trigger.setAttribute('aria-haspopup', 'dialog');
+    trigger.setAttribute('aria-expanded', 'false');
+    trigger.setAttribute('aria-controls', panel.id);
+    document.body.appendChild(panel);
+
+    const place = () => {
+      const r = trigger.getBoundingClientRect();
+      const w = Math.min(panel.offsetWidth || 340, innerWidth - 16);
+      const left = Math.max(8, Math.min(innerWidth - w - 8, r.right - w));
+      panel.style.top = Math.round(r.bottom + 10) + 'px';
+      panel.style.left = Math.round(left) + 'px';
+    };
+    const isOpen = () => !panel.hidden;
+    const close = (back) => {
+      if (!isOpen()) return;
+      panel.hidden = true;
+      trigger.setAttribute('aria-expanded', 'false');
+      const i = popOpen.indexOf(api); if (i > -1) popOpen.splice(i, 1);
+      document.removeEventListener('pointerdown', onDown, true);
+      document.removeEventListener('keydown', onKey, true);
+      document.removeEventListener('focusin', onFocus, true);
+      removeEventListener('resize', place);
+      if (back) trigger.focus({ preventScroll: true });
+    };
+    const onDown = (e) => { if (!panel.contains(e.target) && !trigger.contains(e.target)) close(); };
+    const onKey = (e) => { if (e.key === 'Escape') { e.stopPropagation(); close(true); } };
+    const onFocus = (e) => { if (!panel.contains(e.target) && !trigger.contains(e.target)) close(); };
+    const open = () => {
+      popOpen.slice().forEach((p) => p.close());
+      if (opts.onOpen) opts.onOpen();
+      panel.hidden = false;
+      place();
+      trigger.setAttribute('aria-expanded', 'true');
+      popOpen.push(api);
+      document.addEventListener('pointerdown', onDown, true);
+      document.addEventListener('keydown', onKey, true);
+      document.addEventListener('focusin', onFocus, true);
+      addEventListener('resize', place);
+      const f = panel.querySelector('[data-focus], button, [href], input');
+      if (f) f.focus({ preventScroll: true });
+    };
+    const api = { open, close, isOpen, toggle: () => (isOpen() ? close() : open()) };
+    trigger.addEventListener('click', api.toggle);
+    return api;
   };
 
   /* ---------- Avís flotant ---------- */
@@ -34,7 +89,7 @@
       toastEl.setAttribute('aria-live', 'polite');
       document.body.appendChild(toastEl);
     }
-    toastEl.textContent = msg;
+    toastEl.textContent = tr(msg);
     // dues passades perquè la transició es repeteixi si ja era visible
     toastEl.classList.remove('show');
     void toastEl.offsetWidth;
@@ -199,19 +254,19 @@
       { label: 'Tornar a dalt', group: 'Accions', kw: 'inici amunt top', run: () => scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }) }
     );
     HUES.forEach(([name, h]) => ITEMS.push({
-      label: 'Color d\'accent: ' + name, group: 'Accions', kw: 'tema color accent hue ' + name,
+      label: () => tr('Color d\'accent') + ': ' + tr(name), group: 'Accions', kw: 'tema color accent hue ' + name,
       run: () => {
         const b = $('.hues button[data-hue="' + h + '"]');
         if (b) b.click(); else root.style.setProperty('--hue', h);
-        toast('Color: ' + name);
+        toast(tr('Color') + ': ' + tr(name));
       }
     }));
 
-    const labelOf = (it) => typeof it.label === 'function' ? it.label() : it.label;
+    const labelOf = (it) => tr(typeof it.label === 'function' ? it.label() : it.label);
 
     const score = (it, q) => {
       const label = norm(labelOf(it));
-      const hay = label + ' ' + norm(it.kw) + ' ' + norm(it.group);
+      const hay = label + ' ' + norm(it.kw) + ' ' + norm(it.group) + ' ' + norm(tr(it.group));
       if (label === q) return 120;
       if (label.startsWith(q)) return 100;
       if (label.includes(q)) return 80;
@@ -267,16 +322,16 @@
       shown = rows;
 
       if (!rows.length) {
-        list.innerHTML = '<li class="pal-empty" role="presentation">No he trobat res per a «' +
+        list.innerHTML = '<li class="pal-empty" role="presentation">' + tr('No he trobat res per a') + ' «' +
           input.value.replace(/[<>&"]/g, '') + '».</li>';
         input.removeAttribute('aria-activedescendant');
         return;
       }
       let html = '', lastGroup = '';
       rows.forEach((it, n) => {
-        if (!q && it.group !== lastGroup) { html += '<li class="pal-h" role="presentation">' + it.group + '</li>'; lastGroup = it.group; }
+        if (!q && it.group !== lastGroup) { html += '<li class="pal-h" role="presentation">' + tr(it.group) + '</li>'; lastGroup = it.group; }
         html += '<li class="pal-o" role="option" id="pal-o-' + n + '" data-n="' + n + '" aria-selected="' + (n === active) + '">' +
-          '<span class="pal-t">' + labelOf(it) + '</span><span class="pal-g">' + it.group + '</span></li>';
+          '<span class="pal-t">' + labelOf(it) + '</span><span class="pal-g">' + tr(it.group) + '</span></li>';
       });
       list.classList.toggle('nq', !q);
       list.innerHTML = html;
@@ -332,7 +387,7 @@
       if (silent !== true) Sound.play('close');
     };
 
-    return { open, close, toggle: () => (opened ? close() : open()), get isOpen() { return opened; } };
+    return { open, close, add: (items) => ITEMS.push(...items), toggle: () => (opened ? close() : open()), get isOpen() { return opened; } };
   })();
 
   /* Botons del menú: cerca i so */
@@ -344,7 +399,8 @@
     const k = document.createElement('button');
     k.type = 'button';
     k.className = 'nav-btn nav-k';
-    k.setAttribute('aria-label', 'Obre la paleta d\'ordres (' + (isMac ? '⌘' : 'Ctrl') + '+K)');
+    k.setAttribute('aria-label', 'Obre la paleta d\'ordres');
+    k.setAttribute('aria-keyshortcuts', (isMac ? 'Meta' : 'Control') + '+K');
     k.innerHTML =
       '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true">' +
       '<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>' +
@@ -444,7 +500,7 @@
   });
 
   /* Per si altres scripts (com el joc del 404) volen fer servir el so o els avisos */
-  window.JMX = { sound: Sound, toast, palette: Palette };
+  window.JMX = { sound: Sound, toast, palette: Palette, popover: Popover, store };
 
   const boot = () => {
     [mountNav, initSoundEvents, initKonami, () => Sound.init()].forEach((fn) => {
