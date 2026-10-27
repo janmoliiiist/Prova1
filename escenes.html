@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Escenes · Una foto que es mou amb el scroll | Jan Molist</title>
+  <meta name="description" content="Tres efectes que donen vida a una sola foto de producte amb el scroll: recorregut de càmera pels detalls, profunditat per capes i canvi de color. Proves interactives per a webs a mesura.">
+  <meta name="theme-color" content="#0a0a0b">
+  <meta name="author" content="Jan Molist">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <link rel="canonical" href="https://elteudomini.cat/escenes.html">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Jan Molist">
+  <meta property="og:locale" content="ca_ES">
+  <meta property="og:title" content="Escenes · Una foto que es mou amb el scroll">
+  <meta property="og:description" content="Una sola foto de producte amb recorregut de càmera, profunditat i canvi de color. Fes scroll i prova-ho.">
+  <meta property="og:url" content="https://elteudomini.cat/escenes.html">
+  <meta property="og:image" content="https://elteudomini.cat/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Escenes · Una foto que es mou amb el scroll">
+  <meta name="twitter:description" content="Una sola foto de producte amb recorregut de càmera, profunditat i canvi de color.">
+  <meta name="twitter:image" content="https://elteudomini.cat/og.png">
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <link rel="preload" href="fonts/space-grotesk-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/instrument-serif-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="cases.css">
+  <link rel="stylesheet" href="extras.css">
+  <link rel="stylesheet" href="escenes.css">
+
+  <noscript>
+    <style>.reveal{opacity:1;transform:none}</style>
+  </noscript>
+</head>
+
+<!--
+  ============================================================
+  ESCENES · COM FUNCIONA
+  Totes les escenes surten d'UNA sola foto real (Pexels, llicència gratuïta
+  també per a ús comercial). Matrícula, gent i marques estan difuminades.
+  Fitxers a imatges/escarabat/:
+    foto.webp          la foto sencera (amb les zones sensibles difuminades)
+    fons.webp          la mateixa foto sense el cotxe (per a la profunditat)
+    cotxe-*.webp       el cotxe retallat amb fons transparent, en 4 colors
+  Per fer-ho amb la foto d'un client: es retalla el producte, es treu el fons
+  i es canvia aquí la ruta de les imatges i les coordenades (data-* de cada escena).
+  Si es té la foto original en alta resolució, s'hi posa i els zooms es veuen nítids.
+  ============================================================
+-->
+<body class="case-page escenes-page">
+
+  <div class="loader" aria-hidden="true">
+    <div class="loader-inner"><span class="loader-name">Jan Molist</span><span class="loader-num">0</span></div>
+    <div class="loader-bar"><i></i></div>
+  </div>
+  <div class="progress" aria-hidden="true"><i></i></div>
+  <div class="cursor" aria-hidden="true"></div>
+  <div class="cursor-label" aria-hidden="true"></div>
+  <div class="glow" aria-hidden="true"></div>
+  <canvas id="bg" aria-hidden="true"></canvas>
+
+  <header class="nav">
+    <a href="index.html" class="logo" data-magnetic>JM<span>.</span></a>
+    <nav class="links" aria-label="Principal">
+      <a href="index.html">Inici</a>
+      <a href="index.html#projectes">Projectes</a>
+      <a href="index.html#preus">Preus</a>
+      <a href="lab.html" class="nav-lab">Laboratori</a>
+      <a href="escenes.html" class="nav-lab" aria-current="page">Escenes <sup>nou</sup></a>
+    </nav>
+    <div class="nav-right">
+      <div class="hues" role="group" aria-label="Canvia el color d'accent">
+        <button style="--h:75" data-hue="75" aria-label="Llima"></button>
+        <button style="--h:18" data-hue="18" aria-label="Taronja"></button>
+        <button style="--h:320" data-hue="320" aria-label="Rosa"></button>
+        <button style="--h:265" data-hue="265" aria-label="Violeta"></button>
+        <button style="--h:190" data-hue="190" aria-label="Cian"></button>
+      </div>
+      <a href="index.html#contacte" class="btn btn-sm" data-magnetic>Parlem</a>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ===================== PRESENTACIÓ ===================== -->
+    <section class="sc-hero">
+      <p class="eyebrow reveal">( Escenes )</p>
+      <h1 class="sc-title reveal">Una foto que es <em>mou</em><br>amb el scroll</h1>
+      <p class="sc-lead reveal">
+        Tres maneres de donar vida a una sola foto de producte, sense vídeos pesats.
+        Fes scroll i prova-les. Aquí fan servir un Volkswagen Escarabat d'exemple; amb les teves fotos ho faig amb el teu producte.
+      </p>
+      <ul class="sc-index reveal" aria-label="Efectes">
+        <li><a href="#detalls"><b>01</b> Detalls</a></li>
+        <li><a href="#fondaria"><b>02</b> Fondària</a></li>
+        <li><a href="#color"><b>03</b> Color</a></li>
+      </ul>
+      <p class="sc-scroll reveal" aria-hidden="true">Fes scroll ↓</p>
+    </section>
+
+    <!-- ===================== 01 · DETALLS (recorregut de càmera) ===================== -->
+    <section class="scene tour" id="detalls" aria-labelledby="t-detalls">
+      <div class="scene-sticky">
+        <img class="tour-bg" src="imatges/escarabat/foto.webp" alt="" aria-hidden="true" decoding="async">
+        <div class="cam tour-cam" role="img" aria-label="Volkswagen Escarabat blau clar aparcat davant d'un cobert de fusta">
+          <img src="imatges/escarabat/foto.webp" alt="" width="993" height="1689" decoding="async">
+        </div>
+        <div class="scene-shade" aria-hidden="true"></div>
+
+        <div class="scene-top">
+          <p class="eyebrow">( 01 · Detalls )</p>
+          <h2 class="scene-h" id="t-detalls">La càmera <em>recorre</em><br>la foto</h2>
+        </div>
+
+        <div class="chaps" aria-live="off">
+          <p class="chap" data-from="0" data-to="0.1"><b>La foto</b> Un sol enquadrament, tal com surt de la càmera.</p>
+          <p class="chap" data-from="0.1" data-to="0.3"><b>El conjunt</b> El producte s'acosta i passa a ser el protagonista.</p>
+          <p class="chap" data-from="0.3" data-to="0.5"><b>Els fars</b> Les formes i els acabats, de prop.</p>
+          <p class="chap" data-from="0.5" data-to="0.7"><b>L'interior</b> Fins on arriba la foto: el que es veu a través del vidre.</p>
+          <p class="chap" data-from="0.7" data-to="0.9"><b>Les rodes</b> Cada detall té el seu moment.</p>
+          <p class="chap" data-from="0.9" data-to="1.01"><b>El resultat</b> Tornem a veure-ho tot.</p>
+        </div>
+
+        <div class="rail" aria-hidden="true"><i></i></div>
+        <label class="sc-range">
+          <span>Recorre la foto</span>
+          <input type="range" min="0" max="1000" step="10" value="0" aria-label="Recorre la foto">
+        </label>
+      </div>
+    </section>
+    <aside class="need reveal">
+      <h3>Què necessites</h3>
+      <p>Una foto bona i gran. Com més resolució, més es pot acostar la càmera sense perdre nitidesa. Jo trio els punts que s'han d'ensenyar i el ritme.</p>
+    </aside>
+
+    <!-- ===================== 02 · FONDÀRIA (capes) ===================== -->
+    <section class="scene depth" id="fondaria" aria-labelledby="t-fondaria">
+      <div class="scene-sticky">
+        <div class="cam dp-back" aria-hidden="true">
+          <img src="imatges/escarabat/fons.webp" alt="" width="993" height="1689" decoding="async" loading="lazy">
+        </div>
+        <div class="cam dp-car" role="img" aria-label="L'Escarabat, retallat, es mou davant del fons">
+          <img src="imatges/escarabat/cotxe-menta.webp" alt="" width="782" height="534" decoding="async" loading="lazy">
+        </div>
+        <div class="scene-shade" aria-hidden="true"></div>
+
+        <div class="scene-top">
+          <p class="eyebrow">( 02 · Fondària )</p>
+          <h2 class="scene-h" id="t-fondaria">Una foto plana<br>amb <em>profunditat</em></h2>
+        </div>
+
+        <div class="chaps">
+          <p class="chap on-always"><b>Capes</b> El cotxe i el fons es separen i es mouen a velocitats diferents. L'ull ho llegeix com a volum.</p>
+        </div>
+        <div class="rail" aria-hidden="true"><i></i></div>
+        <label class="sc-range">
+          <span>Mou la càmera</span>
+          <input type="range" min="0" max="1000" step="10" value="0" aria-label="Mou la càmera">
+        </label>
+      </div>
+    </section>
+    <aside class="need reveal">
+      <h3>Què necessites</h3>
+      <p>Només la foto. Jo retallo el producte, reconstrueixo el fons que queda al darrere i separo les capes.</p>
+    </aside>
+
+    <!-- ===================== 03 · COLOR ===================== -->
+    <section class="scene colors" id="color" aria-labelledby="t-color">
+      <div class="scene-sticky">
+        <div class="cam co-base" role="img" aria-label="L'Escarabat canvia de color de la pintura mentre fas scroll">
+          <img src="imatges/escarabat/foto.webp" alt="" width="993" height="1689" decoding="async" loading="lazy">
+          <img class="co-car co-1" src="imatges/escarabat/cotxe-vermell.webp" alt="" width="782" height="534" decoding="async" loading="lazy">
+          <img class="co-car co-2" src="imatges/escarabat/cotxe-mostassa.webp" alt="" width="782" height="534" decoding="async" loading="lazy">
+          <img class="co-car co-3" src="imatges/escarabat/cotxe-grafit.webp" alt="" width="782" height="534" decoding="async" loading="lazy">
+        </div>
+        <div class="scene-shade" aria-hidden="true"></div>
+
+        <div class="scene-top">
+          <p class="eyebrow">( 03 · Color )</p>
+          <h2 class="scene-h" id="t-color">El mateix producte,<br><em>en tots els colors</em></h2>
+        </div>
+
+        <div class="chaps">
+          <p class="chap" data-from="0" data-to="0.17"><b>Blau menta</b> El color de la foto original.</p>
+          <p class="chap" data-from="0.17" data-to="0.5"><b>Vermell</b> Només canvia la pintura; vidres, ferro i gomes es queden igual.</p>
+          <p class="chap" data-from="0.5" data-to="0.83"><b>Mostassa</b> Una galeria de colors sense repetir la sessió de fotos.</p>
+          <p class="chap" data-from="0.83" data-to="1.01"><b>Grafit</b> El client tria i veu el resultat a l'instant.</p>
+        </div>
+
+        <div class="swatches" role="group" aria-label="Tria un color">
+          <button type="button" data-i="0" style="--c:#a9c9c9" aria-label="Blau menta"></button>
+          <button type="button" data-i="1" style="--c:#b3201a" aria-label="Vermell"></button>
+          <button type="button" data-i="2" style="--c:#d2a30a" aria-label="Mostassa"></button>
+          <button type="button" data-i="3" style="--c:#4a4a52" aria-label="Grafit"></button>
+        </div>
+        <div class="rail" aria-hidden="true"><i></i></div>
+        <label class="sc-range">
+          <span>Canvia el color</span>
+          <input type="range" min="0" max="1000" step="10" value="0" aria-label="Canvia el color">
+        </label>
+      </div>
+    </section>
+    <aside class="need reveal">
+      <h3>Què necessites</h3>
+      <p>La mateixa foto. Jo marco on és la pintura i genero cada color. Foto d'exemple de Pexels; matrícula, persones i marques estan difuminades.</p>
+    </aside>
+
+    <!-- ===================== FINAL ===================== -->
+    <section class="sc-end">
+      <p class="eyebrow reveal">( I ara què? )</p>
+      <h2 class="h2 reveal">Imagina-ho amb<br>el <em>teu producte</em></h2>
+      <div class="nf-actions reveal">
+        <a class="btn" href="index.html#contacte" data-magnetic>Parlem del teu projecte</a>
+        <a class="btn btn-ghost" href="lab.html" data-magnetic>Més experiments al laboratori</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>© <span id="year">2026</span> Jan Molist</span>
+    <span>Fet a mà amb HTML, CSS i JS</span>
+    <a href="#" data-magnetic>Tornar a dalt ↑</a>
+  </footer>
+
+  <script src="config.js" defer></script>
+  <script src="a11y.js" defer></script>
+  <script src="script.js" defer></script>
+  <script src="extras.js" defer></script>
+  <script src="i18n.js" defer></script>
+  <script src="escenes.js" defer></script>
+</body>
+</html>

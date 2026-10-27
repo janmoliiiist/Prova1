@@ -237,7 +237,11 @@
       L('Llanterna', 'lab.html#llanterna', 'Laboratori', 'mascara revelat'),
       L('Abans / Després', 'lab.html#abans', 'Laboratori', 'comparador redisseny'),
       L('Eines reals', 'lab.html#eines', 'Laboratori', 'pressupost color rendiment formulari tema'),
-      L('Pressupostador', 'lab.html#pressupostador', 'Laboratori', 'calculadora preu estimacio')
+      L('Pressupostador', 'lab.html#pressupostador', 'Laboratori', 'calculadora preu estimacio'),
+      L('Escenes · una foto amb scroll', 'escenes.html', 'Escenes', 'cotxe imatges scroll escarabat'),
+      L('Detalls: la càmera recorre la foto', 'escenes.html#detalls', 'Escenes', 'zoom escarabat foto camera'),
+      L('Fondària: foto amb capes', 'escenes.html#fondaria', 'Escenes', 'profunditat parallax capes'),
+      L('Color: canvia la pintura', 'escenes.html#color', 'Escenes', 'colors cotxe pintura')
     ];
 
     /* Accions: el text pot ser dinàmic (funció) */

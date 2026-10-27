@@ -1,0 +1,113 @@
+/* ==========================================================
+   ESCENES · escenes.css
+   Pàgina d'efectes amb imatges que reaccionen al scroll.
+   Reutilitza les variables de style.css.
+   ========================================================== */
+
+.escenes-page main { position: relative; z-index: 1; }
+
+/* ---------- Presentació ---------- */
+.sc-hero { padding: 9rem var(--pad) 4rem; min-height: 80vh; display: flex; flex-direction: column; justify-content: center; }
+.sc-title { font-size: clamp(2.8rem, 8.5vw, 8rem); line-height: .94; letter-spacing: -.05em; font-weight: 700; }
+.sc-title em { font-family: var(--serif); font-weight: 400; color: var(--accent); letter-spacing: -.02em; }
+.sc-lead { max-width: 40rem; margin-top: 1.8rem; color: var(--muted); font-size: clamp(1rem, 1.4vw, 1.2rem); }
+.sc-index { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2.2rem; }
+.sc-index a {
+  display: inline-flex; gap: .7rem; align-items: baseline;
+  padding: .7rem 1.2rem; border: 1px solid var(--line); border-radius: 99px;
+  transition: border-color .3s, color .3s, background .3s;
+}
+.sc-index a b { color: var(--accent); font-family: var(--serif); font-style: italic; font-weight: 400; }
+.sc-index a:hover, .sc-index a:focus-visible { border-color: hsl(var(--hue) 100% 60% / .6); background: var(--accent-soft); }
+.sc-scroll { margin-top: 3rem; color: var(--muted); font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; }
+
+/* ---------- Escena genèrica: un fons enganxat mentre dura el scroll ---------- */
+.scene { position: relative; z-index: 1; }
+.tour { height: 560vh; }
+.depth { height: 300vh; }
+.colors { height: 340vh; }
+.scene-sticky {
+  position: sticky; top: 0;
+  height: 100vh; height: 100svh;
+  overflow: hidden;
+  background: #0a0a0b;
+}
+.scene-shade {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(to bottom, rgba(10,10,11,.82), rgba(10,10,11,0) 34%),
+    linear-gradient(to top, rgba(10,10,11,.88), rgba(10,10,11,0) 38%);
+}
+.scene-top { position: absolute; left: var(--pad); top: 5.6rem; max-width: 46rem; z-index: 2; }
+.scene-top .eyebrow { margin-bottom: .8rem; }
+.scene-h { font-size: clamp(1.9rem, 4.6vw, 4.2rem); line-height: 1; letter-spacing: -.04em; font-weight: 700; }
+.scene-h em { font-family: var(--serif); font-weight: 400; color: var(--accent); letter-spacing: -.01em; }
+
+/* Textos de capítol: un a la vegada, segons el progrés */
+.chaps { position: absolute; left: var(--pad); bottom: 6.2rem; width: min(30rem, calc(100% - 2 * var(--pad))); z-index: 2; min-height: 5.5rem; }
+.chap {
+  position: absolute; left: 0; bottom: 0; width: 100%;
+  font-size: clamp(1rem, 1.5vw, 1.25rem); color: var(--fg);
+  opacity: 0; transform: translateY(14px);
+  transition: opacity .45s var(--ease), transform .6s var(--ease);
+  pointer-events: none;
+}
+.chap b { display: block; margin-bottom: .3rem; color: var(--accent); font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 1.7em; letter-spacing: -.01em; }
+.chap.on, .chap.on-always { opacity: 1; transform: none; }
+
+/* Barra de progrés i control accessible */
+.rail { position: absolute; right: var(--pad); top: 22%; bottom: 22%; width: 2px; background: var(--line); z-index: 2; }
+.rail i { display: block; width: 100%; height: 100%; background: var(--accent); transform-origin: 50% 0; transform: scaleY(0); }
+.sc-range {
+  position: absolute; right: var(--pad); bottom: 2rem; z-index: 3;
+  display: flex; align-items: center; gap: 1rem;
+  padding: .6rem 1.1rem; border: 1px solid var(--line); border-radius: 99px;
+  background: rgba(17, 17, 19, .8); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  font-size: .8rem; color: var(--muted);
+}
+.sc-range input { width: min(220px, 34vw); accent-color: var(--accent); cursor: pointer; }
+.sc-range input:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+/* ---------- Càmera sobre la foto: capes de la mida de la foto, mogudes per JS ---------- */
+.cam { position: absolute; left: 0; top: 0; width: 993px; height: 1689px; transform-origin: 0 0; will-change: transform; }
+.cam img { position: absolute; display: block; user-select: none; -webkit-user-drag: none; max-width: none; }
+.tour-cam > img, .dp-back > img, .co-base > img:first-child { left: 0; top: 0; width: 993px; height: 1689px; }
+
+/* 01 · Detalls */
+.tour-bg { position: absolute; inset: -6%; width: 112%; height: 112%; object-fit: cover; filter: blur(34px) brightness(.45) saturate(1.1); }
+
+/* 02 · Fondària */
+.dp-back, .dp-car { will-change: transform; }
+.dp-car img { left: 196px; top: 920px; width: 782px; height: 534px; }
+.dp-car::after {
+  content: ''; position: absolute; left: 200px; top: 1380px; width: 780px; height: 90px;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,.55), transparent 70%); z-index: -1; filter: blur(6px);
+}
+
+/* 03 · Color */
+.co-car { left: 196px; top: 920px; width: 782px; height: 534px; clip-path: inset(0 100% 0 0); }
+.swatches { position: absolute; left: 50%; bottom: 2rem; transform: translateX(-50%); z-index: 3; display: flex; gap: .8rem; }
+.swatches button {
+  width: 2.4rem; height: 2.4rem; border-radius: 50%; background: var(--c); cursor: pointer;
+  border: 2px solid rgba(255,255,255,.25); transition: transform .3s var(--ease), border-color .3s;
+}
+.swatches button:hover { transform: scale(1.12); }
+.swatches button[aria-pressed="true"] { border-color: #fff; transform: scale(1.18); }
+.swatches button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* ---------- Notes sota cada escena ---------- */
+.need { position: relative; z-index: 1; max-width: 46rem; margin: 0 auto; padding: 3rem var(--pad) 4rem; }
+.need h3 { font-size: 1.1rem; color: var(--accent); font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 1.8rem; margin-bottom: .6rem; }
+.need p { color: var(--muted); }
+
+.sc-end { position: relative; z-index: 1; padding: 6rem var(--pad) 5rem; }
+
+@media (max-width: 800px) {
+  .sc-hero { padding-top: 7rem; }
+  .scene-top { top: 4.6rem; }
+  .chaps { bottom: 5.6rem; }
+  .rail { display: none; }
+  .sc-range { left: var(--pad); right: var(--pad); justify-content: space-between; bottom: 1.2rem; }
+  .sc-range input { width: 55%; }
+  .swatches { top: 9.6rem; bottom: auto; left: var(--pad); transform: none; }
+}
