@@ -241,7 +241,8 @@
       L('Escenes · una foto amb scroll', 'escenes.html', 'Escenes', 'cotxe imatges scroll escarabat'),
       L('Detalls: la càmera recorre la foto', 'escenes.html#detalls', 'Escenes', 'zoom escarabat foto camera'),
       L('Fondària: foto amb capes', 'escenes.html#fondaria', 'Escenes', 'profunditat parallax capes'),
-      L('Color: canvia la pintura', 'escenes.html#color', 'Escenes', 'colors cotxe pintura')
+      L('Color: canvia la pintura', 'escenes.html#color', 'Escenes', 'colors cotxe pintura'),
+      L('Cafè 3D: del gra a la tassa', 'cafe.html', 'Escenes', 'cafe 3d gra tassa latte three webgl')
     ];
 
     /* Accions: el text pot ser dinàmic (funció) */

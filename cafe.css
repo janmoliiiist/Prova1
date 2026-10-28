@@ -1,0 +1,60 @@
+/* ==========================================================
+   CAFÈ 3D · cafe.css
+   Escena 3D sobre fons càlid. Reutilitza escenes.css.
+   ========================================================== */
+.cafe { height: 760vh; }
+.cf-stage { background: #efe1cb; }
+
+/* Fons: taques de color com a l'exemple, per donar profunditat darrere l'objecte */
+.cf-bg { position: absolute; inset: 0; overflow: hidden; }
+.cf-bg i { position: absolute; border-radius: 50%; }
+.cf-bg .b1 { width: 62vmin; height: 62vmin; right: -12vmin; top: 8%; background: #e5c8a1; }
+.cf-bg .b2 { width: 44vmin; height: 44vmin; left: -10vmin; bottom: -6vmin; background: #d9a678; }
+.cf-bg .b3 { width: 26vmin; height: 26vmin; right: 22%; bottom: 10%; background: #f5e9d6; }
+
+/* Paraules grans darrere de l'objecte */
+.cf-words { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.cf-word.chap {
+  position: absolute; left: var(--pad); right: var(--pad); top: 40%; bottom: auto; width: auto; min-height: 0;
+  transform: translateY(-46%); text-align: left;
+  font-family: var(--sans, 'Space Grotesk', system-ui, sans-serif);
+  font-size: clamp(3.2rem, 12.5vw, 11rem); font-weight: 700; line-height: .86; letter-spacing: -.05em; text-transform: uppercase;
+  color: #c98d58; opacity: 0;
+  transition: opacity .6s var(--ease), transform .9s var(--ease);
+}
+.cf-word.chap.on { opacity: 1; transform: translateY(-50%); }
+
+.cf-cv { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: 2; pointer-events: none; }
+.cf-fallback { position: absolute; z-index: 2; left: 50%; top: 50%; height: 78%; width: auto; transform: translate(-50%, -50%); border-radius: 1.2rem; box-shadow: 0 30px 60px rgba(60, 30, 10, .35); }
+.cf-fallback:not([hidden]) ~ .cf-cv { display: none; }
+
+/* Text petit */
+.cf-copy { position: absolute; left: var(--pad); bottom: 6.2rem; width: min(26rem, calc(100% - 2 * var(--pad))); z-index: 3; min-height: 6rem; }
+.cf-copy .chap { color: #3a2012; }
+.cf-copy .chap b { color: #b4562f; }
+
+/* Targetes finals */
+.cf-cards {
+  position: absolute; right: var(--pad); top: 50%; z-index: 3; list-style: none; margin: 0; padding: 0;
+  display: grid; gap: .7rem; transform: translateY(-50%);
+}
+.cf-cards li {
+  background: #fffaf2; color: #3a2012; padding: .8rem 1.1rem; border-radius: .8rem; font-size: .9rem; min-width: 9.5rem;
+  box-shadow: 0 10px 24px rgba(80, 40, 10, .18); opacity: 0; transform: translateX(24px) rotate(var(--r, 2deg));
+  transition: opacity .6s var(--ease), transform .8s var(--ease);
+}
+.cf-cards li:nth-child(odd) { --r: -2deg; }
+.cf-cards li b { display: block; font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: #b4562f; margin-bottom: .15rem; }
+.cf-cards.on li { opacity: 1; transform: rotate(var(--r, 2deg)); }
+.cf-cards.on li:nth-child(2) { transition-delay: .08s; }
+.cf-cards.on li:nth-child(3) { transition-delay: .16s; }
+.cf-cards.on li:nth-child(4) { transition-delay: .24s; }
+
+@media (max-width: 800px) {
+  .cf-word.chap { top: 24%; transform: translateY(-40%); font-size: clamp(2.6rem, 15vw, 5rem); }
+  .cf-word.chap.on { transform: translateY(-50%); }
+  .cf-copy { bottom: 5.6rem; }
+  .cf-cards { top: auto; bottom: 11rem; right: var(--pad); left: var(--pad); transform: none; grid-template-columns: 1fr 1fr; }
+}
+@media (prefers-reduced-motion: reduce) { .cf-word.chap, .cf-cards li { transition: none; } }
+.a11y-calm .cf-word.chap, .a11y-calm .cf-cards li { transition: none; }

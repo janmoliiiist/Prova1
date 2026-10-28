@@ -310,7 +310,7 @@ def main():
         nxt = CASES[(i + 1) % len(CASES)]
         (OUT / f'projecte-{c["slug"]}.html').write_text(page(c, nxt), encoding='utf-8')
 
-    urls = [('/', '1.0'), ('/lab.html', '0.7'), ('/escenes.html', '0.7')] + [(f'/projecte-{c["slug"]}.html', '0.8') for c in CASES]
+    urls = [('/', '1.0'), ('/lab.html', '0.7'), ('/escenes.html', '0.7'), ('/cafe.html', '0.7')] + [(f'/projecte-{c["slug"]}.html', '0.8') for c in CASES]
     sm = ['<?xml version="1.0" encoding="UTF-8"?>',
           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
     for u, p in urls:
